@@ -1,1 +1,1 @@
-# -Study-Database-of-the-Regional-Election-Commission
+# Тема курсовой работы: База данных областной избирательной комиссии

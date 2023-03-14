@@ -5,3 +5,6 @@ ER-диаграмма:
 
 Реляционная схема:
 ![image (7)](https://user-images.githubusercontent.com/63536056/219798045-d85a982f-d84a-4b66-8f6e-bd70c4c4d9d4.png)
+
+Реляционная схема сгенерированная в MySQL Workbench
+![mysql](https://user-images.githubusercontent.com/63536056/225045275-10d56375-4355-4439-8d0e-497ca2671f80.png)

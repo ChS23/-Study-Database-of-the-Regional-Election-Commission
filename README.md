@@ -9,6 +9,7 @@ ER-диаграмма               | Реляционная схема
 ![mysql](https://user-images.githubusercontent.com/63536056/225045275-10d56375-4355-4439-8d0e-497ca2671f80.png)
 
 Дизайн приложения
+:---------------------------------------------:
 ![Frame 1](https://user-images.githubusercontent.com/63536056/229291617-7175c379-7a77-4542-adc6-fc505d74a7f0.jpg)
 ![Frame 2](https://user-images.githubusercontent.com/63536056/229291625-9581ed89-079e-4129-be35-5e619b0ab9de.jpg)
 ![Frame 3](https://user-images.githubusercontent.com/63536056/229291641-92121be2-ec5c-4ae5-a70c-e3baa7add310.jpg)

@@ -1859,11 +1859,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\c4s23\\YandexDisk\\VS Project\\ElectionBack\\ElectionBack\\ElectionBack.csproj",
+      "projectUniqueName": "C:\\Users\\c4s23\\YandexDisk\\GitHub\\Study-Database-of-the-Regional-Election-Commission\\App\\Backend\\ElectionBack\\ElectionBack\\ElectionBack.csproj",
       "projectName": "ElectionBack",
-      "projectPath": "C:\\Users\\c4s23\\YandexDisk\\VS Project\\ElectionBack\\ElectionBack\\ElectionBack.csproj",
+      "projectPath": "C:\\Users\\c4s23\\YandexDisk\\GitHub\\Study-Database-of-the-Regional-Election-Commission\\App\\Backend\\ElectionBack\\ElectionBack\\ElectionBack.csproj",
       "packagesPath": "C:\\Users\\c4s23\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\c4s23\\YandexDisk\\VS Project\\ElectionBack\\ElectionBack\\obj\\",
+      "outputPath": "C:\\Users\\c4s23\\YandexDisk\\GitHub\\Study-Database-of-the-Regional-Election-Commission\\App\\Backend\\ElectionBack\\ElectionBack\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

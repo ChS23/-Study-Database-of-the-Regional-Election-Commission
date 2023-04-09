@@ -9,7 +9,8 @@ namespace ElectionBack.Modules
     {
         // MySqlConnectionStringBuilder connectString = new MySqlConnectionStringBuilder();
         // private readonly string connectString = "SERVER=localhost;DATABASE=elections;UID=root;PASSWORD=1234qwer;";
-        private readonly string connectString = "server=127.0.0.1;uid=root;pwd=1234qwer;database=elections;";
+        private readonly string connectString = "Server=localhost;Database=elections;Uid=root;Pwd=1234qwer;";
+
         private MySqlConnection connection { get; set; }
 
         public DBService() => connection = new MySqlConnection(connectString);
@@ -23,7 +24,11 @@ namespace ElectionBack.Modules
                     connection.Open();
                     return true;
                 }
-                catch { return false; }
+                catch(Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex.Message);
+                    return false;
+                }
             }
         }
 

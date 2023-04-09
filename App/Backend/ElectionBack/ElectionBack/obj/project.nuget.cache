@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "gg4/7IqpOYN4kfx9G3/4RALA7Aea60PSIaPczEzp/2XjEse8f8tuhm+OFH+JmvosgVt4UyAxVewaveaPsvsG3Q==",
+  "dgSpecHash": "M0qZZdloT9AEbnYJIwpV4egYZZxacDOHE7Cex/dw9TsMvjX8CRiBkkUIRHhfTjrIEmlvvKR3x7ABqEPwW1o7eA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\c4s23\\YandexDisk\\VS Project\\ElectionBack\\ElectionBack\\ElectionBack.csproj",
+  "projectFilePath": "C:\\Users\\c4s23\\YandexDisk\\GitHub\\Study-Database-of-the-Regional-Election-Commission\\App\\Backend\\ElectionBack\\ElectionBack\\ElectionBack.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\c4s23\\.nuget\\packages\\google.protobuf\\3.21.9\\google.protobuf.3.21.9.nupkg.sha512",
     "C:\\Users\\c4s23\\.nuget\\packages\\k4os.compression.lz4\\1.2.6\\k4os.compression.lz4.1.2.6.nupkg.sha512",

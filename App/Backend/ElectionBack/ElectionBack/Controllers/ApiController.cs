@@ -3,6 +3,7 @@ using ElectionBack.Models;
 using ElectionBack.Modules;
 using ElectionBack.DBModels;
 using System.Reflection;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace ElectionBack.Controllers
 {
@@ -29,8 +30,8 @@ namespace ElectionBack.Controllers
         */
 
 
-        [HttpGet("/candidates/get/{id}")]
-        public async Task<IActionResult> GetOneCandidates(int id)
+        [HttpGet("/candidate/get")]
+        public async Task<IActionResult> GetOneCandidates([BindRequired] int id)
         {
             await DB.Connection.OpenAsync();
             var query = new CandidateTableQuery(DB);
@@ -40,8 +41,8 @@ namespace ElectionBack.Controllers
         }
 
 
-        [HttpDelete("/candidates/delete/{id}")]
-        public async Task<IActionResult> DeleteOneCandidates(int id)
+        [HttpDelete("/candidate/delete")]
+        public async Task<IActionResult> DeleteOneCandidates([BindRequired] int id)
         {
             await DB.Connection.OpenAsync();
             var query = new CandidateTableQuery(DB);
@@ -52,8 +53,8 @@ namespace ElectionBack.Controllers
         }
 
 
-        [HttpPut("/candidates/update/{id}")]
-        public async Task<IActionResult> updateOneCandidates(int id, [FromBody] CandidateTable body)
+        [HttpPut("/candidate/update")]
+        public async Task<IActionResult> updateOneCandidates([BindRequired] int id, [FromBody] CandidateTable body)
         {
             await DB.Connection.OpenAsync();
             var query = new CandidateTableQuery(DB);
@@ -65,7 +66,7 @@ namespace ElectionBack.Controllers
         }
 
 
-        [HttpPost("/candidates/add/")]
+        [HttpPost("/candidate/add/")]
         public async Task<IActionResult> addOneCandidates([FromBody] CandidateTable body)
         {
             await DB.Connection.OpenAsync();
@@ -86,8 +87,8 @@ namespace ElectionBack.Controllers
         }*/
 
 
-        [HttpGet("/candidates/filter/{from}/{to}")]
-        public async Task<IActionResult> getFilterCandidates(int from, int to, string? filterName, int? ageFrom, int? ageTo, int? id_party)
+        [HttpGet("/candidates/filter")]
+        public async Task<IActionResult> getFilterCandidates([BindRequired] int from, [BindRequired] int to, string? filterName, int? ageFrom, int? ageTo, int? id_party)
         {
             if (to <= from) return new BadRequestObjectResult(new { message = "To<=From", code = 20 });
             CandidateFilter filter = new(filterName, ageFrom, ageTo, id_party);
@@ -99,19 +100,19 @@ namespace ElectionBack.Controllers
         }
 
 
-        [HttpGet("/elections/get/{id}")]
-        public async Task<IActionResult> GetOneElections(int id)
+        [HttpGet("/election/get")]
+        public async Task<IActionResult> GetOneElections([BindRequired] int id)
         {
             await DB.Connection.OpenAsync();
             var query = new ElectionsTableQuery(DB);
-            var result = await query.findOne(id);
+            var result = await query.getOne(id);
             if (result is null) return new NotFoundResult();
             return new OkObjectResult(result);
         }
 
 
-        [HttpDelete("/elections/delete/{id}")]
-        public async Task<IActionResult> DeleteOneElections(int id)
+        [HttpDelete("/election/delete")]
+        public async Task<IActionResult> DeleteOneElections([BindRequired] int id)
         {
             await DB.Connection.OpenAsync();
             var query = new ElectionsTableQuery(DB);
@@ -122,8 +123,8 @@ namespace ElectionBack.Controllers
         }
 
 
-        [HttpPut("/elections/update/{id}")]
-        public async Task<IActionResult> updateOneElections(int id, [FromBody] ElectionsTable body)
+        [HttpPut("/election/update")]
+        public async Task<IActionResult> updateOneElections([BindRequired] int id, [FromBody] ElectionsTable body)
         {
             await DB.Connection.OpenAsync();
             var query = new ElectionsTableQuery(DB);
@@ -135,7 +136,7 @@ namespace ElectionBack.Controllers
         }
 
 
-        [HttpPost("/elections/add")]
+        [HttpPost("/election/add")]
         public async Task<IActionResult> addOneElections([FromBody] ElectionsTable body)
         {
             await DB.Connection.OpenAsync();
@@ -145,10 +146,11 @@ namespace ElectionBack.Controllers
         }
 
 
-        [HttpGet("/elections/filter/{from}/{to}")]
-        public async Task<IActionResult> getFilterElections(int from, int to, bool? upcoming, int? type, string? dateFrom, string? dateTo, string? nameSearch, string? pleSearch)
+        [HttpGet("/elections/filter")]
+        public async Task<IActionResult> getFilterElections([BindRequired] int from, [BindRequired] int to, bool? upcoming, int? type, string? dateFrom, string? dateTo, string? nameSearch, string? pleSearch)
         {
             if (to <= from) return new BadRequestObjectResult(new { message = "To<=From", code = 20 });
+            if (type is not null and not (1 or 2)) return new BadRequestObjectResult(new { message = "type принимает значение: [null, 1, 2]", code = 30 });
             ElectionsFilter filter = new(upcoming, type, Tuple.Create(dateFrom, dateTo), nameSearch, pleSearch);
             await DB.Connection.OpenAsync();
             var query = new ElectionsTableQuery(DB);

@@ -61,7 +61,7 @@
                 }
                 if (!String.IsNullOrEmpty(query))
                 {
-                    return "where" + query;
+                    return "where " + query;
                 }
                 else
                 {

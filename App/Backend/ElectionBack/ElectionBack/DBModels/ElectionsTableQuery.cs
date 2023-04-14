@@ -2,7 +2,7 @@
 using System.Data.Common;
 using MySqlConnector;
 using ElectionBack.Models;
-
+using System.Data;
 
 namespace ElectionBack.DBModels
 {
@@ -15,6 +15,7 @@ namespace ElectionBack.DBModels
             db = _db;
         }
 
+
         public async Task<ElectionsTable?> findOne(int id)
         {
             using var cmd = db.Connection.CreateCommand();
@@ -22,7 +23,7 @@ namespace ElectionBack.DBModels
             cmd.Parameters.Add(new MySqlParameter
             {
                 ParameterName = "@id",
-                DbType = System.Data.DbType.Int32,
+                DbType = DbType.Int32,
                 Value = id
 
             });
@@ -31,13 +32,29 @@ namespace ElectionBack.DBModels
         }
 
 
-        public async Task<List<ElectionsTable>> filterElections(int from, int to, ElectionsFilter filter)
+        public async Task<Election?> getOne(int id)
+        {
+            using var cmd = db.Connection.CreateCommand();
+            cmd.CommandText = @"with t as (SELECT e.election_id, e.name_of_the_election, e.election_date, e.number_of_deputy_mandates, ple.title from elections e join public_legal_entities ple on e.id_public_legal_entitie = ple.public_legal_entitie_id where election_id = @id) select * from t";
+            cmd.Parameters.Add(new MySqlParameter
+            {
+                ParameterName = "@id",
+                DbType = System.Data.DbType.Int32,
+                Value = id
+
+            });
+            var result = await ReadAsync(await cmd.ExecuteReaderAsync());
+            return result.Count > 0 ? result[0] : null;
+        }
+
+
+        public async Task<List<Election>> filterElections(int from, int to, ElectionsFilter filter)
         {
             using var cmd = db.Connection.CreateCommand();
             string query = filter.queryString;
             query += $" limit {to-from} offset {from};";
             cmd.CommandText = query;
-            return await ReadAllAsync(await cmd.ExecuteReaderAsync());
+            return await ReadAsync(await cmd.ExecuteReaderAsync());
         }
 
 
@@ -52,9 +69,31 @@ namespace ElectionBack.DBModels
                     {
                         election_id = reader.GetInt32(0),
                         name_of_the_election = reader.GetString(1),
-                        election_date = reader.GetString(2),
+                        election_date = reader.GetDateTime(2).ToString("yyyy-MM-dd"),
                         number_of_deputy_mandates = reader.GetInt32(3),
                         id_public_legal_entitie = reader.GetInt32(4),
+                    };
+                    list.Add(election);
+                }
+            }
+            return list;
+        }
+
+
+        private async Task<List<Election>> ReadAsync(DbDataReader reader)
+        {
+            var list = new List<Election>();
+            using (reader)
+            {
+                while (await reader.ReadAsync())
+                {
+                    var election = new Election()
+                    {
+                        election_id = reader.GetInt32(0),
+                        name_of_the_election = reader.GetString(1),
+                        election_date = reader.GetDateTime(2).ToString("yyyy-MM-dd"),
+                        number_of_deputy_mandates = reader.GetInt32(3),
+                        ple = reader.GetString(4),
                     };
                     list.Add(election);
                 }

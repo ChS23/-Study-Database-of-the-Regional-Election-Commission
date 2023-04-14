@@ -146,10 +146,10 @@ namespace ElectionBack.Controllers
 
 
         [HttpGet("/elections/filter/{from}/{to}")]
-        public async Task<IActionResult> getFilterElections(int from, int to, bool? upcoming, int? type, Tuple<string?, string?> range_date, string? nameSearch, string? pleSearch)
+        public async Task<IActionResult> getFilterElections(int from, int to, bool? upcoming, int? type, string? dateFrom, string? dateTo, string? nameSearch, string? pleSearch)
         {
             if (to <= from) return new BadRequestObjectResult(new { message = "To<=From", code = 20 });
-            ElectionsFilter filter = new(upcoming, type, range_date, nameSearch, pleSearch);
+            ElectionsFilter filter = new(upcoming, type, Tuple.Create(dateFrom, dateTo), nameSearch, pleSearch);
             await DB.Connection.OpenAsync();
             var query = new ElectionsTableQuery(DB);
             var result = await query.filterElections(from, to, filter);

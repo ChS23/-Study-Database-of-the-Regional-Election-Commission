@@ -4,6 +4,8 @@ using ElectionBack.Modules;
 using ElectionBack.DBModels;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Text.RegularExpressions;
+using System.Data;
 
 namespace ElectionBack.Controllers
 {
@@ -149,8 +151,8 @@ namespace ElectionBack.Controllers
         [HttpGet("/elections/filter")]
         public async Task<IActionResult> getFilterElections([BindRequired] int from, [BindRequired] int to, bool? upcoming, int? type, string? dateFrom, string? dateTo, string? nameSearch, string? pleSearch)
         {
-            if (to <= from) return new BadRequestObjectResult(new { message = "To<=From", code = 20 });
-            if (type is not null and not (1 or 2)) return new BadRequestObjectResult(new { message = "type принимает значение: [null, 1, 2]", code = 30 });
+            if (!ElectionsFilter.isValidValueForFilter(ref from, ref to, ref upcoming, ref type, ref dateFrom, ref dateTo, ref nameSearch, ref pleSearch, out IActionResult errorObject)) return errorObject;
+
             ElectionsFilter filter = new(upcoming, type, Tuple.Create(dateFrom, dateTo), nameSearch, pleSearch);
             await DB.Connection.OpenAsync();
             var query = new ElectionsTableQuery(DB);

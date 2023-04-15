@@ -1,4 +1,8 @@
-﻿namespace ElectionBack.Models
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Text.RegularExpressions;
+
+namespace ElectionBack.Models
 {
     public class ElectionsFilter
     {
@@ -159,6 +163,46 @@
                 {
                     return null;
                 }
+            }
+        }
+
+
+        public static bool isValidValueForFilter(ref int from, ref int to, ref bool? upcoming, ref int? type, ref string? dateFrom, ref string? dateTo, ref string? nameSearch, ref string? pleSearch, out IActionResult errorObject)
+        {
+            if (to <= from)
+            {
+                errorObject = new BadRequestObjectResult(new { message = "To<=From", code = 20 });
+                return false;
+            }
+            if (from < 0 || to <= 0)
+            {
+                errorObject = new BadRequestResult();
+                return false;
+            }
+            if ((dateFrom is not null && !Regex.IsMatch(dateFrom, "^[0-9]{4}-[0-9]{2}-[0-9]{2}")) || (dateTo is not null && !Regex.IsMatch(dateFrom, "^[0-9]{4}-[0-9]{2}-[0-9]{2}")))
+            {
+                errorObject = new BadRequestObjectResult(new { message = "dateTo or dateFrom is not valid", code = 50 });
+                return false;
+            }
+            if (dateFrom is not null && dateTo is not null && DateTime.Parse(dateFrom) >= DateTime.Parse(dateTo))
+            {
+                errorObject = new BadRequestObjectResult(new { message = "Date invalid", code = 55 });
+                return false;
+            }
+            if (type is not null and not (1 or 2))
+            {
+                errorObject = new BadRequestObjectResult(new { message = "type принимает значение: [null, 1, 2]", code = 30 });
+                return false;
+            }
+            /*if (nameSearch is not null && !Regex.IsMatch(nameSearch, "^[А-Я][a-яё А-ЯЁ]+"))
+            {
+                errorObject = new BadRequestObjectResult(new { message = "nameSearch error", code = 60 });
+                return false;
+            }*/
+            else
+            {
+                errorObject = new NoContentResult();
+                return true;
             }
         }
     }

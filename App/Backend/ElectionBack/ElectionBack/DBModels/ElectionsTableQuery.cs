@@ -51,10 +51,19 @@ namespace ElectionBack.DBModels
         public async Task<List<Election>> filterElections(int from, int to, ElectionsFilter filter)
         {
             using var cmd = db.Connection.CreateCommand();
-            string query = filter.queryString;
+            string query = filter.queryStringSelect;
             query += $" limit {to-from} offset {from};";
             cmd.CommandText = query;
             return await ReadAsync(await cmd.ExecuteReaderAsync());
+        }
+
+
+        public async Task<int> getCountFilterElections(ElectionsFilter filter)
+        {
+            using var cmd = db.Connection.CreateCommand();
+            string query = filter.queryStringCount;
+            cmd.CommandText = query;
+            return Convert.ToInt32(await cmd.ExecuteScalarAsync());
         }
 
 

@@ -78,17 +78,6 @@ namespace ElectionBack.Controllers
         }
 
 
-        /*[HttpGet("/candidates/get/{from}/{to}")]
-        public async Task<IActionResult> getFromToCandidates(int from, int to)
-        {
-            await DB.Connection.OpenAsync();
-            var query = new CandidateTableQuery(DB);
-            var result = await query.findFromTo(to - from, from);
-            if (result is null) return new NotFoundResult();
-            return new OkObjectResult(result);
-        }*/
-
-
         [HttpGet("/candidates/filter")]
         public async Task<IActionResult> getFilterCandidates([BindRequired] int from, [BindRequired] int to, string? filterName, int? ageFrom, int? ageTo, int? id_party)
         {
@@ -99,6 +88,18 @@ namespace ElectionBack.Controllers
             var result = await query.filterCandidate(from, to, filter);
             if (result is null) return new BadRequestObjectResult(new { message = "result is null", code = 40 });
             return new OkObjectResult(result);
+        }
+
+
+        [HttpGet("/candidates/countRowIsFilter")]
+        public async Task<IActionResult> getCountRowElections(string? filterName, int? ageFrom, int? ageTo, int? id_party)
+        {
+            await DB.Connection.OpenAsync();
+            CandidateFilter filter = new(filterName, ageFrom, ageTo, id_party);
+            var query = new CandidateTableQuery(DB);
+            var result = query.getCountFilterCandidates(filter);
+            if (result is null) return new BadRequestResult();
+            return new OkObjectResult(result.Result);
         }
 
 
@@ -159,6 +160,18 @@ namespace ElectionBack.Controllers
             var result = await query.filterElections(from, to, filter);
             if (result is null) return new BadRequestObjectResult(new { message = "result is null", code = 40 });
             return new OkObjectResult(result);
+        }
+
+
+        [HttpGet("/elections/countRowIsFilter")]
+        public async Task<IActionResult> getCountRowElections(bool? upcoming, int? type, string? dateFrom, string? dateTo, string? nameSearch, string? pleSearch)
+        {
+            await DB.Connection.OpenAsync();
+            ElectionsFilter filter = new(upcoming, type, Tuple.Create(dateFrom, dateTo), nameSearch, pleSearch);
+            var query = new ElectionsTableQuery(DB);
+            var result = query.getCountFilterElections(filter);
+            if (result is null) return new BadRequestResult();
+            return new OkObjectResult(result.Result);
         }
     }
 }

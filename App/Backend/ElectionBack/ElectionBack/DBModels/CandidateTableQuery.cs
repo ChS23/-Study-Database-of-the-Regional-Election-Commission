@@ -71,6 +71,15 @@ namespace ElectionBack.DBModels
         }
         
 
+        public async Task<int> getCountFilterCandidates(CandidateFilter filter)
+        {
+            using var cmd = db.Connection.CreateCommand();
+            string query = "SELECT count(*) FROM candidates ";
+            if (filter.getWhereQuery is not null) query += filter.getWhereQuery;
+            cmd.CommandText = query;
+            return Convert.ToInt32(await cmd.ExecuteScalarAsync());
+        }
+
 
         private async Task<List<CandidateTable>> ReadAllAsync(DbDataReader reader)
         {

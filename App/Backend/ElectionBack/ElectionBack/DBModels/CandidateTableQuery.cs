@@ -71,13 +71,16 @@ namespace ElectionBack.DBModels
         }
         
 
-        public async Task<int> getCountFilterCandidates(CandidateFilter filter)
+        public async Task<Tuple<int,int>> getCountFilterCandidates(CandidateFilter filter)
         {
             using var cmd = db.Connection.CreateCommand();
             string query = "SELECT count(*) FROM candidates ";
+            cmd.CommandText = query;
+            int allCount = Convert.ToInt32(await cmd.ExecuteScalarAsync());
             if (filter.getWhereQuery is not null) query += filter.getWhereQuery;
             cmd.CommandText = query;
-            return Convert.ToInt32(await cmd.ExecuteScalarAsync());
+            int filterCount = Convert.ToInt32(await cmd.ExecuteScalarAsync());
+            return Tuple.Create(allCount, filterCount);
         }
 
 

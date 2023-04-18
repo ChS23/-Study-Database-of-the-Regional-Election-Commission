@@ -91,7 +91,7 @@ namespace ElectionBack.Controllers
         }
 
 
-        [HttpGet("/candidates/countRowIsFilter")]
+        [HttpGet("/candidates/countRowIsFilterAndAll")]
         public async Task<IActionResult> getCountRowElections(string? filterName, int? ageFrom, int? ageTo, int? id_party)
         {
             await DB.Connection.OpenAsync();
@@ -99,7 +99,7 @@ namespace ElectionBack.Controllers
             var query = new CandidateTableQuery(DB);
             var result = query.getCountFilterCandidates(filter);
             if (result is null) return new BadRequestResult();
-            return new OkObjectResult(result.Result);
+            return new OkObjectResult(new { allCount = result.Result.Item1, filterCount = result.Result.Item2 });
         }
 
 

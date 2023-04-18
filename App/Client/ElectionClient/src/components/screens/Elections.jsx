@@ -42,9 +42,9 @@ function Elections() {
                 <LeftMenu />
                 <div className='w-full'>
                     <MenuHeader screenName='Выборы'/>
-                    {selectedRowId != null ? <ElectionEdit/> : <ElectionFilter countRecord = {countRecord}/>}
+                    {selectedRowId != null ? <ElectionEdit/> : <ElectionFilter countRecord = {countRecord} filter = {filter} setFilter={setFilter}/>}
                     <div className='h-full rounded-t-3xl mt-6 mr-16 bg-gradient-to-br from-gray-800 to-gray-900'>
-                        <TableElections selectedRowId={selectedRowId} setSelectedRowId = {setSelectedRowId} handleRowClick={handleRowClick} setCountRecord={setCountRecord}/>
+                        <TableElections selectedRowId={selectedRowId} setSelectedRowId = {setSelectedRowId} handleRowClick={handleRowClick} setCountRecord={setCountRecord} filter = {filter}/>
                     </div>
                 </div>
             </div>

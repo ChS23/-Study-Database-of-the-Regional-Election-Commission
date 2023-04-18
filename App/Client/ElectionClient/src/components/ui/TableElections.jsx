@@ -10,14 +10,24 @@ function TableElections(props)
     const [ElectionsData, setElectionsData] = useState([]);
     const [pageList, setPageList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const { selectedRowId, setSelectedRowId, handleRowClick, setCountRecord } = props;
+    const { selectedRowId, setSelectedRowId, handleRowClick, setCountRecord, filter } = props;
 
 
     const getElectionData = async () => {
         try {
             const from = (currentPage - 1) * 11 + 1;
             const to = currentPage * 11;
-            const response = await axios.get(`https://localhost:7122/elections/filter?from=${from}&to=${to}`);
+
+            // https://localhost:7122/elections/countRowIsFilterAndAll?upcoming=true&type=1&dateFrom=2017-12-01&dateTo=2023-01-01&nameSearch=%D0%92&pleSearch=%D0%90
+            let request = 'https://localhost:7122/elections/filter?from=${from}&to=${to}'
+            if (filter.upcoming == true) request += `&upcoming=${filter.upcoming}`;
+            if (filter.type != null) request += `&type=${filter.type}`;
+            if (filter.dateFrom != null) request += `&dateFrom=${filter.dateFrom}`;
+            if (filter.dateTo != null) request += `&dateTo=${filter.dateTo}`;
+            if (filter.nameSearch != null) request += `&nameSearch=${filter.nameSearch}`;
+            if (filter.pleSearch != null) request += `&pleSearch=${filter.pleSearch}`;
+
+            const response = await axios.get(request);
             setElectionsData(response.data);
         } catch (error) {
              console.error(error);
@@ -91,7 +101,7 @@ function TableElections(props)
                 </caption>
                 <thead className='border-b-2 border-stone-100 text-stone-100 text-left'>
                     <tr>
-                        <th><button>-</button></th>
+                        <th><button></button></th>
                         <th className='px-2 p-4'>Название</th>
                         <th className='px-2 p-4'>Дата</th>
                         <th className='px-2 p-4'>Тип</th>

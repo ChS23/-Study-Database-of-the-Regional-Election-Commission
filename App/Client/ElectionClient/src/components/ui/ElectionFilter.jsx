@@ -1,14 +1,17 @@
-function ElectionFilter()
+function ElectionFilter(props)
 {
+    const { countRecord } = props;
+
+
     return (
         <div className='flex h-4/5 w-1/5 mr-32 right-0 absolute rounded-t-3xl bottom-0 bg-gradient-to-b from-gray-900 to-gray-800'>
                     <div className='relative flex flex-col items-center w-full mt-10'>
                         <div className='text-white flex flex-col items-center justify-between'>
-                            <span className='text-5xl font-medium'>34</span>
+                            <span className='text-5xl font-medium'>{countRecord.allCount}</span>
                             <span className="text-xl pt-2 font-medium">Всего выборов</span>
                         </div>
                         <div className='text-white flex flex-col items-center justify-between pt-10'>
-                            <span className='text-5xl font-medium'>23</span>
+                            <span className='text-5xl font-medium'>{countRecord.filterCount}</span>
                             <span className="text-xl pt-2 font-medium">Выведено</span>
                         </div>
                         <div className="relative">

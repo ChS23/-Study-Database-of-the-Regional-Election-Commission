@@ -52,18 +52,21 @@ namespace ElectionBack.DBModels
         {
             using var cmd = db.Connection.CreateCommand();
             string query = filter.queryStringSelect;
-            query += $" limit {to-from} offset {from};";
+            query += $" limit {to - from} offset {from};";
             cmd.CommandText = query;
             return await ReadAsync(await cmd.ExecuteReaderAsync());
         }
 
 
-        public async Task<int> getCountFilterElections(ElectionsFilter filter)
+        public async Task<Tuple<int,int>> getCountFilterElections(ElectionsFilter filter)
         {
             using var cmd = db.Connection.CreateCommand();
             string query = filter.queryStringCount;
             cmd.CommandText = query;
-            return Convert.ToInt32(await cmd.ExecuteScalarAsync());
+            int filterCount = Convert.ToInt32(await cmd.ExecuteScalarAsync());
+            cmd.CommandText = filter.querySelectCount;
+            int allCount = Convert.ToInt32(await cmd.ExecuteScalarAsync());
+            return Tuple.Create(allCount, filterCount);
         }
 
 

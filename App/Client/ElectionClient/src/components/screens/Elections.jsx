@@ -1,8 +1,9 @@
+import React, { useState } from 'react';
+
 import Header from './../ui/Haeder'
 import LeftMenu from './../ui/LeftMenu'
 import MenuHeader from './../ui/MenuHeader'
 import ElectionFilter from './../ui/ElectionFilter'
-import CandidateEdit from '../ui/CandidateEdit'
 import ElectionEdit from '../ui/ElectionEdit'
 import TableElections from '../ui/TableElections'
 // import './../../index.css'
@@ -11,7 +12,28 @@ import TableElections from '../ui/TableElections'
 
 function Elections() {
 
-    // objects = Election.get
+    const [selectedRowId, setSelectedRowId] = useState(null);
+    const [filter, setFilter] = useState(
+        {
+            upcoming: false,
+            type: null,
+            dateFrom: null,
+            dateTo: null,
+            nameSearch: null,
+            pleString: null
+        }
+    )
+    const [countRecord, setCountRecord] = useState(
+        {
+            allCount: 0,
+            filterCount: 0
+        }
+    )
+
+
+    const handleRowClick = (election_id) => {
+        setSelectedRowId(election_id);
+      };
 
     return (
         <div className='w-screen h-screen overflow-hidden bg-gray-900'>
@@ -20,9 +42,9 @@ function Elections() {
                 <LeftMenu />
                 <div className='w-full'>
                     <MenuHeader screenName='Выборы'/>
-                    <ElectionFilter/>
+                    {selectedRowId != null ? <ElectionEdit/> : <ElectionFilter countRecord = {countRecord}/>}
                     <div className='h-full rounded-t-3xl mt-6 mr-16 bg-gradient-to-br from-gray-800 to-gray-900'>
-                        <TableElections/>
+                        <TableElections selectedRowId={selectedRowId} setSelectedRowId = {setSelectedRowId} handleRowClick={handleRowClick} setCountRecord={setCountRecord}/>
                     </div>
                 </div>
             </div>

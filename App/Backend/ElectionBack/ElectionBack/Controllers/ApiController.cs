@@ -163,7 +163,7 @@ namespace ElectionBack.Controllers
         }
 
 
-        [HttpGet("/elections/countRowIsFilter")]
+        [HttpGet("/elections/countRowIsFilterAndAll")]
         public async Task<IActionResult> getCountRowElections(bool? upcoming, int? type, string? dateFrom, string? dateTo, string? nameSearch, string? pleSearch)
         {
             await DB.Connection.OpenAsync();
@@ -171,7 +171,7 @@ namespace ElectionBack.Controllers
             var query = new ElectionsTableQuery(DB);
             var result = query.getCountFilterElections(filter);
             if (result is null) return new BadRequestResult();
-            return new OkObjectResult(result.Result);
+            return new OkObjectResult(new { allCount = result.Result.Item1, filterCount = result.Result.Item2 });
         }
     }
 }

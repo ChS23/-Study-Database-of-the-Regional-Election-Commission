@@ -1,32 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import axios from "axios"
+import moment from 'moment';
 
 
 
-function TableElections()
+function TableElections(props)
 {
 
     const [ElectionsData, setElectionsData] = useState([]);
     const [pageList, setPageList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const { selectedRowId, setSelectedRowId, handleRowClick, setCountRecord } = props;
 
 
-    const getElectionData = async () =>
-    {
+    const getElectionData = async () => {
         try {
-            const data = await axios.get("https://localhost:7122/elections/filter?from=1&to=11")
-            setElectionsData(data.data)
+            const from = (currentPage - 1) * 11 + 1;
+            const to = currentPage * 11;
+            const response = await axios.get(`https://localhost:7122/elections/filter?from=${from}&to=${to}`);
+            setElectionsData(response.data);
+        } catch (error) {
+             console.error(error);
         }
-        catch (e)
-        {
-            console.error(e)
-        }
-    } 
+    };
 
     const getPageList = async () => {
         try {
-            const count = await axios.get('https://localhost:7122/elections/countRowIsFilter');
-            const numPages = Math.ceil(count.data / 10);
+            const count = (await axios.get('https://localhost:7122/elections/countRowIsFilterAndAll')).data;
+            setCountRecord(
+                {
+                    allCount: count.allCount,
+                    filterCount: count.filterCount
+                }
+            )
+            const numPages = Math.ceil(count.filterCount / 11);
             if (numPages <= 5) {
                 setPageList(Array.from({length: numPages}, (_, i) => i + 1));
             } 
@@ -38,7 +45,11 @@ function TableElections()
                     setPageList([1, '...', numPages - 2, numPages - 1, numPages]);
                 }
                 else {
-                    setPageList([1, '...', currentPage-2, currentPage-1, currentPage, currentPage + 1, currentPage + 2,'...', numPages]);
+                    var PageListCurrent = [];
+                    currentPage == 3 ? PageListCurrent = PageListCurrent.concat([]) : PageListCurrent = PageListCurrent.concat([1, '...']);
+                    PageListCurrent = PageListCurrent.concat([currentPage-2, currentPage-1, currentPage, currentPage + 1, currentPage + 2])                    
+                    currentPage == numPages - 2 ? PageListCurrent = PageListCurrent.concat([]) : PageListCurrent = PageListCurrent.concat(['...', numPages]);
+                    setPageList(PageListCurrent);
                 }
             }
         }
@@ -52,10 +63,12 @@ function TableElections()
     useEffect(() => {
         getElectionData();
         getPageList();
+        setSelectedRowId(null);
       }, [currentPage]
     )
 
     const handlePageChange = (pageNumber) => {
+        console.log(pageNumber)
         setCurrentPage(pageNumber);
     }
 
@@ -72,11 +85,11 @@ function TableElections()
                         }
                     }
                     return (
-                        <button key={index} className={`mx-1 pt-2 ${isCurrentPage ? 'font-bold' : ''}`} onClick={handleClick}>{page}</button>
+                        <button key={index} className={`mx-1 pt-2 ${isCurrentPage ? 'font-medium text-green-400' : ''}`} onClick={handleClick}>{page}</button>
                     )
                 })}
                 </caption>
-                <thead className='border-b-2 border-stone-100 text-stone-100'>
+                <thead className='border-b-2 border-stone-100 text-stone-100 text-left'>
                     <tr>
                         <th><button>-</button></th>
                         <th className='px-2 p-4'>Название</th>
@@ -89,11 +102,11 @@ function TableElections()
                     {ElectionsData.map((row) => {
                         return (
                             <tr className='border-b-2 border-stone-100' key={row.election_id}>
-                                <td className='px-2 p-2'><button>-</button></td>
-                                <td className='px-2 p-2 border-b-2 border-stone-100 mx-4'>{row.name_of_the_election}</td>
-                                <td className='px-2 p-2'>{row.election_date}</td>
-                                <td className='px-2 p-2'>{row.number_of_deputy_mandates}</td>
-                                <td className='px-2 p-2'>{row.ple}</td>
+                                <td className='px-2 p-2'><button onClick={() => selectedRowId == row.election_id ? handleRowClick(null) : handleRowClick(row.election_id)}><svg width="14" height="14" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="1" width="16" height="16" rx="3" stroke={selectedRowId === row.election_id ? "#42B261" : "#C6C6C6"} stroke-width={selectedRowId === row.election_id ? "4" : "2"}/></svg></button></td>
+                                <td className='px-2 p-2 border-b-2 border-stone-100 mx-4'>{row.name_of_the_election.length > 50 ? `${row.name_of_the_election.slice(0, 50)}...` : row.name_of_the_election}</td>
+                                <td className='px-2 p-2'>{moment(row.election_date).format('DD.MM.YYYY')}</td>
+                                <td className='px-2 p-2'>{row.number_of_deputy_mandates == 0 ? 'Выборы главы' : `Выборы депутатов (${row.number_of_deputy_mandates} мандатов)`}</td>
+                                <td className='px-2 p-2'>{row.ple.length > 30 ? `${row.ple.slice(0, 30)}...` : row.ple}</td>
                             </tr>
                         )
                     }) }

@@ -13,6 +13,8 @@ namespace ElectionBack.Models
         public string? pleSearch { get; set; } = null;
 
 
+        public string querySelectCount = "with t as (SELECT e.election_id, e.name_of_the_election, e.election_date, e.number_of_deputy_mandates, ple.title from elections e join public_legal_entities ple on e.id_public_legal_entitie = ple.public_legal_entitie_id) select count(*) from t ";
+
         public ElectionsFilter(bool? upcoming, int? type, Tuple<string?, string?> range_date, string? nameSearch, string? pleSearch)
         {
             this.upcoming = upcoming;

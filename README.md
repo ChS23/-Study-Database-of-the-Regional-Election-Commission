@@ -1,6 +1,7 @@
 # Тема курсовой работы: База данных областной избирательной комиссии
 
-Backend - [a relative link](App/Backend/ElectionBack/ElectionBack)
+[Backend](App/Backend/ElectionBack/ElectionBack)
+[Frontend](App/Client/ElectionClient)
 
 ER-диаграмма               | Реляционная схема
 :-------------------------:|:-------------------------:

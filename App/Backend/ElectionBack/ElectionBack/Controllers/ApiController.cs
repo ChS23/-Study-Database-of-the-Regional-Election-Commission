@@ -2,10 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using ElectionBack.Models;
 using ElectionBack.Modules;
 using ElectionBack.DBModels;
-using System.Reflection;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System.Text.RegularExpressions;
-using System.Data;
+
 
 namespace ElectionBack.Controllers
 {
@@ -19,17 +17,6 @@ namespace ElectionBack.Controllers
         {
             DB = _db;
         }
-
-
-        /*[HttpGet("/candidates/all")]
-        public async Task<IActionResult> GetAllCandidates()
-        {
-            await DB.Connection.OpenAsync();
-            var query = new CandidateTableQuery(DB);
-            var result = await query.findAll();
-            return new OkObjectResult(result);
-        }
-        */
 
 
         [HttpGet("/candidate/get")]

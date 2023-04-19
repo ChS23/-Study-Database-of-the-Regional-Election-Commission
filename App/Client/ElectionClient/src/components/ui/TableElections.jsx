@@ -14,6 +14,7 @@ function TableElections(props)
     const [currentPage, setCurrentPage] = useState(1);
     const { selectedRowId, setSelectedRowId, handleRowClick, setCountRecord} = props;
     const filterElectionsData = useStore().filterElections
+    const dataElections = useStore().dataElections.data
 
     const getElectionData = async () => {
         try {
@@ -116,7 +117,7 @@ function TableElections(props)
                 <tbody className='text-stone-300 text-xs'>
                     {ElectionsData.map((row) => {
                         return (
-                            <tr className='border-b-2 border-stone-100' key={row.election_id}>
+                            <tr className='border-b-2 border-stone-100' key={dataElections.election_id}>
                                 <td className='px-2 p-2'><button onClick={() => selectedRowId == row.election_id ? handleRowClick(null) : handleRowClick(row.election_id)}><svg width="14" height="14" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="1" width="16" height="16" rx="3" stroke={selectedRowId === row.election_id ? "#42B261" : "#C6C6C6"} stroke-width={selectedRowId === row.election_id ? "4" : "2"}/></svg></button></td>
                                 <td className='px-2 p-2 border-b-2 border-stone-100 mx-4'>{row.name_of_the_election.length > 50 ? `${row.name_of_the_election.slice(0, 50)}...` : row.name_of_the_election}</td>
                                 <td className='px-2 p-2'>{moment(row.election_date).format('DD.MM.YYYY')}</td>

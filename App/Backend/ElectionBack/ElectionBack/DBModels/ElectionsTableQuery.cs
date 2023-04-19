@@ -4,6 +4,7 @@ using MySqlConnector;
 using ElectionBack.Models;
 using System.Data;
 
+
 namespace ElectionBack.DBModels
 {
     public class ElectionsTableQuery

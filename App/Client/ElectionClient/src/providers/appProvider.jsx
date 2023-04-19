@@ -1,13 +1,13 @@
-import { createContext } from "react";
+import React, { createContext } from "react";
 import { RootStore } from "../store/RootStore";
 
 
 const rootStore = new RootStore();
 export const StoreContext = createContext(rootStore);
 
-const Store = ({children}) => {
+const Store = (props) => {
     return(
-        <StoreContext.Provider value={rootStore}>{children}</StoreContext.Provider>    
+        <StoreContext.Provider value={rootStore}>{props.children}</StoreContext.Provider>    
     );
 }
 

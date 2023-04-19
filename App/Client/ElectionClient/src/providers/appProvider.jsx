@@ -7,7 +7,7 @@ export const StoreContext = createContext(rootStore);
 
 const Store = (props) => {
     return(
-        <StoreContext.Provider value={rootStore}>{props.children}</StoreContext.Provider>    
+        <StoreContext.Provider value={rootStore}>{props && props.children}</StoreContext.Provider>    
     );
 }
 

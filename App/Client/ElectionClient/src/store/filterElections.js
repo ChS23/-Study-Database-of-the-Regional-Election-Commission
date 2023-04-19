@@ -29,6 +29,7 @@ export class FilterElections  {
     updateField = (field, value) =>
     {
         this[field] = value;
+        console.log(this.upcoming);
     }
 
 

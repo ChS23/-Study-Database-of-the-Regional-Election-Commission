@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from "axios"
 import moment from 'moment';
+import { observer } from 'mobx-react'
+import { useStore } from '../../hooks/useStore'
 
 
 
@@ -10,8 +12,8 @@ function TableElections(props)
     const [ElectionsData, setElectionsData] = useState([]);
     const [pageList, setPageList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const { selectedRowId, setSelectedRowId, handleRowClick, setCountRecord, filter } = props;
-
+    const { selectedRowId, setSelectedRowId, handleRowClick, setCountRecord} = props;
+    const filterElectionsData = useStore().filterElections
 
     const getElectionData = async () => {
         try {
@@ -20,17 +22,18 @@ function TableElections(props)
 
             // https://localhost:7122/elections/countRowIsFilterAndAll?upcoming=true&type=1&dateFrom=2017-12-01&dateTo=2023-01-01&nameSearch=%D0%92&pleSearch=%D0%90
             let request = `https://localhost:7122/elections/filter?from=${from}&to=${to}`
-            if (filter.upcoming == true) request += `&upcoming=${filter.upcoming}`;
-            if (filter.type != null) request += `&type=${filter.type}`;
-            if (filter.dateFrom != null) request += `&dateFrom=${filter.dateFrom}`;
-            if (filter.dateTo != null) request += `&dateTo=${filter.dateTo}`;
-            if (filter.nameSearch != null) request += `&nameSearch=${filter.nameSearch}`;
-            if (filter.pleSearch != null) request += `&pleSearch=${filter.pleSearch}`;
+            if (filterElectionsData.upcoming == true) request += `&upcoming=${filterElectionsData.upcoming}`;
+            if (filterElectionsData.type != null) request += `&type=${filterElectionsData.type}`;
+            if (filterElectionsData.dateFrom != null) request += `&dateFrom=${filterElectionsData.dateFrom}`;
+            if (filterElectionsData.dateTo != null) request += `&dateTo=${filterElectionsData.dateTo}`;
+            if (filterElectionsData.nameSearch != null) request += `&nameSearch=${filterElectionsData.nameSearch}`;
+            if (filterElectionsData.pleSearch != null) request += `&pleSearch=${filterElectionsData.pleSearch}`;
 
             console.log(request)
 
             const response = await axios.get(request);
             setElectionsData(response.data);
+            console.log(filterElectionsData.upcoming);
         } catch (error) {
              console.error(error);
         }
@@ -128,4 +131,4 @@ function TableElections(props)
     )
 }
 
-export default TableElections
+export default observer(TableElections)

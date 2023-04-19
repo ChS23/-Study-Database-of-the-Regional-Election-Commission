@@ -13,16 +13,7 @@ import TableElections from '../ui/TableElections'
 function Elections() {
 
     const [selectedRowId, setSelectedRowId] = useState(null);
-    const [filter, setFilter] = useState(
-        {
-            upcoming: false,
-            type: null,
-            dateFrom: null,
-            dateTo: null,
-            nameSearch: null,
-            pleString: null
-        }
-    )
+    
     const [countRecord, setCountRecord] = useState(
         {
             allCount: 0,
@@ -42,9 +33,9 @@ function Elections() {
                 <LeftMenu />
                 <div className='w-full'>
                     <MenuHeader screenName='Выборы'/>
-                    {selectedRowId != null ? <ElectionEdit/> : <ElectionFilter countRecord = {countRecord} filter = {filter} setFilter={setFilter}/>}
+                    {selectedRowId != null ? <ElectionEdit/> : <ElectionFilter countRecord = {countRecord}/>}
                     <div className='h-full rounded-t-3xl mt-6 mr-16 bg-gradient-to-br from-gray-800 to-gray-900'>
-                        <TableElections selectedRowId={selectedRowId} setSelectedRowId = {setSelectedRowId} handleRowClick={handleRowClick} setCountRecord={setCountRecord} filter = {filter}/>
+                        <TableElections selectedRowId={selectedRowId} setSelectedRowId = {setSelectedRowId} handleRowClick={handleRowClick} setCountRecord={setCountRecord}/>
                     </div>
                 </div>
             </div>

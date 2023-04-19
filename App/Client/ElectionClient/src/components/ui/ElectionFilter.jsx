@@ -1,16 +1,11 @@
+import useStore from '../../providers/appProvider'
+
+
 function ElectionFilter(props)
 {
     const { countRecord, filter, setFilter } = props;
+    const { updateField } = useStore().ElectionFilter
 
-
-    const updateFilterField = async (fieldName, value) => {
-        setFilter(prevFilter => ({
-          ...prevFilter,
-          [fieldName]: value
-        }));
-
-        console.log(filter)
-    }
 
     return (
         <div className='flex h-4/5 w-1/5 mr-32 right-0 absolute rounded-t-3xl bottom-0 bg-gradient-to-b from-gray-900 to-gray-800'>

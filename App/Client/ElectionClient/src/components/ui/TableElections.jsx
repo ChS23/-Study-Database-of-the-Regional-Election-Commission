@@ -19,13 +19,15 @@ function TableElections(props)
             const to = currentPage * 11;
 
             // https://localhost:7122/elections/countRowIsFilterAndAll?upcoming=true&type=1&dateFrom=2017-12-01&dateTo=2023-01-01&nameSearch=%D0%92&pleSearch=%D0%90
-            let request = 'https://localhost:7122/elections/filter?from=${from}&to=${to}'
+            let request = `https://localhost:7122/elections/filter?from=${from}&to=${to}`
             if (filter.upcoming == true) request += `&upcoming=${filter.upcoming}`;
             if (filter.type != null) request += `&type=${filter.type}`;
             if (filter.dateFrom != null) request += `&dateFrom=${filter.dateFrom}`;
             if (filter.dateTo != null) request += `&dateTo=${filter.dateTo}`;
             if (filter.nameSearch != null) request += `&nameSearch=${filter.nameSearch}`;
             if (filter.pleSearch != null) request += `&pleSearch=${filter.pleSearch}`;
+
+            console.log(request)
 
             const response = await axios.get(request);
             setElectionsData(response.data);

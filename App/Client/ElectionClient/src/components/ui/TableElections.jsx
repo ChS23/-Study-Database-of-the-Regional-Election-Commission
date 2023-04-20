@@ -9,36 +9,35 @@ import { useStore } from '../../hooks/useStore'
 function TableElections(props)
 {
 
-    const [ElectionsData, setElectionsData] = useState([]);
     const [pageList, setPageList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const { selectedRowId, setSelectedRowId, handleRowClick, setCountRecord} = props;
     const filterElectionsData = useStore().filterElections
-    const dataElections = useStore().dataElections.data
+    const dataElections = useStore().dataElections
 
-    const getElectionData = async () => {
-        try {
-            const from = (currentPage - 1) * 11 + 1;
-            const to = currentPage * 11;
+    // const getElectionData = async () => {
+    //     try {
+    //         const from = (currentPage - 1) * 11 + 1;
+    //         const to = currentPage * 11;
 
-            // https://localhost:7122/elections/countRowIsFilterAndAll?upcoming=true&type=1&dateFrom=2017-12-01&dateTo=2023-01-01&nameSearch=%D0%92&pleSearch=%D0%90
-            let request = `https://localhost:7122/elections/filter?from=${from}&to=${to}`
-            if (filterElectionsData.upcoming == true) request += `&upcoming=${filterElectionsData.upcoming}`;
-            if (filterElectionsData.type != null) request += `&type=${filterElectionsData.type}`;
-            if (filterElectionsData.dateFrom != null) request += `&dateFrom=${filterElectionsData.dateFrom}`;
-            if (filterElectionsData.dateTo != null) request += `&dateTo=${filterElectionsData.dateTo}`;
-            if (filterElectionsData.nameSearch != null) request += `&nameSearch=${filterElectionsData.nameSearch}`;
-            if (filterElectionsData.pleSearch != null) request += `&pleSearch=${filterElectionsData.pleSearch}`;
+    //         // https://localhost:7122/elections/countRowIsFilterAndAll?upcoming=true&type=1&dateFrom=2017-12-01&dateTo=2023-01-01&nameSearch=%D0%92&pleSearch=%D0%90
+    //         let request = `https://localhost:7122/elections/filter?from=${from}&to=${to}`
+    //         if (filterElectionsData.upcoming == true) request += `&upcoming=${filterElectionsData.upcoming}`;
+    //         if (filterElectionsData.type != null) request += `&type=${filterElectionsData.type}`;
+    //         if (filterElectionsData.dateFrom != null) request += `&dateFrom=${filterElectionsData.dateFrom}`;
+    //         if (filterElectionsData.dateTo != null) request += `&dateTo=${filterElectionsData.dateTo}`;
+    //         if (filterElectionsData.nameSearch != null) request += `&nameSearch=${filterElectionsData.nameSearch}`;
+    //         if (filterElectionsData.pleSearch != null) request += `&pleSearch=${filterElectionsData.pleSearch}`;
 
-            console.log(request)
+    //         console.log(request)
 
-            const response = await axios.get(request);
-            setElectionsData(response.data);
-            console.log(filterElectionsData.upcoming);
-        } catch (error) {
-             console.error(error);
-        }
-    };
+    //         const response = await axios.get(request);
+    //         // setElectionsData(response.data);
+    //         console.log(filterElectionsData.upcoming);
+    //     } catch (error) {
+    //          console.error(error);
+    //     }
+    // };
 
     const getPageList = async () => {
         try {
@@ -77,7 +76,6 @@ function TableElections(props)
 
 
     useEffect(() => {
-        getElectionData();
         getPageList();
         setSelectedRowId(null);
       }, [currentPage]
@@ -115,9 +113,9 @@ function TableElections(props)
                     </tr>
                 </thead>
                 <tbody className='text-stone-300 text-xs'>
-                    {ElectionsData.map((row) => {
+                    {dataElections.data.map((row) => {
                         return (
-                            <tr className='border-b-2 border-stone-100' key={dataElections.election_id}>
+                            <tr className='border-b-2 border-stone-100' key={row.election_id}>
                                 <td className='px-2 p-2'><button onClick={() => selectedRowId == row.election_id ? handleRowClick(null) : handleRowClick(row.election_id)}><svg width="14" height="14" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="1" width="16" height="16" rx="3" stroke={selectedRowId === row.election_id ? "#42B261" : "#C6C6C6"} stroke-width={selectedRowId === row.election_id ? "4" : "2"}/></svg></button></td>
                                 <td className='px-2 p-2 border-b-2 border-stone-100 mx-4'>{row.name_of_the_election.length > 50 ? `${row.name_of_the_election.slice(0, 50)}...` : row.name_of_the_election}</td>
                                 <td className='px-2 p-2'>{moment(row.election_date).format('DD.MM.YYYY')}</td>

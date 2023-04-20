@@ -5,8 +5,8 @@ import { observer } from 'mobx-react'
 function ElectionFilter(props)
 {
     const { countRecord } = props
-    const filterElectionsData = useStore().filterElections
-    const { updateField } = filterElectionsData
+    const filter = useStore().filterElections
+    const { updateField } = filter
 
 
     return (
@@ -22,25 +22,25 @@ function ElectionFilter(props)
                 </div>
                 <div className="border-green-400 hidden"></div>
                 <div className="relative">
-                    <button onClick={() => updateField('upcoming', !filterElectionsData.upcoming)}
-                    className={`block w-auto px-4 mt-10 text-md bg-inherit h-10 border text-${filterElectionsData.upcoming ? 'green-400' : 'stone-100'} border-${filterElectionsData.upcoming ? 'green-400' : 'stone-100'} rounded-3xl`}>Вывести предстоящие</button>
+                    <button onClick={() => updateField('upcoming', !filter.upcoming)}
+                    className={`block w-auto px-4 mt-10 text-md bg-inherit h-10 border text-${filter.upcoming ? 'green-400' : 'stone-100'} border-${filter.upcoming ? 'green-400' : 'stone-100'} rounded-3xl`}>Вывести предстоящие</button>
                 </div>
                 <div className="relative flex flex-row">
-                    <button onClick={() => updateFilterField('type', filterElectionsData.type == 1 ? null : 1)}
-                    className={`block w-auto px-4 mr-4 mt-4 text-md bg-inherit h-10 text-${filterElectionsData.type == 1 ? 'green-400' : 'stone-100'} border border-${filterElectionsData.type == 1 ? 'green-400' : 'stone-100'} rounded-3xl`}>Выборы глав</button>
-                    <button onClick={() => updateFilterField('type', filterElectionsData.type == 2 ? null : 2)}
-                    className={`block w-auto px-4 mt-4 text-md bg-inherit h-10 text-${filterElectionsData.type == 2 ? 'green-400' : 'stone-100'} border border-${filterElectionsData.type == 2 ? 'green-400' : 'stone-100'} rounded-3xl`}>депутатов</button>
+                    <button onClick={() => updateField('type', filter.type == 1 ? null : 1)}
+                    className={`block w-auto px-4 mr-4 mt-4 text-md bg-inherit h-10 text-${filter.type == 1 ? 'green-400' : 'stone-100'} border border-${filter.type == 1 ? 'green-400' : 'stone-100'} rounded-3xl`}>Выборы глав</button>
+                    <button onClick={() => updateField('type', filter.type == 2 ? null : 2)}
+                    className={`block w-auto px-4 mt-4 text-md bg-inherit h-10 text-${filter.type == 2 ? 'green-400' : 'stone-100'} border border-${filter.type == 2 ? 'green-400' : 'stone-100'} rounded-3xl`}>депутатов</button>
                 </div>
                 <div className="relative flex flex-row w-full">
-                    <input onChange={val => updateFilterField('dateFrom', val.target.value)} value={filterElectionsData.dateFrom} type="date"
+                    <input onChange={val => updateField('dateFrom', val.target.value)} value={filter.dateFrom} type="date"
                     className="block w-full text-xs p-2 pl-4 mt-4 ml-8 mr-2 text-md bg-inherit text-stone-100 border border-stone-100 rounded-3xl selection:border-green-400"
                     placeholder="Дата с" min="2010-01-01" max="2025-01-01"/>
-                    <input onChange={val => updateFilterField('dateTo', val.target.value)} value={filterElectionsData.dateTo} type="date"
+                    <input onChange={val => updateField('dateTo', val.target.value)} value={filter.dateTo} type="date"
                     className="block w-full text-xs p-2 pl-4 mt-4 mr-8 ml-2 text-md bg-inherit text-stone-100 border border-stone-100 rounded-3xl focus:border-green-400"
                     placeholder="по" min="2010-01-01" max="2025-01-01"/>
                 </div>
                 <div className="relative">
-                    <input onChange={val => updateFilterField('nameSearch', val.target.value == '' ? null : val.target.value)} value={filterElectionsData.nameSearch}
+                    <input onChange={val => updateField('nameSearch', val.target.value == '' ? null : val.target.value)} value={filter.nameSearch}
                     type="name" className="block w-full p-2 pl-8 mt-4 text-md bg-inherit text-stone-100 border border-stone-100 rounded-3xl focus:border-green-500" placeholder="Поиск по названию"/>
                 </div>
                 <div className="relative">

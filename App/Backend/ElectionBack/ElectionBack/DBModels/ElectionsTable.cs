@@ -35,7 +35,7 @@ namespace ElectionBack.DBModels
         public async Task InsertAsync()
         {
             using var cmd = DB.Connection.CreateCommand();
-            cmd.CommandText = @"INSERT INTO `elections` VALUES (@name, @date, @num, @ple);";
+            cmd.CommandText = @"INSERT INTO `elections` VALUES (NULL, @name, @date, @num, @ple);";
             BindParams(cmd);
             await cmd.ExecuteNonQueryAsync();
             election_id = (int)cmd.LastInsertedId;
@@ -45,7 +45,7 @@ namespace ElectionBack.DBModels
         public async Task UpdateAsync()
         {
             using var cmd = DB.Connection.CreateCommand();
-            cmd.CommandText = @"UPDATE `elections` SET `name_of_the_election` = @name, `election_date` = @date, 'number_of_deputy_mandates' = @num, 'id_public_legal_entitie' = @ple WHERE `election_id` = @id;";
+            cmd.CommandText = @"UPDATE `elections` SET `name_of_the_election` = @name, `election_date` = @date, `number_of_deputy_mandates` = @num, `id_public_legal_entitie` = @ple WHERE `election_id` = @id;";
             BindParams(cmd);
             BindId(cmd);
             await cmd.ExecuteNonQueryAsync();

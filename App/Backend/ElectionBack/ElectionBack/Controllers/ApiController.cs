@@ -20,6 +20,7 @@ namespace ElectionBack.Controllers
 
 
         [HttpGet("/candidate/get")]
+        [ProducesResponseType(typeof(CandidateTable), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetOneCandidates([BindRequired] int id)
         {
             await DB.Connection.OpenAsync();
@@ -43,6 +44,7 @@ namespace ElectionBack.Controllers
 
 
         [HttpPut("/candidate/update")]
+        [ProducesResponseType(typeof(CandidateTable), StatusCodes.Status200OK)]
         public async Task<IActionResult> updateOneCandidates([BindRequired] int id, [FromBody] CandidateTable body)
         {
             await DB.Connection.OpenAsync();
@@ -56,6 +58,7 @@ namespace ElectionBack.Controllers
 
 
         [HttpPost("/candidate/add/")]
+        [ProducesResponseType(typeof(CandidateTable), StatusCodes.Status200OK)]
         public async Task<IActionResult> addOneCandidates([FromBody] CandidateTable body)
         {
             await DB.Connection.OpenAsync();
@@ -66,6 +69,7 @@ namespace ElectionBack.Controllers
 
 
         [HttpGet("/candidates/filter")]
+        [ProducesResponseType(typeof(List<CandidateTable>), StatusCodes.Status200OK)]
         public async Task<IActionResult> getFilterCandidates([BindRequired] int from, [BindRequired] int to, string? filterName, string? birthdayFrom, string? birthdayTo, int? id_party)
         {
             if (to <= from) return new BadRequestObjectResult(new { message = "To<=From", code = 20 });
@@ -79,6 +83,7 @@ namespace ElectionBack.Controllers
 
 
         [HttpGet("/candidates/countRowIsFilterAndAll")]
+        [ProducesResponseType(typeof(Tuple<int,int>), StatusCodes.Status200OK)]
         public async Task<IActionResult> getCountRowElections(string? filterName, string? birthdayFrom, string? birthdayTo, int? id_party)
         {
             await DB.Connection.OpenAsync();
@@ -159,6 +164,16 @@ namespace ElectionBack.Controllers
             var result = query.getCountFilterElections(filter);
             if (result is null) return new BadRequestResult();
             return new OkObjectResult(new { allCount = result.Result.Item1, filterCount = result.Result.Item2 });
+        }
+
+
+        [HttpGet("/analytics/getCountCandidatsPartyFromElections")]
+        public async Task<IActionResult> getCountCandidatsPartyFromElections([BindRequired] int election_id)
+        {
+            await DB.Connection.OpenAsync();
+            var query = new AnalyticsSelectQuerty(DB);
+            var result = query.GetCountCandidatsPartyFromElections(election_id);
+            return new OkObjectResult(result.Result);
         }
     }
 }

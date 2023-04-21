@@ -31,7 +31,7 @@ namespace ElectionBack.DBModels
         public async Task InsertAsync()
         {
             using var cmd = DB.Connection.CreateCommand();
-            cmd.CommandText = @"INSERT INTO `candidates` VALUES (@fn, @birthday, @idp);";
+            cmd.CommandText = @"INSERT INTO `candidates` VALUES (NULL, @fn, @idp, @birthday);";
             BindParams(cmd);
             await cmd.ExecuteNonQueryAsync();
             candidate_id = (int)cmd.LastInsertedId;

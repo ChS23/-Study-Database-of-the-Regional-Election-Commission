@@ -191,9 +191,14 @@ namespace ElectionBack.Models
                 errorObject = new BadRequestResult();
                 return false;
             }
-            if ((dateFrom is not null && !Regex.IsMatch(dateFrom, "^[0-9]{4}-[0-9]{2}-[0-9]{2}")) || (dateTo is not null && !Regex.IsMatch(dateFrom, "^[0-9]{4}-[0-9]{2}-[0-9]{2}")))
+            if (dateTo is not null && !Regex.IsMatch(dateTo, "^[0-9]{4}-[0-9]{2}-[0-9]{2}"))
             {
-                errorObject = new BadRequestObjectResult(new { message = "dateTo or dateFrom is not valid", code = 50 });
+                errorObject = new BadRequestObjectResult(new { message = "dateTo is not valid", code = 50 });
+                return false;
+            }
+            if (dateFrom is not null && !Regex.IsMatch(dateFrom, "^[0-9]{4}-[0-9]{2}-[0-9]{2}"))
+            {
+                errorObject = new BadRequestObjectResult(new { message = "dateFrom is not valid", code = 50 });
                 return false;
             }
             if (dateFrom is not null && dateTo is not null && DateTime.Parse(dateFrom) >= DateTime.Parse(dateTo))

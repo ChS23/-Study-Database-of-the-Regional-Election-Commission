@@ -179,18 +179,8 @@ namespace ElectionBack.Models
         }
 
 
-        public static bool isValidValueForFilter(ref int from, ref int to, ref bool? upcoming, ref int? type, ref string? dateFrom, ref string? dateTo, ref string? nameSearch, ref string? pleSearch, out IActionResult errorObject)
+        public static bool isValidValueForFilter(ref bool? upcoming, ref int? type, ref string? dateFrom, ref string? dateTo, ref string? nameSearch, ref string? pleSearch, out IActionResult errorObject)
         {
-            if (to <= from)
-            {
-                errorObject = new BadRequestObjectResult(new { message = "To<=From", code = 20 });
-                return false;
-            }
-            if (from < 0 || to <= 0)
-            {
-                errorObject = new BadRequestResult();
-                return false;
-            }
             if (dateTo is not null && !Regex.IsMatch(dateTo, "^[0-9]{4}-[0-9]{2}-[0-9]{2}"))
             {
                 errorObject = new BadRequestObjectResult(new { message = "dateTo is not valid", code = 50 });

@@ -1,30 +1,30 @@
-import React, { useState } from 'react';
-
+import React, { useEffect, useState } from 'react';
+import { observer } from 'mobx-react'
 import Header from './../ui/Haeder'
 import LeftMenu from './../ui/LeftMenu'
 import MenuHeader from './../ui/MenuHeader'
 import ElectionFilter from './../ui/ElectionFilter'
 import ElectionEdit from '../ui/ElectionEdit'
 import TableElections from '../ui/TableElections'
-// import './../../index.css'
-// import Election from '../models/election'
+import { useStore } from '../../hooks/useStore';
 
 
 function Elections() {
 
     const [selectedRowId, setSelectedRowId] = useState(null);
-    
-    const [countRecord, setCountRecord] = useState(
-        {
-            allCount: 0,
-            filterCount: 0
-        }
-    )
-
+    const { dataElections } = useStore();
 
     const handleRowClick = (election_id) => {
         setSelectedRowId(election_id);
       };
+
+
+    // useEffect( ()=>
+    // {
+    //     dataElections.updatePageList();
+    //     dataElections.updateData();
+    // })
+    
 
     return (
         <div className='w-screen h-screen overflow-hidden bg-gray-900'>
@@ -33,9 +33,9 @@ function Elections() {
                 <LeftMenu />
                 <div className='w-full'>
                     <MenuHeader screenName='Выборы'/>
-                    {selectedRowId != null ? <ElectionEdit/> : <ElectionFilter countRecord = {countRecord}/>}
+                    {selectedRowId != null ? <ElectionEdit/> : <ElectionFilter/>}
                     <div className='h-full rounded-t-3xl mt-6 mr-16 bg-gradient-to-br from-gray-800 to-gray-900'>
-                        <TableElections selectedRowId={selectedRowId} setSelectedRowId = {setSelectedRowId} handleRowClick={handleRowClick} setCountRecord={setCountRecord}/>
+                        <TableElections selectedRowId={selectedRowId} setSelectedRowId = {setSelectedRowId} handleRowClick={handleRowClick}/>
                     </div>
                 </div>
             </div>
@@ -43,4 +43,4 @@ function Elections() {
     )
 }
 
-export default Elections
+export default observer(Elections)

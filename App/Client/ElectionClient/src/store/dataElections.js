@@ -1,48 +1,102 @@
-import {computed, makeObservable, observable} from 'mobx'
-import axios from "axios"
+import {action, computed, makeObservable, observable, runInAction} from 'mobx'
+import {getElectionData} from '../helpers/apiElections'
+import { getCountRecord } from '../helpers/apiElections'
 
 
 export class DataElections  {
 
-    data = []
-    countRecordSelect = 0
-    countRecordAll = 0
+    allRecordsCount = 0
+    selectedRecordCount = 0
+    currentPage = 1
+    pageList = []
+    data = [{
+        "election_id": 75,
+        "name_of_the_election": "Досрочные выборы депутатов Котовского района",
+        "election_date": "2023-10-06",
+        "number_of_deputy_mandates": 16,
+        "ple": "Быковский муниципальный район"
+      }]
 
     constructor(rootStore) {
         this.filterElections = rootStore.filterElections
         makeObservable(this, {
             data: observable,
-            countRecordSelect: observable,
-            countRecordAll: observable,
-            Data: computed
+            allRecordsCount: observable,
+            selectedRecordCount: observable,
+            currentPage: observable,
+            pageList: observable,
+            updateData: action.bound,
+            updateAllRecordsCount: action.bound,
+            updateSelectedRecordCount: action.bound,
+            updatePageList: action.bound,
+            updateCurrentPage: action.bound
         });
     }
 
 
-    async getElectionData() {
-        try {
-            filter = this.filterElections.data
+    updateCurrentPage(currentPage)
+    {
+        this.currentPage = currentPage;
+    }
+
+
+    updateAllRecordsCount(allRecordsCount)
+    {
+        this.allRecordsCount = allRecordsCount;
+    }
+
+
+    updateSelectedRecordCount(selectedRecordCount)
+    {
+        this.selectedRecordCount = selectedRecordCount;
+    }
+
+
+    async updateData()
+    {
+        const data = await getElectionData(this.filterElections);
+        runInAction(
+            () => this.data = data
+        );
+    }
+
     
-            let request = `https://localhost:7122/elections/filter?from=${filter.fromPage}&to=${filter.toPage}`
-            if (filter.upcoming == true) request += `&upcoming=${filter.upcoming}`;
-            if (filter.type != null) request += `&type=${filter.type}`;
-            if (filter.dateFrom != null) request += `&dateFrom=${filter.dateFrom}`;
-            if (filter.dateTo != null) request += `&dateTo=${filter.dateTo}`;
-            if (filter.nameSearch != null) request += `&nameSearch=${filter.nameSearch}`;
-            if (filter.pleSearch != null) request += `&pleSearch=${filter.pleSearch}`;
-    
-            console.log(request)
-    
-            const response = await axios.get(request);
-            this.dataField = response.data
-            return response.data
-        } catch (error) {
-             console.error(error);
+    async updatePageList()
+    {
+        const countRecords = await getCountRecord(this.filterElections);
+
+        runInAction(
+            () => {
+                this.allRecordsCount = countRecords.allCount;
+                this.selectedRecordCount = countRecords.filterCount;
+            }
+        );
+
+        const numPages = Math.ceil(this.selectedRecordCount / 11);
+        let pageList = []
+
+        if (numPages <= 5) {
+            pageList = Array.from({length: numPages}, (_, i) => i + 1);
+        } 
+        else {
+            if (this.currentPage < 3) {
+                pageList = ([1, 2, 3, '...', numPages]);
+            } 
+            else if (this.currentPage > numPages - 2) {
+                pageList = ([1, '...', numPages - 2, numPages - 1, numPages]);
+            }
+            else {
+                var PageListCurrent = [];
+                this.currentPage == 3 ? PageListCurrent = PageListCurrent.concat([]) : PageListCurrent = PageListCurrent.concat([1, '...']);
+                PageListCurrent = PageListCurrent.concat([this.currentPage-2, this.currentPage-1, this.currentPage, this.currentPage + 1, this.currentPage + 2])                    
+                this.currentPage == numPages - 2 ? PageListCurrent = PageListCurrent.concat([]) : PageListCurrent = PageListCurrent.concat(['...', numPages]);
+                pageList = (PageListCurrent);
+            }
         }
-    };
-
-
-    get Data() {
-        return this.getElectionData()
+        runInAction(
+            () => this.pageList = pageList
+        )
+        // console.log(this.pageList)
+        // console.log(this.currentPage)
     }
 }

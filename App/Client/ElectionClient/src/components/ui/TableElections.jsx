@@ -8,94 +8,30 @@ import { useStore } from '../../hooks/useStore'
 
 function TableElections(props)
 {
-
-    const [pageList, setPageList] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const { selectedRowId, setSelectedRowId, handleRowClick, setCountRecord} = props;
-    const filterElectionsData = useStore().filterElections
-    const dataElections = useStore().dataElections
-
-    // const getElectionData = async () => {
-    //     try {
-    //         const from = (currentPage - 1) * 11 + 1;
-    //         const to = currentPage * 11;
-
-    //         // https://localhost:7122/elections/countRowIsFilterAndAll?upcoming=true&type=1&dateFrom=2017-12-01&dateTo=2023-01-01&nameSearch=%D0%92&pleSearch=%D0%90
-    //         let request = `https://localhost:7122/elections/filter?from=${from}&to=${to}`
-    //         if (filterElectionsData.upcoming == true) request += `&upcoming=${filterElectionsData.upcoming}`;
-    //         if (filterElectionsData.type != null) request += `&type=${filterElectionsData.type}`;
-    //         if (filterElectionsData.dateFrom != null) request += `&dateFrom=${filterElectionsData.dateFrom}`;
-    //         if (filterElectionsData.dateTo != null) request += `&dateTo=${filterElectionsData.dateTo}`;
-    //         if (filterElectionsData.nameSearch != null) request += `&nameSearch=${filterElectionsData.nameSearch}`;
-    //         if (filterElectionsData.pleSearch != null) request += `&pleSearch=${filterElectionsData.pleSearch}`;
-
-    //         console.log(request)
-
-    //         const response = await axios.get(request);
-    //         // setElectionsData(response.data);
-    //         console.log(filterElectionsData.upcoming);
-    //     } catch (error) {
-    //          console.error(error);
-    //     }
-    // };
-
-    const getPageList = async () => {
-        try {
-            const count = (await axios.get('https://localhost:7122/elections/countRowIsFilterAndAll')).data;
-            setCountRecord(
-                {
-                    allCount: count.allCount,
-                    filterCount: count.filterCount
-                }
-            )
-            const numPages = Math.ceil(count.filterCount / 11);
-            if (numPages <= 5) {
-                setPageList(Array.from({length: numPages}, (_, i) => i + 1));
-            } 
-            else {
-                if (currentPage < 3) {
-                    setPageList([1, 2, 3, '...', numPages]);
-                } 
-                else if (currentPage > numPages - 2) {
-                    setPageList([1, '...', numPages - 2, numPages - 1, numPages]);
-                }
-                else {
-                    var PageListCurrent = [];
-                    currentPage == 3 ? PageListCurrent = PageListCurrent.concat([]) : PageListCurrent = PageListCurrent.concat([1, '...']);
-                    PageListCurrent = PageListCurrent.concat([currentPage-2, currentPage-1, currentPage, currentPage + 1, currentPage + 2])                    
-                    currentPage == numPages - 2 ? PageListCurrent = PageListCurrent.concat([]) : PageListCurrent = PageListCurrent.concat(['...', numPages]);
-                    setPageList(PageListCurrent);
-                }
-            }
-        }
-        catch (error)
-        {
-            console.error(error);
-        }
-    }
-
+    const { selectedRowId, setSelectedRowId, handleRowClick } = props;
+    const { filterElections, dataElections } = useStore()
 
     useEffect(() => {
-        getPageList();
+        dataElections.updatePageList();
+        dataElections.updateData();
+        console.log(dataElections.data)
         setSelectedRowId(null);
-      }, [currentPage]
+      }, [dataElections.currentPage]
     )
 
-    const handlePageChange = (pageNumber) => {
-        console.log(pageNumber)
-        setCurrentPage(pageNumber);
-    }
 
     return (
         <div className='relative w-8/12'>
             <table className='table-auto w-full h-full border-collapse ml-8 caption-bottom'>
                 <caption className='text-stone-300'>
-                {pageList.map((page, index) => {
-                    const isCurrentPage = page === currentPage;
+                {dataElections.pageList.map((page, index) => {
+                    const isCurrentPage = page === dataElections.currentPage;
                     const isEllipsis = page === '...';
                     const handleClick = () => {
                         if (!isEllipsis) {
-                            handlePageChange(page);
+                            dataElections.updateCurrentPage(page);
+                            filterElections.updateField('fromRecord', page*10);
+                            filterElections.updateField('toRecord', 10*(page+1));
                         }
                     }
                     return (

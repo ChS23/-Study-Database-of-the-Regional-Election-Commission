@@ -66,10 +66,10 @@ namespace ElectionBack.Controllers
 
 
         [HttpGet("/candidates/filter")]
-        public async Task<IActionResult> getFilterCandidates([BindRequired] int from, [BindRequired] int to, string? filterName, int? ageFrom, int? ageTo, int? id_party)
+        public async Task<IActionResult> getFilterCandidates([BindRequired] int from, [BindRequired] int to, string? filterName, string? birthdayFrom, string? birthdayTo, int? id_party)
         {
             if (to <= from) return new BadRequestObjectResult(new { message = "To<=From", code = 20 });
-            CandidateFilter filter = new(filterName, ageFrom, ageTo, id_party);
+            CandidateFilter filter = new(filterName, birthdayFrom, birthdayTo, id_party);
             await DB.Connection.OpenAsync();
             var query = new CandidateTableQuery(DB);
             var result = await query.filterCandidate(from, to, filter);
@@ -79,10 +79,10 @@ namespace ElectionBack.Controllers
 
 
         [HttpGet("/candidates/countRowIsFilterAndAll")]
-        public async Task<IActionResult> getCountRowElections(string? filterName, int? ageFrom, int? ageTo, int? id_party)
+        public async Task<IActionResult> getCountRowElections(string? filterName, string? birthdayFrom, string? birthdayTo, int? id_party)
         {
             await DB.Connection.OpenAsync();
-            CandidateFilter filter = new(filterName, ageFrom, ageTo, id_party);
+            CandidateFilter filter = new(filterName, birthdayFrom, birthdayTo, id_party);
             var query = new CandidateTableQuery(DB);
             var result = query.getCountFilterCandidates(filter);
             if (result is null) return new BadRequestResult();

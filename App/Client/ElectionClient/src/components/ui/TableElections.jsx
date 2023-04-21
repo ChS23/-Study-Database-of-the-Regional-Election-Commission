@@ -130,4 +130,5 @@ function TableElections(props)
     )
 }
 
+
 export default observer(TableElections)

@@ -27,7 +27,7 @@ namespace ElectionBack.DBModels
         public async Task<CandidateTable?> findOne(int id)
         {
             using var cmd = db.Connection.CreateCommand();
-            cmd.CommandText = @"SELECT * FROM candidates WHERE condidate_id = @id";
+            cmd.CommandText = @"SELECT * FROM candidates WHERE candidate_id = @id";
             cmd.Parameters.Add(new MySqlParameter
             {
                 ParameterName = "@id",
@@ -95,8 +95,8 @@ namespace ElectionBack.DBModels
                     {
                         candidate_id = reader.GetInt32(0),
                         full_name = reader.GetString(1),
-                        age = reader.GetInt32(2),
-                        id_party = reader[3] is DBNull ? -1 : reader.GetInt32(3),
+                        id_party = reader[2] is DBNull ? -1 : reader.GetInt32(2),
+                        birthday = reader.GetDateTime(3).ToString("yyyy-MM-dd"),
                     };
                     list.Add(candidate);
                 }

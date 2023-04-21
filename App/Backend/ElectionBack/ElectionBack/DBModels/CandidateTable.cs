@@ -9,7 +9,7 @@ namespace ElectionBack.DBModels
     {
         public int candidate_id { get; set; }
         public string full_name { get; set; }
-        public int age { get; set; }
+        public string birthday { get; set; }
         public int id_party { get; set; }
 
         internal DBConnect DB { get; set; }
@@ -19,7 +19,7 @@ namespace ElectionBack.DBModels
         public void Copy(CandidateTable table)
         {
             full_name = table.full_name;
-            age = table.age;
+            birthday = table.birthday;
             id_party = table.id_party;
         }
 
@@ -31,7 +31,7 @@ namespace ElectionBack.DBModels
         public async Task InsertAsync()
         {
             using var cmd = DB.Connection.CreateCommand();
-            cmd.CommandText = @"INSERT INTO `candidates` VALUES (@fn, @age, @idp);";
+            cmd.CommandText = @"INSERT INTO `candidates` VALUES (@fn, @birthday, @idp);";
             BindParams(cmd);
             await cmd.ExecuteNonQueryAsync();
             candidate_id = (int)cmd.LastInsertedId;
@@ -41,7 +41,7 @@ namespace ElectionBack.DBModels
         public async Task UpdateAsync()
         {
             using var cmd = DB.Connection.CreateCommand();
-            cmd.CommandText = @"UPDATE `candidates` SET `full_name` = @fn, `age` = @age, 'id_party' = @idp WHERE `candidate_id` = @id;";
+            cmd.CommandText = @"UPDATE `candidates` SET `full_name` = @fn, `birthday` = @birthday, `id_party` = @idp WHERE `candidate_id` = @id;";
             BindParams(cmd);
             BindId(cmd);
             await cmd.ExecuteNonQueryAsync();
@@ -77,15 +77,15 @@ namespace ElectionBack.DBModels
             });
             cmd.Parameters.Add(new MySqlParameter
             {
-                ParameterName = "@age",
-                DbType = DbType.Int32,
-                Value = age
+                ParameterName = "@birthday",
+                DbType = DbType.String,
+                Value = birthday
             });
             cmd.Parameters.Add(new MySqlParameter
             {
                 ParameterName = "@idp",
                 DbType = DbType.Int32,
-                Value = id_party
+                Value = id_party == -1 ? null : id_party
             });
         }
     }

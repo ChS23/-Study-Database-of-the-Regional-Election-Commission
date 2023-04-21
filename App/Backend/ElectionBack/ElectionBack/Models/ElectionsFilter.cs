@@ -129,15 +129,15 @@ namespace ElectionBack.Models
             {
                 if (range_date.Item1 is not null && range_date.Item2 is null)
                 {
-                    return $"election_date >= {range_date.Item1}";
+                    return $"election_date >= '{range_date.Item1}'";
                 }
                 else if (range_date.Item1 is null && range_date.Item2 is not null)
                 {
-                    return $"election_date <= {range_date.Item2}";
+                    return $"election_date <= '{range_date.Item2}'";
                 }
                 else if (range_date.Item1 is not null && range_date.Item2 is not null)
                 {
-                    return $"election_date >= {range_date.Item1} and election_date <= {range_date.Item2}";
+                    return $"election_date >= '{range_date.Item1}' and election_date <= '{range_date.Item2}'";
                 }
                 else
                 {

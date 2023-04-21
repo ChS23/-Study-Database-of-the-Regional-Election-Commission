@@ -1,4 +1,4 @@
-import {action, computed, makeObservable, observable} from 'mobx'
+import {computed, makeObservable, observable} from 'mobx'
 import axios from "axios"
 
 
@@ -7,7 +7,6 @@ export class DataElections  {
     data = []
     countRecordSelect = 0
     countRecordAll = 0
-
 
     constructor(rootStore) {
         this.filterElections = rootStore.filterElections

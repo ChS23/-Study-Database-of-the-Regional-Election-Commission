@@ -175,5 +175,16 @@ namespace ElectionBack.Controllers
             if (result.Result.Count == 0) return new BadRequestObjectResult(new { message = "election_id invalid", code = 10 });
             return new OkObjectResult(result.Result);
         }
+
+
+        [HttpGet("/analitics/getGroupAgeInParty")]
+        public async Task<IActionResult> getGroupAgeInParty([BindRequired] int party_id)
+        {
+            await DB.Connection.OpenAsync();
+            var query = new AnalyticsSelectQuerty(DB);
+            var result = query.GetGroupAgeInParty(party_id);
+            if (result.Result.Sum(x => x.Value) == 0) return new BadRequestObjectResult(new { message = "party_id invalid", code = 10 });
+            return new OkObjectResult(result.Result);
+        }
     }
 }

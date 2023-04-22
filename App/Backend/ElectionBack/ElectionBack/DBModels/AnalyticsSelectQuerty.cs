@@ -31,5 +31,22 @@ namespace ElectionBack.DBModels
             }
             return answer;
         }
+
+
+        public async Task<Dictionary<string,int>> GetGroupAgeInParty(int party_id)
+        {
+            using var cmd = db.Connection.CreateCommand();
+            cmd.CommandText = $"call getGroupAgeParty({party_id});";
+            var result = await cmd.ExecuteReaderAsync();
+            var answer = new Dictionary<string, int>();
+            using (result)
+            {
+                while (await result.ReadAsync())
+                {
+                    answer.Add(result.GetString(0), result.GetInt32(1));
+                }
+            }
+            return answer;
+        }
     }
 }

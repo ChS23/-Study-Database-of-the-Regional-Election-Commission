@@ -9,6 +9,13 @@ Backend реализован на языке программирования [C
 ### [Backend](App/Backend/ElectionBack/ElectionBack)
 ### [Frontend](App/Client/ElectionClient)
 
+## TODO
+### Backend
+-[X] Реализовать связь с таблицей Candidates
+-[X] Реализовать связь с таблицей Elections
+  -[ ] Изменить схему возвращаемого формата ElectionsTable
+-[X] Реализовать аналитические запросы
+
 ## Приложение
 ER-диаграмма               | Реляционная схема
 :-------------------------:|:-------------------------:

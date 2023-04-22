@@ -13,8 +13,32 @@ Backend реализован на языке программирования [C
 ### Backend
 - [x] Реализовать связь с таблицей Candidates
 - [x] Реализовать связь с таблицей Elections
-  -[ ] Изменить схему возвращаемого формата ElectionsTable
--[-] Реализовать аналитические запросы
+  - [ ] Изменить схему возвращаемого формата ElectionsTable
+- [x] Реализовать аналитические запросы
+### Client
+Страница Elections
+- [x] Сверстать страницу Elections
+- [x] Компоненты для страницы Elections
+  - [x] Сверстать компонент ElectionFilter
+  - [x] Сверстать компонент ElectionEdit
+  - [ ] Сверстать модальное окно добавления
+- [ ] Состояния для страницы Elections
+  - [x] Написать store dataElections и связать с компонентом TableElections
+  - [ ] Написать store editElections и связать с компонентом ElectionEdit
+  - [x] Написать store filterElections и связать с компонентом ElectionFilter
+  - [ ] Написать логику добавления
+Страница Candidates
+- [ ] Сверстать страницу Candidates
+- [ ] Компоненты для страницы Candidates
+  - [ ] Сверстать компонент CandidatesFilter
+  - [ ] Сверстать компонент CandidatesEdit
+  - [ ] Сверстать модальное окно добавления Candidate
+- [ ] Состояния для страницы Candidates
+  - [ ] Написать store dataCandidates и связать с компонентом TableCandidates
+  - [ ] Написать store editCandidates и связать с компонентом CandidatesEdit
+  - [ ] Написать store filterCandidates и связать с компонентом CandidatesFilter
+  - [ ] Написать логику добавления
+
 
 ## Приложение
 ER-диаграмма               | Реляционная схема

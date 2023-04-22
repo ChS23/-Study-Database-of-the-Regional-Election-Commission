@@ -9,6 +9,7 @@ export class editElections
     countMandates = null
     namePLE = ""
     ple_id = null
+    pleDict = [{}]
 
 
     constructor()
@@ -24,6 +25,9 @@ export class editElections
             updateDateElection: action,
             updateCountMandates: action,
             updateNamePLE: action,
+            updateRecordInDB: action,
+            getRecordFromDB: action,
+
         });
     }
 
@@ -56,4 +60,7 @@ export class editElections
     {
 
     }
+
+
+
 }

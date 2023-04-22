@@ -31,6 +31,59 @@ export async function getCountRecord(filter) {
 }
 
 
-export async function updateElectionRecord() {
-    let request = `${baseURL}/`
+export async function updateElectionRecord(record) {
+    let request = `${baseURL}/update?id=${record.election_id}`;
+    try {
+        return (await axios.put(
+            request,
+            {
+                "election_id": record.election_id,
+                "name_of_the_election": record.nameElection,
+                "election_date": record.dateElection,
+                "number_of_deputy_mandates": record.countMandates,
+                "id_public_legal_entitie": record.ple_id
+            }
+        )).data
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+
+export async function getElectionRecord(record) {
+    let request = `${baseURL}/get?id=${record.election_id}`;
+    try {
+        return (await axios.get(request)).data;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+
+export async function deleteElectionRecord(record) {
+    let request = `${baseURL}/delete?id=${record.election_id}`;
+    try {
+        await axios.delete(request);
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+
+export async function createElectionRecord(record) {
+    let request = `${baseURL}/add?id=${record.election_id}`;
+    try {
+        return (await axios.post(
+            request,
+            {
+                "election_id": record.election_id,
+                "name_of_the_election": record.nameElection,
+                "election_date": record.dateElection,
+                "number_of_deputy_mandates": record.countMandates,
+                "id_public_legal_entitie": record.ple_id
+            }
+        )).data
+    } catch (error) {
+        console.error(error);
+    }
 }

@@ -3,19 +3,23 @@ import {action, makeObservable, observable} from 'mobx'
 
 export class editElections
 {
+    election_id = null
     nameElection = ""
     dateElection = null
     countMandates = null
     namePLE = ""
+    ple_id = null
 
 
     constructor()
     {
         makeObservable(this, {
+            election_id: observable,
             nameElection: observable,
             dateElection: observable,
             countMandates: observable,
             namePLE: observable,
+            ple_id: observable,
             updateNameElection: action,
             updateDateElection: action,
             updateCountMandates: action,
@@ -45,6 +49,11 @@ export class editElections
 
     async updateRecordInDB()
     {
-        
+
+    }
+
+    async getRecordFromDB()
+    {
+
     }
 }

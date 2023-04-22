@@ -14,9 +14,9 @@ ER-диаграмма               | Реляционная схема
 :-------------------------:|:-------------------------:
 ![er](https://user-images.githubusercontent.com/63536056/233777829-98685fc0-6b44-48d3-aba5-1a2929353ff5.png)|![relational_schema](https://user-images.githubusercontent.com/63536056/233777865-eba06628-5db3-4936-ba36-9ecec6dc43b1.png)
 
-Реляционная схема сгенерированная в MySQL Workbench
+Реляционная схема сгенерированная в DataGrip
 :---------------------------------------------:
-!![image](https://user-images.githubusercontent.com/63536056/233778047-d79873e9-dd8d-474d-b0a6-2e52ec1c964b.png)
+![image](https://user-images.githubusercontent.com/63536056/233778047-d79873e9-dd8d-474d-b0a6-2e52ec1c964b.png)
 
 Дизайн приложения
 :---------------------------------------------:

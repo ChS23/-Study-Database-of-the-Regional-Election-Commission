@@ -11,7 +11,7 @@ function ElectionFilter(props)
     function handleClick(field, value)
     {
         updateField(field, value);
-        filterElections.resetPage();
+        dataElections.updateCurrentPage(1);
         dataElections.updatePageList();
         dataElections.updateData();
     }

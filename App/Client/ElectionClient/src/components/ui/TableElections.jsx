@@ -30,8 +30,6 @@ function TableElections(props)
                     const handleClick = () => {
                         if (!isEllipsis) {
                             dataElections.updateCurrentPage(page);
-                            filterElections.updateField('fromRecord', page*10);
-                            filterElections.updateField('toRecord', 10*(page+1));
                         }
                     }
                     return (

@@ -9,13 +9,7 @@ export class DataElections  {
     selectedRecordCount = 0
     currentPage = 1
     pageList = []
-    data = [{
-        "election_id": 75,
-        "name_of_the_election": "Досрочные выборы депутатов Котовского района",
-        "election_date": "2023-10-06",
-        "number_of_deputy_mandates": 16,
-        "ple": "Быковский муниципальный район"
-      }]
+    data = []
 
     constructor(rootStore) {
         this.filterElections = rootStore.filterElections
@@ -54,7 +48,7 @@ export class DataElections  {
 
     async updateData()
     {
-        const data = await getElectionData(this.filterElections);
+        const data = await getElectionData(this.currentPage, this.filterElections);
         runInAction(
             () => this.data = data
         );
@@ -72,7 +66,7 @@ export class DataElections  {
             }
         );
 
-        const numPages = Math.ceil(this.selectedRecordCount / 11);
+        const numPages = Math.ceil(this.selectedRecordCount / 10);
         let pageList = []
 
         if (numPages <= 5) {

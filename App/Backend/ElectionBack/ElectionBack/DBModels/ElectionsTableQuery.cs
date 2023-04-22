@@ -49,11 +49,11 @@ namespace ElectionBack.DBModels
         }
 
 
-        public async Task<List<Election>> filterElections(int from, int to, ElectionsFilter filter)
+        public async Task<List<Election>> filterElections(int page, ElectionsFilter filter)
         {
             using var cmd = db.Connection.CreateCommand();
             string query = filter.queryStringSelect;
-            query += $" limit {to - from} offset {from};";
+            query += $" limit 10 offset {(page-1)*10};";
             cmd.CommandText = query;
             return await ReadAsync(await cmd.ExecuteReaderAsync());
         }

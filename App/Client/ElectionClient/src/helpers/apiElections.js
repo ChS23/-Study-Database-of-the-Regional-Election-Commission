@@ -3,9 +3,9 @@ import axios from "axios"
 const baseURL = 'https://localhost:7122/elections'
 
 
-export async function getElectionData(filter) {
+export async function getElectionData(page, filter) {
     try {
-        let request = `${baseURL}/filter?from=${filter.fromRecord}&to=${filter.toRecord}`
+        let request = `${baseURL}/filter?page=${page}`
         if (filter.upcoming == true) request += `&upcoming=${filter.upcoming}`;
         if (filter.type != null) request += `&type=${filter.type}`;
         if (filter.dateFrom != null) request += `&dateFrom=${filter.dateFrom}`;

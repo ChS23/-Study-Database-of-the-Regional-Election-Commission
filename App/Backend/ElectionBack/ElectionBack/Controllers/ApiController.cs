@@ -70,13 +70,12 @@ namespace ElectionBack.Controllers
 
         [HttpGet("/candidates/filter")]
         [ProducesResponseType(typeof(List<CandidateTable>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> getFilterCandidates([BindRequired] int from, [BindRequired] int to, string? filterName, string? birthdayFrom, string? birthdayTo, int? id_party)
+        public async Task<IActionResult> getFilterCandidates([BindRequired] int page, string? filterName, string? birthdayFrom, string? birthdayTo, int? id_party)
         {
-            if (to <= from) return new BadRequestObjectResult(new { message = "To<=From", code = 20 });
             CandidateFilter filter = new(filterName, birthdayFrom, birthdayTo, id_party);
             await DB.Connection.OpenAsync();
             var query = new CandidateTableQuery(DB);
-            var result = await query.filterCandidate(from, to, filter);
+            var result = await query.filterCandidate(page, filter);
             if (result is null) return new BadRequestObjectResult(new { message = "result is null", code = 40 });
             return new OkObjectResult(result);
         }
@@ -142,14 +141,14 @@ namespace ElectionBack.Controllers
 
 
         [HttpGet("/elections/filter")]
-        public async Task<IActionResult> getFilterElections([BindRequired] int from, [BindRequired] int to, bool? upcoming, int? type, string? dateFrom, string? dateTo, string? nameSearch, string? pleSearch)
+        public async Task<IActionResult> getFilterElections([BindRequired] int page, bool? upcoming, int? type, string? dateFrom, string? dateTo, string? nameSearch, string? pleSearch)
         {
-            if (!ElectionsFilter.isValidValueForFilter(ref from, ref to, ref upcoming, ref type, ref dateFrom, ref dateTo, ref nameSearch, ref pleSearch, out IActionResult errorObject)) return errorObject;
+            if (!ElectionsFilter.isValidValueForFilter(ref upcoming, ref type, ref dateFrom, ref dateTo, ref nameSearch, ref pleSearch, out IActionResult errorObject)) return errorObject;
 
             ElectionsFilter filter = new(upcoming, type, Tuple.Create(dateFrom, dateTo), nameSearch, pleSearch);
             await DB.Connection.OpenAsync();
             var query = new ElectionsTableQuery(DB);
-            var result = await query.filterElections(from, to, filter);
+            var result = await query.filterElections(page, filter);
             if (result is null) return new BadRequestObjectResult(new { message = "result is null", code = 40 });
             return new OkObjectResult(result);
         }
@@ -173,6 +172,7 @@ namespace ElectionBack.Controllers
             await DB.Connection.OpenAsync();
             var query = new AnalyticsSelectQuerty(DB);
             var result = query.GetCountCandidatsPartyFromElections(election_id);
+            if (result.Result.Count == 0) return new BadRequestObjectResult(new { message = "election_id invalid", code = 10 });
             return new OkObjectResult(result.Result);
         }
     }

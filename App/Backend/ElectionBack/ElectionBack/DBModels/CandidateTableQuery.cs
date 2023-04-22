@@ -60,12 +60,12 @@ namespace ElectionBack.DBModels
         }
 
 
-        public async Task<List<CandidateTable>> filterCandidate(int from, int to, CandidateFilter filter)
+        public async Task<List<CandidateTable>> filterCandidate(int page, CandidateFilter filter)
         {
             using var cmd = db.Connection.CreateCommand();
             string query = "SELECT * FROM candidates ";
             if (filter.getWhereQuery is not null) query += filter.getWhereQuery;
-            query += $" limit {to - from} offset {from}";
+            query += $" limit 10 offset {(page - 1) * 10}";
             cmd.CommandText = query;
             return await ReadAllAsync(await cmd.ExecuteReaderAsync());
         }

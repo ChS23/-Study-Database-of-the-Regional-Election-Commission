@@ -12,7 +12,7 @@ Backend реализован на языке программирования C#
 ## Приложение
 ER-диаграмма               | Реляционная схема
 :-------------------------:|:-------------------------:
-![er](https://user-images.githubusercontent.com/63536056/219798146-4c57ccba-c857-4d3a-a527-c9e20e3c3ab3.png)|![relational_schema](https://user-images.githubusercontent.com/63536056/219798045-d85a982f-d84a-4b66-8f6e-bd70c4c4d9d4.png)
+![er](https://user-images.githubusercontent.com/63536056/233777829-98685fc0-6b44-48d3-aba5-1a2929353ff5.png)|![relational_schema](https://user-images.githubusercontent.com/63536056/233777865-eba06628-5db3-4936-ba36-9ecec6dc43b1.png)
 
 Реляционная схема сгенерированная в MySQL Workbench
 :---------------------------------------------:

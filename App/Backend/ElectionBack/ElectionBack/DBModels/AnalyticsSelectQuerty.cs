@@ -48,5 +48,8 @@ namespace ElectionBack.DBModels
             }
             return answer;
         }
+
+
+        public async Task<Dictionary<string,int>> GetPLEId(string string)
     }
 }

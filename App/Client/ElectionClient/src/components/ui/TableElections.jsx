@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import axios from "axios"
+import React, { useEffect } from 'react';
 import moment from 'moment';
 import { observer } from 'mobx-react'
 import { useStore } from '../../hooks/useStore'
 
 
-
 function TableElections(props)
 {
     const { selectedRowId, setSelectedRowId, handleRowClick } = props;
-    const { filterElections, dataElections } = useStore()
+    const { dataElections } = useStore()
 
     useEffect(() => {
         dataElections.updatePageList();

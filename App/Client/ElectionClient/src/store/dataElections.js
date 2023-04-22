@@ -1,4 +1,4 @@
-import {action, computed, makeObservable, observable, runInAction} from 'mobx'
+import {action, makeObservable, observable, runInAction} from 'mobx'
 import {getElectionData} from '../helpers/apiElections'
 import { getCountRecord } from '../helpers/apiElections'
 
@@ -90,7 +90,5 @@ export class DataElections  {
         runInAction(
             () => this.pageList = pageList
         )
-        // console.log(this.pageList)
-        // console.log(this.currentPage)
     }
 }

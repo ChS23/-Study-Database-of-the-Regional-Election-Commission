@@ -3,7 +3,7 @@
 
 Проект включает в себя разработанную базу данных и веб-приложение для управления ею. База данных создана для областной избирательной комиссии и содержит информацию о избирателях, кандидатах, участках и результатах голосования (подробнее на схеме ниже).
 
-Backend реализован на языке программирования [C#](https://dotnet.microsoft.com/en-us/languages/csharp) с использованием [ASP.NET](https://dotnet.microsoft.com/en-us/apps/aspnet) и [MySqlConnector](https://mysqlconnector.net/) для взаимодействия с БД. Клиентская часть реализована на [React.JS](https://react.dev/) с использованием [MobX](https://mobx.js.org/README.html) для управления состоянием приложения и [TailwindCSS](https://tailwindcss.com/) для стилизации пользовательского интерфейса и [Vite](https://vite-docs-ru.vercel.app/), как инструмент сборки.
+Backend реализован на языке программирования [C#](https://dotnet.microsoft.com/en-us/languages/csharp) с использованием [ASP.NET](https://dotnet.microsoft.com/en-us/apps/aspnet) и [MySqlConnector](https://mysqlconnector.net/) для взаимодействия с БД. Клиентская часть реализована на [React.JS](https://react.dev/) с использованием [MobX](https://mobx.js.org/README.html) для управления состоянием приложения, [TailwindCSS](https://tailwindcss.com/) для стилизации пользовательского интерфейса и [Vite](https://vite-docs-ru.vercel.app/), как инструмент сборки.
 
 ## Код
 ### [Backend](App/Backend/ElectionBack/ElectionBack)

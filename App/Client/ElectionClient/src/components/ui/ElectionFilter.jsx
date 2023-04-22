@@ -2,7 +2,7 @@ import { useStore } from '../../hooks/useStore'
 import { observer } from 'mobx-react'
 
 
-function ElectionFilter(props)
+function ElectionFilter()
 {
     const { filterElections, dataElections } = useStore()
     const { updateField } = filterElections

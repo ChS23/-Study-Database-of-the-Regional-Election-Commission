@@ -8,7 +8,7 @@ export class FilterElections  {
     dateFrom = null;
     dateTo = null
     nameSearch = null;
-    pleString = null;
+    pleSearch = null;
     
 
     constructor() {
@@ -18,7 +18,7 @@ export class FilterElections  {
           dateFrom: observable,
           dateTo: observable,
           nameSearch: observable,
-          pleString: observable,
+          pleSearch: observable,
           updateField: action.bound,
           reset: action.bound
         });
@@ -37,6 +37,6 @@ export class FilterElections  {
         this.dateFrom = null;
         this.dateTo = null;
         this.nameSearch = null;
-        this.pleString = null;
+        this.pleSearch = null;
     }
 }

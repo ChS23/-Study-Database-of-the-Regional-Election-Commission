@@ -20,7 +20,7 @@ function ElectionEdit()
                         </div>
                         <div className='text-stone-100 flex flex-col items-center justify-between pt-6'>
                             <span className="block w-auto">Название ППО</span>
-                            <textarea type="string" className="block w-full resize-none scrollbar-thin scrollbar-thumb-stone-100 p-2 px-4 mt-2 text-md bg-inherit text-stone-100 border border-stone-100 rounded-3xl focus:border-green-500" placeholder="Название публично-правового образования"/>
+                            <textarea id={'5'} className="block w-full resize-none scrollbar-thin scrollbar-thumb-stone-100 p-2 px-4 mt-2 text-md bg-inherit text-stone-100 border border-stone-100 rounded-3xl focus:border-green-500" placeholder="Название публично-правового образования"/>
                         </div>
                         <div className="relative flex flex-row mt-0">
                             <button className="block w-32 mt-6 mr-2 text-md bg-inherit h-10 text-yellow-200 border border-yellow-200 rounded-3xl focus:border-green-500">Обновить</button>

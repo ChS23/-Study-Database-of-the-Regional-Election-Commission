@@ -42,4 +42,9 @@ export class editElections
     {
         this.namePLE = newNamePLE;
     }
+
+    async updateRecordInDB()
+    {
+        
+    }
 }

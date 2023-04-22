@@ -71,6 +71,32 @@ namespace ElectionBack.DBModels
         }
 
 
+        public async Task<Dictionary<string, int>> GetPLEId(string str)
+        {
+            using var cmd = db.Connection.CreateCommand();
+            cmd.CommandText = $"select title, public_legal_entitie_id from public_legal_entities where title like '{str}%' limit 5";
+            var result = await cmd.ExecuteReaderAsync();
+            var answer = new Dictionary<string, int>();
+            using (result)
+            {
+                while (await result.ReadAsync())
+                {
+                    answer.Add(result.GetString(0), result.GetInt32(1));
+                }
+            }
+            return answer;
+        }
+
+
+        public async Task<string?> GetPleName(int pleID)
+        {
+            using var cmd = db.Connection.CreateCommand();
+            cmd.CommandText = $"select title from public_legal_entities where public_legal_entitie_id = {pleID}";
+            var result = Convert.ToString(await cmd.ExecuteScalarAsync());
+            return result is not null ? result : null;
+        }
+
+
         private async Task<List<ElectionsTable>> ReadAllAsync(DbDataReader reader)
         {
             var list = new List<ElectionsTable>();

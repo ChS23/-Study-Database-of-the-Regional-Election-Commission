@@ -1,5 +1,6 @@
 ﻿using ElectionBack.Modules;
 using MySqlConnector;
+using System.Collections.Generic;
 using System.Reflection.PortableExecutable;
 
 
@@ -48,8 +49,5 @@ namespace ElectionBack.DBModels
             }
             return answer;
         }
-
-
-        public async Task<Dictionary<string,int>> GetPLEId(string string)
     }
 }

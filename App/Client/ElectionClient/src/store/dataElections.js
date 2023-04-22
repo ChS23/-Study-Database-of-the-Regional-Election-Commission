@@ -1,6 +1,5 @@
 import {action, makeObservable, observable, runInAction} from 'mobx'
-import {getElectionData} from '../helpers/apiElections'
-import { getCountRecord } from '../helpers/apiElections'
+import { getElectionData, getCountRecord } from '../helpers/apiElections'
 
 
 export class DataElections  {

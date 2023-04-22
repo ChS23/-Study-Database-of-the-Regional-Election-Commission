@@ -11,20 +11,7 @@ import { useStore } from '../../hooks/useStore';
 
 function Elections() {
 
-    const [selectedRowId, setSelectedRowId] = useState(null);
-    const { dataElections } = useStore();
-
-    const handleRowClick = (election_id) => {
-        setSelectedRowId(election_id);
-      };
-
-
-    // useEffect( ()=>
-    // {
-    //     dataElections.updatePageList();
-    //     dataElections.updateData();
-    // })
-    
+    const { editElections } = useStore();
 
     return (
         <div className='w-screen h-screen overflow-hidden bg-gray-900'>
@@ -33,9 +20,9 @@ function Elections() {
                 <LeftMenu />
                 <div className='w-full'>
                     <MenuHeader screenName='Выборы'/>
-                    {selectedRowId != null ? <ElectionEdit/> : <ElectionFilter/>}
+                    {editElections.election_id != null ? <ElectionEdit/> : <ElectionFilter/>}
                     <div className='h-full rounded-t-3xl mt-6 mr-16 bg-gradient-to-br from-gray-800 to-gray-900'>
-                        <TableElections selectedRowId={selectedRowId} setSelectedRowId = {setSelectedRowId} handleRowClick={handleRowClick}/>
+                        <TableElections/>
                     </div>
                 </div>
             </div>

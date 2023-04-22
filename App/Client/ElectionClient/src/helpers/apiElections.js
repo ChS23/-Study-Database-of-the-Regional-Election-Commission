@@ -60,6 +60,28 @@ export async function getElectionRecord(record) {
 }
 
 
+export async function getPleName(ple_id)
+{
+    let request = `${baseURL}/getPleName?pleId=${ple_id}`;
+    try {
+        return (await axios.get(request)).data;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+
+export async function getPleIds(searchString)
+{
+    let request = `${baseURL}/getPLEId?inputString=${searchString}`;
+    try {
+        return (await axios.get(request)).data;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+
 export async function deleteElectionRecord(record) {
     let request = `${baseURL}/delete?id=${record.election_id}`;
     try {

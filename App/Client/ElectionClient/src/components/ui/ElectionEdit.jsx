@@ -1,5 +1,11 @@
+import {useStore} from "../../hooks/useStore.js";
+import {observer} from "mobx-react";
+
 function ElectionEdit()
 {
+    const { editElections } = useStore();
+
+
     return (
         <div className='flex h-4/5 w-1/5 mr-32 right-0 absolute rounded-t-3xl bottom-0 bg-gradient-to-b from-gray-900 to-gray-800'>
                     <div className='relative flex flex-col items-center w-full mt-10'>
@@ -8,7 +14,8 @@ function ElectionEdit()
                         </div>
                         <div className='text-stone-100 flex flex-col items-center justify-between pt-6'>
                             <span className="block w-auto">Название</span>
-                            <textarea type="name" className="block w-full resize-none scrollbar-thin scrollbar-thumb-stone-100 p-2 px-4 mt-2 text-md bg-inherit text-stone-100 border border-stone-100 rounded-3xl focus:border-green-500" placeholder="Наименование выборов"/>
+                            <textarea value={editElections.nameElection}
+                                      className="block w-full resize-none scrollbar-thin scrollbar-thumb-stone-100 p-2 px-4 mt-2 text-md bg-inherit text-stone-100 border border-stone-100 rounded-3xl focus:border-green-500" placeholder="Наименование выборов"/>
                         </div>
                         <div className='text-stone-100 flex flex-col items-center justify-between pt-6'>
                             <span className="block w-auto">Дата проведения</span>
@@ -32,4 +39,4 @@ function ElectionEdit()
 }
 
 
-export default ElectionEdit
+export default observer(ElectionEdit)

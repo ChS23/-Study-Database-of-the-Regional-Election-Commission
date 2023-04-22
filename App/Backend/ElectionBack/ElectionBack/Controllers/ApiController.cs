@@ -166,6 +166,27 @@ namespace ElectionBack.Controllers
         }
 
 
+        [HttpGet("/elections/getPLEId")]
+        public async Task<IActionResult> getPleId([BindRequired] string inputString)
+        {
+            await DB.Connection.OpenAsync();
+            var query = new ElectionsTableQuery(DB);
+            var result = query.GetPLEId(inputString);
+            return new OkObjectResult(result.Result);
+        }
+
+        [HttpGet("/elections/getPleName")]
+        public async Task<IActionResult> getPleId([BindRequired] int pleId)
+        {
+            await DB.Connection.OpenAsync();
+            var query = new ElectionsTableQuery(DB);
+            var result = query.GetPleName(pleId);
+            if (result.Result is null) return new BadRequestResult();
+            return new OkObjectResult(result.Result);
+        }
+
+
+
         [HttpGet("/analytics/getCountCandidatsPartyFromElections")]
         public async Task<IActionResult> getCountCandidatsPartyFromElections([BindRequired] int election_id)
         {

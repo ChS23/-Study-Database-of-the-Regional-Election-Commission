@@ -1,14 +1,14 @@
-import {action, makeObservable, observable} from 'mobx'
+import {action, makeObservable, observable, runInAction} from 'mobx'
+import {updateElectionRecord, getElectionRecord, deleteElectionRecord, getPleName} from '../helpers/apiElections'
 
-
-export class editElections
+export class EditElections
 {
     election_id = null
     nameElection = ""
     dateElection = null
     countMandates = null
     namePLE = ""
-    ple_id = null
+    pleId = null
     pleDict = [{}]
 
 
@@ -20,15 +20,20 @@ export class editElections
             dateElection: observable,
             countMandates: observable,
             namePLE: observable,
-            ple_id: observable,
+            pleId: observable,
             updateNameElection: action,
             updateDateElection: action,
             updateCountMandates: action,
             updateNamePLE: action,
             updateRecordInDB: action,
             getRecordFromDB: action,
-
+            reset: action,
         });
+    }
+
+    reset()
+    {
+        this.election_id = null;
     }
 
     updateNameElection(newName)
@@ -51,6 +56,11 @@ export class editElections
         this.namePLE = newNamePLE;
     }
 
+    updateElection_id(election_id)
+    {
+        this.election_id = election_id;
+    }
+
     async updateRecordInDB()
     {
 
@@ -58,7 +68,17 @@ export class editElections
 
     async getRecordFromDB()
     {
-
+        const record = await getElectionRecord(this);
+        const pleName = await getPleName(record.id_public_legal_entitie)
+        runInAction(
+            () => {
+                this.nameElection = record.name_of_the_election;
+                this.dateElection = record.election_date;
+                this.countMandates = record.number_of_deputy_mandates;
+                this.pleId = record.id_public_legal_entitie;
+                this.namePLE = pleName;
+            }
+        )
     }
 
 

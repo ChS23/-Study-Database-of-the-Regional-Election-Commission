@@ -77,8 +77,10 @@ export class EditElections
                 this.countMandates = record.number_of_deputy_mandates;
                 this.pleId = record.id_public_legal_entitie;
                 this.namePLE = pleName;
+            //     TODO: На сервере сделать возрат pleName and pleID
             }
         )
+        console.log(record);
     }
 
 

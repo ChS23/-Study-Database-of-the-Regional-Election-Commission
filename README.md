@@ -30,7 +30,8 @@ Backend реализован на языке программирования [C
   - [ ] Написать store editElections и связать с компонентом ElectionEdit
   - [x] Написать store filterElections и связать с компонентом ElectionFilter
   - [ ] Написать логику добавления
-Страница Candidates
+<p>Страница Candidates</p>
+
 - [ ] Сверстать страницу Candidates
 - [ ] Компоненты для страницы Candidates
   - [ ] Сверстать компонент CandidatesFilter
@@ -41,6 +42,9 @@ Backend реализован на языке программирования [C
   - [ ] Написать store editCandidates и связать с компонентом CandidatesEdit
   - [ ] Написать store filterCandidates и связать с компонентом CandidatesFilter
   - [ ] Написать логику добавления
+<p>Deploy</p>
+
+- [ ] Deploy
 
 
 ## Приложение

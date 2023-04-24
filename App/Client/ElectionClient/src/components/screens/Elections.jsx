@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { observer } from 'mobx-react'
 import Header from './../ui/Haeder'
 import LeftMenu from './../ui/LeftMenu'

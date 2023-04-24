@@ -1,5 +1,5 @@
 import {action, makeObservable, observable, runInAction} from 'mobx'
-import { getElectionData, getCountRecord } from '../helpers/apiElections'
+import { getElections } from '../helpers/apiElections'
 
 
 export class DataElections  {
@@ -47,23 +47,30 @@ export class DataElections  {
 
     async updateData()
     {
-        const data = await getElectionData(this.currentPage, this.filterElections);
+        const data = await getElections(this.currentPage, this.filterElections);
         runInAction(
-            () => this.data = data
+            () => 
+            {
+                this.data = data.elections;
+                this.allRecordsCount = data.counts.allCount;
+                this.selectedRecordCount = data.counts.filterCount;
+                this.updatePageList()
+                // console.log(data.counts.item2);
+            }
         );
     }
 
     
     async updatePageList()
     {
-        const countRecords = await getCountRecord(this.filterElections);
+        // const countRecords = await getCountRecord(this.filterElections);
 
-        runInAction(
-            () => {
-                this.allRecordsCount = countRecords.allCount;
-                this.selectedRecordCount = countRecords.filterCount;
-            }
-        );
+        // runInAction(
+        //     () => {
+        //         this.allRecordsCount = countRecords.allCount;
+        //         this.selectedRecordCount = countRecords.filterCount;
+        //     }
+        // );
 
         const numPages = Math.ceil(this.selectedRecordCount / 10);
         let pageList = []

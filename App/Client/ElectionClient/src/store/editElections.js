@@ -1,5 +1,5 @@
 import {action, makeObservable, observable, runInAction} from 'mobx'
-import {updateElectionRecord, getElectionRecord, deleteElectionRecord, getPleName} from '../helpers/apiElections'
+import {updateElectionRecord, getElectionRecord, deleteElectionRecord} from '../helpers/apiElections'
 
 export class EditElections
 {
@@ -69,15 +69,13 @@ export class EditElections
     async getRecordFromDB()
     {
         const record = await getElectionRecord(this);
-        const pleName = await getPleName(record.id_public_legal_entitie)
         runInAction(
             () => {
                 this.nameElection = record.name_of_the_election;
                 this.dateElection = record.election_date;
                 this.countMandates = record.number_of_deputy_mandates;
                 this.pleId = record.id_public_legal_entitie;
-                this.namePLE = pleName;
-            //     TODO: На сервере сделать возрат pleName and pleID
+                this.namePLE = record.ple_title;
             }
         )
         console.log(record);

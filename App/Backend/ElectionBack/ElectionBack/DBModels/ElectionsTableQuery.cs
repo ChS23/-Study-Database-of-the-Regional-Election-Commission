@@ -62,7 +62,7 @@ namespace ElectionBack.DBModels
         public async Task<Tuple<int,int>> getCountFilterElections(ElectionsFilter filter)
         {
             using var cmd = db.Connection.CreateCommand();
-            string query = filter.querySelectCount;
+            string query = filter.queryStringCount;
             cmd.CommandText = query;
             int filterCount = Convert.ToInt32(await cmd.ExecuteScalarAsync());
             cmd.CommandText = filter.querySelectCount;

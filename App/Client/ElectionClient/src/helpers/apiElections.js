@@ -1,11 +1,11 @@
 import axios from "axios"
 
-const baseURL = 'https://localhost:7122/elections'
+const baseURL = 'https://localhost:7122/election'
 
 
-export async function getElectionData(page, filter) {
+export async function getElections(page, filter) {
     try {
-        let request = `${baseURL}/filter?page=${page}`
+        let request = `${baseURL}s?page=${page}`
         if (filter.upcoming) request += `&upcoming=${filter.upcoming}`;
         if (filter.type) request += `&type=${filter.type}`;
         if (filter.dateFrom) request += `&dateFrom=${filter.dateFrom}`;
@@ -19,20 +19,20 @@ export async function getElectionData(page, filter) {
 };
 
 
-export async function getCountRecord(filter) {
-    let request = `${baseURL}/countRowIsFilterAndAll?`
-    if (filter.upcoming) request += `&upcoming=${filter.upcoming}`;
-    if (filter.type) request += `&type=${filter.type}`;
-    if (filter.dateFrom) request += `&dateFrom=${filter.dateFrom}`;
-    if (filter.dateTo) request += `&dateTo=${filter.dateTo}`;
-    if (filter.nameSearch) request += `&nameSearch=${filter.nameSearch}`;
-    if (filter.pleSearch) request += `&pleSearch=${filter.pleSearch}`;
-    return (await axios.get(request)).data;
-}
+// export async function getCountRecord(filter) {
+//     let request = `${baseURL}/countRowIsFilterAndAll?`
+//     if (filter.upcoming) request += `&upcoming=${filter.upcoming}`;
+//     if (filter.type) request += `&type=${filter.type}`;
+//     if (filter.dateFrom) request += `&dateFrom=${filter.dateFrom}`;
+//     if (filter.dateTo) request += `&dateTo=${filter.dateTo}`;
+//     if (filter.nameSearch) request += `&nameSearch=${filter.nameSearch}`;
+//     if (filter.pleSearch) request += `&pleSearch=${filter.pleSearch}`;
+//     return (await axios.get(request)).data.;
+// }
 
 
 export async function updateElectionRecord(record) {
-    let request = `${baseURL}/update?id=${record.election_id}`;
+    let request = `${baseURL}?id=${record.election_id}`;
     try {
         return (await axios.put(
             request,
@@ -51,7 +51,7 @@ export async function updateElectionRecord(record) {
 
 
 export async function getElectionRecord(record) {
-    let request = `${baseURL}/get?id=${record.election_id}`;
+    let request = `${baseURL}?id=${record.election_id}`;
     try {
         return (await axios.get(request)).data;
     } catch (error) {
@@ -60,30 +60,30 @@ export async function getElectionRecord(record) {
 }
 
 
-export async function getPleName(ple_id)
-{
-    let request = `${baseURL}/getPleName?pleId=${ple_id}`;
-    try {
-        return (await axios.get(request)).data;
-    } catch (error) {
-        console.error(error);
-    }
-}
+// export async function getPleName(ple_id)
+// {
+//     let request = `${baseURL}/getPleName?pleId=${ple_id}`;
+//     try {
+//         return (await axios.get(request)).data;
+//     } catch (error) {
+//         console.error(error);
+//     }
+// }
 
 
-export async function getPleIds(searchString)
-{
-    let request = `${baseURL}/getPLEId?inputString=${searchString}`;
-    try {
-        return (await axios.get(request)).data;
-    } catch (error) {
-        console.error(error);
-    }
-}
+// export async function getPleIds(searchString)
+// {
+//     let request = `${baseURL}/getPLEId?inputString=${searchString}`;
+//     try {
+//         return (await axios.get(request)).data;
+//     } catch (error) {
+//         console.error(error);
+//     }
+// }
 
 
 export async function deleteElectionRecord(record) {
-    let request = `${baseURL}/delete?id=${record.election_id}`;
+    let request = `${baseURL}?id=${record.election_id}`;
     try {
         await axios.delete(request);
     } catch (error) {
@@ -93,7 +93,7 @@ export async function deleteElectionRecord(record) {
 
 
 export async function createElectionRecord(record) {
-    let request = `${baseURL}/add?id=${record.election_id}`;
+    let request = `${baseURL}?id=${record.election_id}`;
     try {
         return (await axios.post(
             request,

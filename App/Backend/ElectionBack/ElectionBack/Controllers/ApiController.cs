@@ -79,7 +79,7 @@ namespace ElectionBack.Controllers
             var counts = await query.getCountFilterCandidates(filter);
             if (result is null) return new BadRequestObjectResult(new { message = "result is null", code = 40 });
             if (counts is null) return new BadRequestResult();
-            return new OkObjectResult(new { candidates = result, counts = counts });
+            return new OkObjectResult(new { candidates = result, counts = new { allCount = counts.Item1, filterCount = counts.Item2 } });
         }
 
 
@@ -157,7 +157,7 @@ namespace ElectionBack.Controllers
             var counts = await query.getCountFilterElections(filter);
             if (result is null) return new BadRequestObjectResult(new { message = "result is null", code = 40 });
             if (counts is null) return new BadRequestResult();
-            return new OkObjectResult(new { elections = result, counts = counts });
+            return new OkObjectResult(new { elections = result, counts = new { allCount = counts.Item1, filterCount = counts.Item2 } });
         }
 
 

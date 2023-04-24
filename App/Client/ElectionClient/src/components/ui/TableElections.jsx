@@ -10,14 +10,22 @@ function TableElections()
 
     useEffect(() => {
         dataElections.updateData();
-        dataElections.updatePageList();
-      }, [dataElections.currentPage]
+        // dataElections.updatePageList();
+      }, [editElections.election_id]
+    )
+
+
+    useEffect(() => {
+            dataElections.updateData();
+            dataElections.updatePageList();
+            editElections.reset();
+        }, [dataElections.currentPage]
     )
 
     const handleRowClick = (election_id) => {
         if (election_id==null)
         {
-            editElections.reset();
+            () => editElections.reset();
         }
         else
         {

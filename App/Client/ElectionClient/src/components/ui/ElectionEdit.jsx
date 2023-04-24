@@ -3,18 +3,22 @@ import {observer} from "mobx-react";
 
 function ElectionEdit()
 {
-    const { editElections } = useStore();
+    const { editElections, dataElections } = useStore();
 
 
     function handleDelede()
     {
-        editElections.election_id = null
+        editElections.deleteRecordFromDB();
+        editElections.reset();
+        dataElections.updateData();
+        console.log(dataElections.data);
     }
 
 
     function handleUpdate()
     {
-
+        editElections.updateRecordInDB();
+        console.log("ok");
     }
 
 

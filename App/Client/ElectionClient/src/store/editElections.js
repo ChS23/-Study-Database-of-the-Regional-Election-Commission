@@ -63,7 +63,7 @@ export class EditElections
 
     async updateRecordInDB()
     {
-
+        await updateElectionRecord(this)
     }
 
     async getRecordFromDB()
@@ -82,5 +82,8 @@ export class EditElections
     }
 
 
-
+    async deleteRecordFromDB()
+    {
+        await deleteElectionRecord(this);
+    }
 }

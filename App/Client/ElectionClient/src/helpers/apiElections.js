@@ -34,6 +34,7 @@ export async function getElections(page, filter) {
 export async function updateElectionRecord(record) {
     let request = `${baseURL}?id=${record.election_id}`;
     try {
+        console.log(record);
         return (await axios.put(
             request,
             {
@@ -41,7 +42,8 @@ export async function updateElectionRecord(record) {
                 "name_of_the_election": record.nameElection,
                 "election_date": record.dateElection,
                 "number_of_deputy_mandates": record.countMandates,
-                "id_public_legal_entitie": record.ple_id
+                "id_public_legal_entitie": record.pleId,
+                "ple_title": record.namePLE
             }
         )).data
     } catch (error) {

@@ -12,6 +12,8 @@ namespace ElectionBack.DBModels
         public string birthday { get; set; }
         public int id_party { get; set; }
 
+        public string party_name { get; set; }
+
         internal DBConnect DB { get; set; }
 
         public CandidateTable() {}

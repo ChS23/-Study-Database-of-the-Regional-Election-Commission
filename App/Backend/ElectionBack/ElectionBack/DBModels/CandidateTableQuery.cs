@@ -16,18 +16,18 @@ namespace ElectionBack.DBModels
         }
 
 
-        public async Task<List<CandidateTable>> findAll()
+        /*public async Task<List<CandidateTable>> findAll()
         {
             using var cmd = db.Connection.CreateCommand();
             cmd.CommandText = @"SELECT * FROM candidates;";
             return await ReadAllAsync(await cmd.ExecuteReaderAsync());
-        }
+        }*/
 
 
         public async Task<CandidateTable?> findOne(int id)
         {
             using var cmd = db.Connection.CreateCommand();
-            cmd.CommandText = @"SELECT * FROM candidates WHERE candidate_id = @id";
+            cmd.CommandText = @"SELECT c.candidate_id, c.full_name, c.id_party, c.birthday, pp.name_party FROM candidates c join political_party pp on c.id_party = pp.party_id WHERE candidate_id = @id";
             cmd.Parameters.Add(new MySqlParameter
             {
                 ParameterName = "@id",
@@ -40,7 +40,7 @@ namespace ElectionBack.DBModels
         }
 
 
-        public async Task<List<CandidateTable>> findFromTo(int count, int skip)
+        /*public async Task<List<CandidateTable>> findFromTo(int count, int skip)
         {
             using var cmd = db.Connection.CreateCommand();
             cmd.CommandText = @"SELECT * FROM elections.candidates LIMIT @from offset @to";
@@ -57,13 +57,13 @@ namespace ElectionBack.DBModels
                 Value = skip
             });
             return await ReadAllAsync(await cmd.ExecuteReaderAsync());
-        }
+        }*/
 
 
         public async Task<List<CandidateTable>> filterCandidate(int page, CandidateFilter filter)
         {
             using var cmd = db.Connection.CreateCommand();
-            string query = "SELECT * FROM candidates ";
+            string query = "SELECT c.candidate_id, c.full_name, c.id_party, c.birthday, pp.name_party FROM candidates c join political_party pp on c.id_party = pp.party_id ";
             if (filter.getWhereQuery is not null) query += filter.getWhereQuery;
             query += $" limit 10 offset {(page - 1) * 10}";
             cmd.CommandText = query;
@@ -97,6 +97,7 @@ namespace ElectionBack.DBModels
                         full_name = reader.GetString(1),
                         id_party = reader[2] is DBNull ? -1 : reader.GetInt32(2),
                         birthday = reader.GetDateTime(3).ToString("yyyy-MM-dd"),
+                        party_name = reader.GetString(4),
                     };
                     list.Add(candidate);
                 }

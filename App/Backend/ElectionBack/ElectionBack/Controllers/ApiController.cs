@@ -19,7 +19,8 @@ namespace ElectionBack.Controllers
         }
 
 
-        [HttpGet("/candidate/get")]
+
+        [HttpGet("/candidate/")]
         [ProducesResponseType(typeof(CandidateTable), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetOneCandidates([BindRequired] int id)
         {
@@ -31,7 +32,7 @@ namespace ElectionBack.Controllers
         }
 
 
-        [HttpDelete("/candidate/delete")]
+        [HttpDelete("/candidate")]
         public async Task<IActionResult> DeleteOneCandidates([BindRequired] int id)
         {
             await DB.Connection.OpenAsync();
@@ -43,7 +44,7 @@ namespace ElectionBack.Controllers
         }
 
 
-        [HttpPut("/candidate/update")]
+        [HttpPut("/candidate")]
         [ProducesResponseType(typeof(CandidateTable), StatusCodes.Status200OK)]
         public async Task<IActionResult> updateOneCandidates([BindRequired] int id, [FromBody] CandidateTable body)
         {
@@ -57,7 +58,7 @@ namespace ElectionBack.Controllers
         }
 
 
-        [HttpPost("/candidate/add/")]
+        [HttpPost("/candidate")]
         [ProducesResponseType(typeof(CandidateTable), StatusCodes.Status200OK)]
         public async Task<IActionResult> addOneCandidates([FromBody] CandidateTable body)
         {
@@ -68,20 +69,21 @@ namespace ElectionBack.Controllers
         }
 
 
-        [HttpGet("/candidates/filter")]
-        [ProducesResponseType(typeof(List<CandidateTable>), StatusCodes.Status200OK)]
+        [HttpGet("/candidates")]
         public async Task<IActionResult> getFilterCandidates([BindRequired] int page, string? filterName, string? birthdayFrom, string? birthdayTo, int? id_party)
         {
             CandidateFilter filter = new(filterName, birthdayFrom, birthdayTo, id_party);
             await DB.Connection.OpenAsync();
             var query = new CandidateTableQuery(DB);
             var result = await query.filterCandidate(page, filter);
+            var counts = await query.getCountFilterCandidates(filter);
             if (result is null) return new BadRequestObjectResult(new { message = "result is null", code = 40 });
-            return new OkObjectResult(result);
+            if (counts is null) return new BadRequestResult();
+            return new OkObjectResult(new { candidates = result, counts = counts });
         }
 
 
-        [HttpGet("/candidates/countRowIsFilterAndAll")]
+        /*[HttpGet("/candidates/countRowIsFilterAndAll")]
         [ProducesResponseType(typeof(Tuple<int,int>), StatusCodes.Status200OK)]
         public async Task<IActionResult> getCountRowElections(string? filterName, string? birthdayFrom, string? birthdayTo, int? id_party)
         {
@@ -91,21 +93,22 @@ namespace ElectionBack.Controllers
             var result = query.getCountFilterCandidates(filter);
             if (result is null) return new BadRequestResult();
             return new OkObjectResult(new { allCount = result.Result.Item1, filterCount = result.Result.Item2 });
-        }
+        }*/
 
 
-        [HttpGet("/election/get")]
+        [HttpGet("/election")]
+        [ProducesResponseType(typeof(ElectionsTable), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetOneElections([BindRequired] int id)
         {
             await DB.Connection.OpenAsync();
             var query = new ElectionsTableQuery(DB);
-            var result = await query.getOne(id);
+            var result = await query.findOne(id);
             if (result is null) return new NotFoundResult();
             return new OkObjectResult(result);
         }
 
 
-        [HttpDelete("/election/delete")]
+        [HttpDelete("/election")]
         public async Task<IActionResult> DeleteOneElections([BindRequired] int id)
         {
             await DB.Connection.OpenAsync();
@@ -117,7 +120,8 @@ namespace ElectionBack.Controllers
         }
 
 
-        [HttpPut("/election/update")]
+        [HttpPut("/election")]
+        [ProducesResponseType(typeof(ElectionsTable), StatusCodes.Status200OK)]
         public async Task<IActionResult> updateOneElections([BindRequired] int id, [FromBody] ElectionsTable body)
         {
             await DB.Connection.OpenAsync();
@@ -130,7 +134,8 @@ namespace ElectionBack.Controllers
         }
 
 
-        [HttpPost("/election/add")]
+        [HttpPost("/election")]
+        [ProducesResponseType(typeof(ElectionsTable), StatusCodes.Status200OK)]
         public async Task<IActionResult> addOneElections([FromBody] ElectionsTable body)
         {
             await DB.Connection.OpenAsync();
@@ -140,7 +145,7 @@ namespace ElectionBack.Controllers
         }
 
 
-        [HttpGet("/elections/filter")]
+        [HttpGet("/elections")]
         public async Task<IActionResult> getFilterElections([BindRequired] int page, bool? upcoming, int? type, string? dateFrom, string? dateTo, string? nameSearch, string? pleSearch)
         {
             if (!ElectionsFilter.isValidValueForFilter(ref upcoming, ref type, ref dateFrom, ref dateTo, ref nameSearch, ref pleSearch, out IActionResult errorObject)) return errorObject;
@@ -149,12 +154,14 @@ namespace ElectionBack.Controllers
             await DB.Connection.OpenAsync();
             var query = new ElectionsTableQuery(DB);
             var result = await query.filterElections(page, filter);
+            var counts = await query.getCountFilterElections(filter);
             if (result is null) return new BadRequestObjectResult(new { message = "result is null", code = 40 });
-            return new OkObjectResult(result);
+            if (counts is null) return new BadRequestResult();
+            return new OkObjectResult(new { elections = result, counts = counts });
         }
 
 
-        [HttpGet("/elections/countRowIsFilterAndAll")]
+        /*[HttpGet("/elections/countRowIsFilterAndAll")]
         public async Task<IActionResult> getCountRowElections(bool? upcoming, int? type, string? dateFrom, string? dateTo, string? nameSearch, string? pleSearch)
         {
             await DB.Connection.OpenAsync();
@@ -183,7 +190,7 @@ namespace ElectionBack.Controllers
             var result = query.GetPleName(pleId);
             if (result.Result is null) return new BadRequestResult();
             return new OkObjectResult(result.Result);
-        }
+        }*/
 
 
 

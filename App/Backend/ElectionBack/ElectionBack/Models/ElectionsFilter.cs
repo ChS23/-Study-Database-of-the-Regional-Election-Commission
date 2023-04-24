@@ -29,7 +29,7 @@ namespace ElectionBack.Models
         {
             get
             {
-                string query = "with t as (SELECT e.election_id, e.name_of_the_election, e.election_date, e.number_of_deputy_mandates, ple.title from elections e join public_legal_entities ple on e.id_public_legal_entitie = ple.public_legal_entitie_id) select count(*) from t ";
+                string query = "with t as (select e.election_id, e.name_of_the_election, e.election_date, e.number_of_deputy_mandates, e.id_public_legal_entitie, ple.title from elections e join public_legal_entities ple on e.id_public_legal_entitie = ple.public_legal_entitie_id) select count(*) from t ";
                 return query + getWhereQuery;
             }
         }
@@ -39,7 +39,7 @@ namespace ElectionBack.Models
         {
             get
             {
-                string query = "with t as (SELECT e.election_id, e.name_of_the_election, e.election_date, e.number_of_deputy_mandates, ple.title from elections e join public_legal_entities ple on e.id_public_legal_entitie = ple.public_legal_entitie_id) select * from t ";
+                string query = "SELECT e.election_id, e.name_of_the_election, e.election_date, e.number_of_deputy_mandates, e.id_public_legal_entitie, ple.title from elections e join public_legal_entities ple on e.id_public_legal_entitie = ple.public_legal_entitie_id ";
                 return query + getWhereQuery;
             }
         }

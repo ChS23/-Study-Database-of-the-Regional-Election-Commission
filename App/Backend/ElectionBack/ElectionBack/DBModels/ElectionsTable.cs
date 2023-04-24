@@ -1,5 +1,4 @@
 ﻿using ElectionBack.Modules;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySqlConnector;
 using System.Data;
 
@@ -12,6 +11,7 @@ namespace ElectionBack.DBModels
         public string election_date { get; set; }
         public int number_of_deputy_mandates { get; set; }
         public int id_public_legal_entitie { get; set; }
+        public string ple_title { get; set; }
 
         internal DBConnect DB { get; set; }
 

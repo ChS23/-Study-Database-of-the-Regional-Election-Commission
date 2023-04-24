@@ -20,7 +20,7 @@ namespace ElectionBack.DBModels
         public async Task<ElectionsTable?> findOne(int id)
         {
             using var cmd = db.Connection.CreateCommand();
-            cmd.CommandText = @"SELECT * FROM elections WHERE election_id = @id";
+            cmd.CommandText = @"select e.election_id, e.name_of_the_election, e.election_date, e.number_of_deputy_mandates, e.id_public_legal_entitie, ple.title from elections e join public_legal_entities ple on e.id_public_legal_entitie = ple.public_legal_entitie_id where e.election_id = @id";
             cmd.Parameters.Add(new MySqlParameter
             {
                 ParameterName = "@id",
@@ -33,7 +33,7 @@ namespace ElectionBack.DBModels
         }
 
 
-        public async Task<Election?> getOne(int id)
+        /*public async Task<Election?> getOne(int id)
         {
             using var cmd = db.Connection.CreateCommand();
             cmd.CommandText = @"with t as (SELECT e.election_id, e.name_of_the_election, e.election_date, e.number_of_deputy_mandates, ple.title from elections e join public_legal_entities ple on e.id_public_legal_entitie = ple.public_legal_entitie_id where election_id = @id) select * from t";
@@ -46,23 +46,23 @@ namespace ElectionBack.DBModels
             });
             var result = await ReadAsync(await cmd.ExecuteReaderAsync());
             return result.Count > 0 ? result[0] : null;
-        }
+        }*/
 
 
-        public async Task<List<Election>> filterElections(int page, ElectionsFilter filter)
+        public async Task<List<ElectionsTable>> filterElections(int page, ElectionsFilter filter)
         {
             using var cmd = db.Connection.CreateCommand();
             string query = filter.queryStringSelect;
             query += $" limit 10 offset {(page-1)*10};";
             cmd.CommandText = query;
-            return await ReadAsync(await cmd.ExecuteReaderAsync());
+            return await ReadAllAsync(await cmd.ExecuteReaderAsync());
         }
 
 
         public async Task<Tuple<int,int>> getCountFilterElections(ElectionsFilter filter)
         {
             using var cmd = db.Connection.CreateCommand();
-            string query = filter.queryStringCount;
+            string query = filter.querySelectCount;
             cmd.CommandText = query;
             int filterCount = Convert.ToInt32(await cmd.ExecuteScalarAsync());
             cmd.CommandText = filter.querySelectCount;
@@ -70,7 +70,7 @@ namespace ElectionBack.DBModels
             return Tuple.Create(allCount, filterCount);
         }
 
-
+        /*
         public async Task<Dictionary<string, int>> GetPLEId(string str)
         {
             using var cmd = db.Connection.CreateCommand();
@@ -94,7 +94,7 @@ namespace ElectionBack.DBModels
             cmd.CommandText = $"select title from public_legal_entities where public_legal_entitie_id = {pleID}";
             var result = Convert.ToString(await cmd.ExecuteScalarAsync());
             return result is not null ? result : null;
-        }
+        }*/
 
 
         private async Task<List<ElectionsTable>> ReadAllAsync(DbDataReader reader)
@@ -111,6 +111,7 @@ namespace ElectionBack.DBModels
                         election_date = reader.GetDateTime(2).ToString("yyyy-MM-dd"),
                         number_of_deputy_mandates = reader.GetInt32(3),
                         id_public_legal_entitie = reader.GetInt32(4),
+                        ple_title = reader.GetString(5),
                     };
                     list.Add(election);
                 }
@@ -119,7 +120,7 @@ namespace ElectionBack.DBModels
         }
 
 
-        private async Task<List<Election>> ReadAsync(DbDataReader reader)
+        /*private async Task<List<Election>> ReadAsync(DbDataReader reader)
         {
             var list = new List<Election>();
             using (reader)
@@ -138,6 +139,6 @@ namespace ElectionBack.DBModels
                 }
             }
             return list;
-        }
+        }*/
     }
 }

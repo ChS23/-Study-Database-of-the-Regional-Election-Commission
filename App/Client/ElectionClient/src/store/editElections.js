@@ -1,5 +1,5 @@
 import {action, makeObservable, observable, runInAction} from 'mobx'
-import {updateElectionRecord, getElectionRecord, deleteElectionRecord} from '../helpers/apiElections'
+import {updateElectionRecord, getElectionRecord, deleteElectionRecord, updatePleDictFromDB} from '../helpers/apiElections'
 
 export class EditElections
 {

@@ -22,7 +22,8 @@ function TableElections()
         {
             editElections.updateElection_id(election_id);
             editElections.getRecordFromDB();
-            console.log(election_id);
+            editElections.updatePleDict();
+            console.log(editElections.pleDict);
         }
     }
 

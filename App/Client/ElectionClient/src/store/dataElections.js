@@ -63,15 +63,6 @@ export class DataElections  {
     
     async updatePageList()
     {
-        // const countRecords = await getCountRecord(this.filterElections);
-
-        // runInAction(
-        //     () => {
-        //         this.allRecordsCount = countRecords.allCount;
-        //         this.selectedRecordCount = countRecords.filterCount;
-        //     }
-        // );
-
         const numPages = Math.ceil(this.selectedRecordCount / 10);
         let pageList = []
 

@@ -3,6 +3,7 @@ using ElectionBack.Models;
 using ElectionBack.Modules;
 using ElectionBack.DBModels;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Reflection.Emit;
 
 
 namespace ElectionBack.Controllers
@@ -170,19 +171,24 @@ namespace ElectionBack.Controllers
             var result = query.getCountFilterElections(filter);
             if (result is null) return new BadRequestResult();
             return new OkObjectResult(new { allCount = result.Result.Item1, filterCount = result.Result.Item2 });
-        }
+        }*/
 
 
-        [HttpGet("/elections/getPLEId")]
-        public async Task<IActionResult> getPleId([BindRequired] string inputString)
+        [HttpGet("/elections/getPleDictionary")]
+        public async Task<IActionResult> getPleDictionary()
         {
             await DB.Connection.OpenAsync();
             var query = new ElectionsTableQuery(DB);
-            var result = query.GetPLEId(inputString);
-            return new OkObjectResult(result.Result);
+            var result = await query.GetPleDictionary();
+            var list = new List<Dictionary<string, string>>();
+            foreach (var element in result)
+            {
+                list.Add(new Dictionary<string, string> { { "label", element.Key }, { "value", element.Value.ToString() } });
+            }
+            return new OkObjectResult(list);
         }
 
-        [HttpGet("/elections/getPleName")]
+        /*[HttpGet("/elections/getPleName")]
         public async Task<IActionResult> getPleId([BindRequired] int pleId)
         {
             await DB.Connection.OpenAsync();

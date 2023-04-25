@@ -52,8 +52,8 @@ export async function updateElectionRecord(record) {
 }
 
 
-export async function getElectionRecord(record) {
-    let request = `${baseURL}?id=${record.election_id}`;
+export async function getElectionRecord(election_id) {
+    let request = `${baseURL}?id=${election_id}`;
     try {
         return (await axios.get(request)).data;
     } catch (error) {
@@ -84,8 +84,8 @@ export async function getElectionRecord(record) {
 // }
 
 
-export async function deleteElectionRecord(record) {
-    let request = `${baseURL}?id=${record.election_id}`;
+export async function deleteElectionRecord(election_id) {
+    let request = `${baseURL}?id=${election_id}`;
     try {
         await axios.delete(request);
     } catch (error) {
@@ -107,6 +107,16 @@ export async function createElectionRecord(record) {
                 "id_public_legal_entitie": record.ple_id
             }
         )).data
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+
+export async function updatePleDictFromDB() {
+    let request = `${baseURL}s/getPleDictionary`
+    try {
+        return (await axios.get(request)).data;
     } catch (error) {
         console.error(error);
     }

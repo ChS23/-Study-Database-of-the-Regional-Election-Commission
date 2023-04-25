@@ -70,11 +70,12 @@ namespace ElectionBack.DBModels
             return Tuple.Create(allCount, filterCount);
         }
 
-        /*
-        public async Task<Dictionary<string, int>> GetPLEId(string str)
+      
+        public async Task<Dictionary<string, int>> GetPleDictionary()
         {
             using var cmd = db.Connection.CreateCommand();
-            cmd.CommandText = $"select title, public_legal_entitie_id from public_legal_entities where title like '{str}%' limit 5";
+            // cmd.CommandText = $"select title, public_legal_entitie_id from public_legal_entities where title like '{inputString}%' limit 5";
+            cmd.CommandText = "select title, public_legal_entitie_id from public_legal_entities";
             var result = await cmd.ExecuteReaderAsync();
             var answer = new Dictionary<string, int>();
             using (result)
@@ -87,7 +88,7 @@ namespace ElectionBack.DBModels
             return answer;
         }
 
-
+        /*
         public async Task<string?> GetPleName(int pleID)
         {
             using var cmd = db.Connection.CreateCommand();

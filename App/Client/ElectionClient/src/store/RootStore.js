@@ -7,6 +7,6 @@ export class RootStore {
     constructor() {
         this.filterElections = new FilterElections ();
         this.dataElections = new DataElections (this);
-        this.editElections = new EditElections();
+        this.editElections = new EditElections(this);
     }
 }

@@ -3,7 +3,7 @@ import {updateElectionRecord, getElectionRecord, deleteElectionRecord} from '../
 
 export class EditElections
 {
-    election_id = null
+    election_id = -1
     nameElection = ""
     dateElection = null
     countMandates = null
@@ -12,8 +12,9 @@ export class EditElections
     pleDict = [{}]
 
 
-    constructor()
+    constructor(rootStore)
     {
+        this.dataElections = rootStore.dataElections;
         makeObservable(this, {
             election_id: observable,
             nameElection: observable,
@@ -26,14 +27,15 @@ export class EditElections
             updateCountMandates: action,
             updateNamePLE: action,
             updateRecordInDB: action,
-            getRecordFromDB: action,
+            deleteRecord: action,
             reset: action,
+            getPleDict: action,
         });
     }
 
     reset()
     {
-        this.election_id = null;
+        this.election_id = -1;
     }
 
     updateNameElection(newName)
@@ -63,12 +65,34 @@ export class EditElections
 
     async updateRecordInDB()
     {
-        await updateElectionRecord(this)
+        await updateElectionRecord(this);
+        await this.dataElections.updateData();
     }
+
+
+    async getPleDict()
+    {
+        await this.updatePleDict();
+        console.log(this.pleDict);
+        return this.pleDict;
+    }
+
+
+    async updatePleDict()
+    {
+        const pleDict = await updatePleDictFromDB();
+        runInAction(
+            () => {
+                this.pleDict = pleDict;
+                console.log(this.pleDict);
+            }
+        )
+    }
+
 
     async getRecordFromDB()
     {
-        const record = await getElectionRecord(this);
+        const record = await getElectionRecord(this.election_id);
         runInAction(
             () => {
                 this.nameElection = record.name_of_the_election;
@@ -82,8 +106,9 @@ export class EditElections
     }
 
 
-    async deleteRecordFromDB()
+    async deleteRecord()
     {
-        await deleteElectionRecord(this);
+        await deleteElectionRecord(this.election_id);
+        await this.dataElections.updateData();
     }
 }

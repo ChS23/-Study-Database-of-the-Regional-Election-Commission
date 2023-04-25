@@ -20,7 +20,7 @@ function Elections() {
                 <LeftMenu />
                 <div className='w-full'>
                     <MenuHeader screenName='Выборы'/>
-                    {editElections.election_id != null ? <ElectionEdit/> : <ElectionFilter/>}
+                    {editElections.election_id != -1 ? <ElectionEdit/> : <ElectionFilter/>}
                     <div className='h-full rounded-t-3xl mt-6 mr-16 bg-gradient-to-br from-gray-800 to-gray-900'>
                         <TableElections/>
                     </div>

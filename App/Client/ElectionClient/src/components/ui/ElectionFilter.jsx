@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useStore } from '../../hooks/useStore'
 import { observer } from 'mobx-react'
 
@@ -13,8 +14,16 @@ function ElectionFilter()
         updateField(field, value);
         dataElections.updateCurrentPage(1);
         dataElections.updateData();
-        dataElections.updatePageList();
+        // dataElections.updatePageList();
     }
+
+
+    function addRecordHandle()
+    {
+        let name = prompt("Введите данных название выборов");
+        console.log(name);
+    }
+
 
 
     return (
@@ -52,7 +61,7 @@ function ElectionFilter()
                     type="name" className="block w-full p-2 pl-8 mt-4 text-md bg-inherit text-stone-100 border border-stone-100 rounded-3xl focus:border-green-500" placeholder="Поиск по названию"/>
                 </div>
                 <div className="relative">
-                    <button className="block w-32 mt-6 text-md bg-inherit h-10 text-stone-100 border border-stone-100 rounded-3xl focus:border-green-500">Добавить</button>
+                    <button onClick={addRecordHandle} className="block w-40 mt-6 text-md bg-inherit h-10 text-stone-100 border border-stone-100 rounded-3xl focus:border-green-500">Добавить запись</button>
                 </div>
             </div>
         </div>

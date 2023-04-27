@@ -125,6 +125,7 @@ namespace ElectionBack.Controllers
         [ProducesResponseType(typeof(ElectionsTable), StatusCodes.Status200OK)]
         public async Task<IActionResult> updateOneElections([BindRequired] int id, [FromBody] ElectionsTable body)
         {
+            if (body.number_of_deputy_mandates < 0) return new BadRequestObjectResult(new { message = " оличество монадтов не сожет быть меньше нул€." });
             await DB.Connection.OpenAsync();
             var query = new ElectionsTableQuery(DB);
             var result = await query.findOne(id);

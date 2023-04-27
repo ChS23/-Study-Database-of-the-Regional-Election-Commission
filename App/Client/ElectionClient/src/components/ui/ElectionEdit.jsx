@@ -12,9 +12,12 @@ function ElectionEdit()
 
     function handleDelede()
     {
-        editElections.deleteRecord();
-        editElections.reset();
-        console.log(dataElections.data); 
+        if (confirm("Вы точно хотите удалить?"))
+        {
+            editElections.deleteRecord();
+            editElections.reset();
+            console.log(dataElections.data); 
+        }
     }
 
 
@@ -52,7 +55,8 @@ function ElectionEdit()
                         </div>
                         <div className='text-stone-100 flex flex-col items-center justify-between pt-6'>
                             <span className="block w-auto">Название ППО</span>
-                            {/* Добавь выпадающий список и выбор с запоминанием id */}
+                            {/* add select value editElections.pleId */}
+                                {/* Добавь выпадающий список и выбор с запоминанием id */}
                             {/* <AsyncSelect onChange={handleChange} isSearchable defaultValue={[{label: editElections.namePLE, value: editElections.pleId}]} loadOptions={editElections.getPleDict} cacheOptions key={editElections.pleId} className="block w-56 resize-none scrollbar-thin scrollbar-thumb-stone-100 p-2 px-4 mt-2 text-md bg-inherit text-stone-100 border border-stone-100 rounded-3xl focus:border-green-500"/> */}
                             <Select onChange={handleChange} isSearchable value={[{label: editElections.namePLE, value: editElections.pleId}]} options={editElections.getPleDict.length ? editElections.pleDict : [{label: editElections.namePLE, value: editElections.pleId}]} key={editElections.pleId} className="block w-56 resize-none scrollbar-thin scrollbar-thumb-stone-100 p-2 px-4 mt-2 text-md bg-inherit text-stone-100 border border-stone-100 rounded-3xl focus:border-green-500"/>
                         </div>
@@ -66,4 +70,4 @@ function ElectionEdit()
 }
 
 
-export default observer(ElectionEdit)
+export default observer(ElectionEdit);

@@ -60,7 +60,7 @@
                 }
                 else
                 {
-                    return $"full_name LIKE '{this.filterName}%'";
+                    return $"full_name LIKE '@filterName%'";
                 }
             }
         }

@@ -67,6 +67,7 @@ namespace ElectionBack.DBModels
             if (filter.getWhereQuery is not null) query += filter.getWhereQuery;
             query += $" limit 10 offset {(page - 1) * 10}";
             cmd.CommandText = query;
+            BindParams(cmd, filter);
             return await ReadAllAsync(await cmd.ExecuteReaderAsync());
         }
         
@@ -79,6 +80,7 @@ namespace ElectionBack.DBModels
             int allCount = Convert.ToInt32(await cmd.ExecuteScalarAsync());
             if (filter.getWhereQuery is not null) query += filter.getWhereQuery;
             cmd.CommandText = query;
+            BindParams(cmd, filter);
             int filterCount = Convert.ToInt32(await cmd.ExecuteScalarAsync());
             return Tuple.Create(allCount, filterCount);
         }
@@ -104,5 +106,20 @@ namespace ElectionBack.DBModels
             }
             return list;
         }
+
+
+        private void BindParams(MySqlCommand cmd, CandidateFilter filter)
+        {
+            if (filter.getFilterNameSQL is not null)
+            {
+                cmd.Parameters.Add(new MySqlParameter
+                {
+                    ParameterName = "@filterName",
+                    DbType = System.Data.DbType.String,
+                    Value = filter.getFilterNameSQL
+                });
+            }
+        }
+        
     }
 }

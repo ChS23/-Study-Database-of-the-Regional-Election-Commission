@@ -153,7 +153,7 @@ namespace ElectionBack.Models
             {
                 if (nameSearch is not null)
                 {
-                    return $"name_of_the_election like '{nameSearch}%'";
+                    return $"name_of_the_election like '@nameSearch%'";
                 }
                 else
                 {
@@ -169,7 +169,7 @@ namespace ElectionBack.Models
             {
                 if (pleSearch is not null)
                 {
-                    return $"title like '{pleSearch}%'";
+                    return $"title like '@pleSearch%'";
                 }
                 else
                 {

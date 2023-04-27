@@ -55,6 +55,7 @@ namespace ElectionBack.DBModels
             string query = filter.queryStringSelect;
             query += $" limit 10 offset {(page-1)*10};";
             cmd.CommandText = query;
+            BindParams(cmd, filter);
             return await ReadAllAsync(await cmd.ExecuteReaderAsync());
         }
 
@@ -64,6 +65,7 @@ namespace ElectionBack.DBModels
             using var cmd = db.Connection.CreateCommand();
             string query = filter.queryStringCount;
             cmd.CommandText = query;
+            BindParams(cmd, filter);
             int filterCount = Convert.ToInt32(await cmd.ExecuteScalarAsync());
             cmd.CommandText = filter.querySelectCount;
             int allCount = Convert.ToInt32(await cmd.ExecuteScalarAsync());
@@ -118,6 +120,29 @@ namespace ElectionBack.DBModels
                 }
             }
             return list;
+        }
+
+
+
+        private void BindParams(MySqlCommand cmd, ElectionsFilter filter)
+        {
+            if (filter.getNameSearch is not null)
+            {
+                cmd.Parameters.Add(new MySqlParameter { 
+                    ParameterName = "@nameSearch",
+                    DbType = DbType.String,
+                    Value = filter.getNameSearch,
+                });
+            }
+            if (filter.getPLESearch is not null)
+            {
+                cmd.Parameters.Add(new MySqlParameter
+                {
+                    ParameterName = "@pleSearch",
+                    DbType= DbType.String,
+                    Value = filter.getPLESearch,
+                });
+            }
         }
 
 

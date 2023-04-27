@@ -14,7 +14,7 @@ export async function getElections(page, filter) {
         if (filter.pleSearch) request += `&pleSearch=${filter.pleSearch}`;
         return (await axios.get(request)).data;
     } catch (error) {
-         console.error(error);
+        alert(error.response.data.message);
     }
 };
 
@@ -47,7 +47,7 @@ export async function updateElectionRecord(record) {
             }
         )).data
     } catch (error) {
-        console.error(error);
+        alert(error.response.data.message);
     }
 }
 
@@ -57,7 +57,7 @@ export async function getElectionRecord(election_id) {
     try {
         return (await axios.get(request)).data;
     } catch (error) {
-        console.error(error);
+        alert(error.response.data.message);
     }
 }
 
@@ -89,7 +89,7 @@ export async function deleteElectionRecord(election_id) {
     try {
         await axios.delete(request);
     } catch (error) {
-        console.error(error);
+        alert(error.response.data.message);
     }
 }
 
@@ -108,7 +108,7 @@ export async function createElectionRecord(record) {
             }
         )).data
     } catch (error) {
-        console.error(error);
+        alert(error.response.data.message);
     }
 }
 
@@ -118,6 +118,6 @@ export async function updatePleDictFromDB() {
     try {
         return (await axios.get(request)).data;
     } catch (error) {
-        console.error(error);
+        alert(error.response.data.message);
     }
 }

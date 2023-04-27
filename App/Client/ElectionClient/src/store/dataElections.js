@@ -9,6 +9,7 @@ export class DataElections  {
     currentPage = 1
     pageList = []
     data = []
+    
 
     constructor(rootStore) {
         this.filterElections = rootStore.filterElections

@@ -62,9 +62,9 @@ export async function getElectionRecord(election_id) {
 }
 
 
-// export async function getPleName(ple_id)
+// export async function getPleName(pleId)
 // {
-//     let request = `${baseURL}/getPleName?pleId=${ple_id}`;
+//     let request = `${baseURL}/getPleName?pleId=${pleId}`;
 //     try {
 //         return (await axios.get(request)).data;
 //     } catch (error) {
@@ -95,7 +95,8 @@ export async function deleteElectionRecord(election_id) {
 
 
 export async function createElectionRecord(record) {
-    let request = `${baseURL}?id=${record.election_id}`;
+    console.log(record);
+    let request = `${baseURL}`;
     try {
         return (await axios.post(
             request,
@@ -104,7 +105,8 @@ export async function createElectionRecord(record) {
                 "name_of_the_election": record.nameElection,
                 "election_date": record.dateElection,
                 "number_of_deputy_mandates": record.countMandates,
-                "id_public_legal_entitie": record.ple_id
+                "id_public_legal_entitie": record.pleId,
+                "ple_title": ""
             }
         )).data
     } catch (error) {

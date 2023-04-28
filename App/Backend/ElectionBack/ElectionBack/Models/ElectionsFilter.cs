@@ -153,7 +153,7 @@ namespace ElectionBack.Models
             {
                 if (nameSearch is not null)
                 {
-                    return $"name_of_the_election like '@nameSearch%'";
+                    return $"name_of_the_election like concat(@nameSearch, '%')";
                 }
                 else
                 {

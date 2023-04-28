@@ -131,7 +131,7 @@ namespace ElectionBack.DBModels
                 cmd.Parameters.Add(new MySqlParameter { 
                     ParameterName = "@nameSearch",
                     DbType = DbType.String,
-                    Value = filter.getNameSearch,
+                    Value = filter.nameSearch,
                 });
             }
             if (filter.getPLESearch is not null)
@@ -140,7 +140,7 @@ namespace ElectionBack.DBModels
                 {
                     ParameterName = "@pleSearch",
                     DbType= DbType.String,
-                    Value = filter.getPLESearch,
+                    Value = filter.pleSearch,
                 });
             }
         }

@@ -5,7 +5,7 @@ import { observer } from 'mobx-react'
 
 function ElectionFilter()
 {
-    const { filterElections, dataElections } = useStore()
+    const { filterElections, dataElections, editElections } = useStore()
     const { updateField } = filterElections
 
 
@@ -21,11 +21,39 @@ function ElectionFilter()
     function addRecordHandle()
     {
         let name = prompt("Введите данные: название выборов");
+        // validate name cyrillic only and spaces
+        if (name.match(/[^а-яА-ЯёЁ\s]/g) || name.length < 3)
+        {
+            alert('Некорректное название');
+            return;
+        }
         let date = prompt("Введите данные: дата проведения");
+            // validate date format 01.01.2021
+        if (!date.match(/\d{2}\.\d{2}\.\d{4}/g))
+        {
+            alert('Некорректная дата');
+            return;
+        }
+        // convert date to YYYY-MM-DD
+        date = date.split('.').reverse().join('-');
+
         let mandats = prompt("Введите данные: количесвто мандатов");
-        let id_ple = prompt("Введите данные: id ППО");
-        
-        console.log(name);
+        // validate mandats only digits and not empty and >= 0
+        if (!mandats.match(/\d+/g) || mandats < 0)
+        {
+            alert('Некорректное количество мандатов');
+            return;
+        }
+        let idPle = prompt("Введите данные: id ППО");
+        // validate idPle only digits and not empty and >= 0
+        if (!idPle.match(/\d+/g) || idPle < 0)
+        {
+            alert('Некорректный id ППО');
+            return;
+        }
+        // add record
+        editElections.addRecord(name, date, mandats, idPle);
+        console.log(name, date, mandats, idPle);
     }
 
 

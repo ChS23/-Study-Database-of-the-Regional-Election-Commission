@@ -114,12 +114,12 @@ export class EditElections
     }
 
 
-    async addRecord(name, date, mandats, id_ple)
+    async addRecord(name, date, mandats, idPle)
     {
         this.nameElection = name;
         this.dateElection = date;
         this.countMandates = mandats;
-        this.pleId = id_ple;
+        this.pleId = idPle;
         await createElectionRecord(this);
         await this.dataElections.updateData();
     }

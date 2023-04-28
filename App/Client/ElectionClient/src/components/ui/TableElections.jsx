@@ -11,7 +11,7 @@ function TableElections()
 
     useEffect(() => {
         dataElections.updateData();
-    })
+    }, [])
 
 
     const handleRowClick = (election_id) => {

@@ -104,6 +104,7 @@ namespace ElectionBack.Controllers
             await DB.Connection.OpenAsync();
             var query = new ElectionsTableQuery(DB);
             var result = await query.findOne(id);
+            System.Diagnostics.Debug.WriteLine(result);
             if (result is null) return new NotFoundResult();
             return new OkObjectResult(result);
         }

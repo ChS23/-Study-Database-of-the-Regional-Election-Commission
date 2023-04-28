@@ -1,5 +1,5 @@
 import {action, makeObservable, observable, runInAction} from 'mobx'
-import {updateElectionRecord, getElectionRecord, deleteElectionRecord, updatePleDictFromDB} from '../helpers/apiElections'
+import {updateElectionRecord, getElectionRecord, deleteElectionRecord, updatePleDictFromDB, createElectionRecord} from '../helpers/apiElections'
 
 export class EditElections
 {
@@ -30,6 +30,7 @@ export class EditElections
             deleteRecord: action,
             reset: action,
             getPleDict: action,
+            addRecord: action,
         });
     }
 
@@ -109,6 +110,17 @@ export class EditElections
     async deleteRecord()
     {
         await deleteElectionRecord(this.election_id);
+        await this.dataElections.updateData();
+    }
+
+
+    async addRecord(name, date, mandats, id_ple)
+    {
+        this.nameElection = name;
+        this.dateElection = date;
+        this.countMandates = mandats;
+        this.pleId = id_ple;
+        await createElectionRecord(this);
         await this.dataElections.updateData();
     }
 }

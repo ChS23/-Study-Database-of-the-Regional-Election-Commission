@@ -20,7 +20,11 @@ function ElectionFilter()
 
     function addRecordHandle()
     {
-        let name = prompt("Введите данных название выборов");
+        let name = prompt("Введите данные: название выборов");
+        let date = prompt("Введите данные: дата проведения");
+        let mandats = prompt("Введите данные: количесвто мандатов");
+        let id_ple = prompt("Введите данные: id ППО");
+        
         console.log(name);
     }
 

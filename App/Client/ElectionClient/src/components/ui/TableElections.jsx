@@ -10,6 +10,7 @@ function TableElections()
 
     useEffect(() => {
             dataElections.updateData();
+            editElections.reset();
         }, [dataElections.currentPage]
     )
 

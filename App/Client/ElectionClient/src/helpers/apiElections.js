@@ -123,3 +123,20 @@ export async function updatePleDictFromDB() {
         alert(error.response.data.message);
     }
 }
+
+
+export async function getCurrentNumber(election_id, filter)
+{
+    try {
+        let request = `${baseURL}s/countNumberRow?id_elecrtion=${election_id}`;
+        if (filter.upcoming) request += `&upcoming=${filter.upcoming}`;
+        if (filter.type) request += `&type=${filter.type}`;
+        if (filter.dateFrom) request += `&dateFrom=${filter.dateFrom}`;
+        if (filter.dateTo) request += `&dateTo=${filter.dateTo}`;
+        if (filter.nameSearch) request += `&nameSearch=${filter.nameSearch}`;
+        if (filter.pleSearch) request += `&pleSearch=${filter.pleSearch}`;
+        return (await axios.get(request)).data;
+    } catch (error) {
+        alert(error.response.data.message);
+    }
+}

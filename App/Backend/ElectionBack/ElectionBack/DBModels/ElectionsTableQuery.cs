@@ -48,11 +48,23 @@ namespace ElectionBack.DBModels
             return result.Count > 0 ? result[0] : null;
         }*/
 
+        // getNumberRow
+        // out row number
+        public async Task<int> getNumberRow(int id, ElectionsFilter filter)
+        {
+            using var cmd = db.Connection.CreateCommand();
+            string query = filter.queryNumberRow;
+            BindId(cmd, id);
+            cmd.CommandText = query;
+            return Convert.ToInt32(await cmd.ExecuteScalarAsync());
+        }
+
 
         public async Task<List<ElectionsTable>> filterElections(int page, ElectionsFilter filter)
         {
             using var cmd = db.Connection.CreateCommand();
             string query = filter.queryStringSelect;
+            query += $" order by e.election_date desc";
             query += $" limit 10 offset {(page-1)*10};";
             cmd.CommandText = query;
             BindParams(cmd, filter);
@@ -122,6 +134,16 @@ namespace ElectionBack.DBModels
             return list;
         }
 
+
+        private void BindId(MySqlCommand cmd, int id)
+        {
+            cmd.Parameters.Add(new MySqlParameter
+            {
+                ParameterName = "@e_id",
+                DbType = DbType.Int32,
+                Value = id
+            });
+        }
 
 
         private void BindParams(MySqlCommand cmd, ElectionsFilter filter)

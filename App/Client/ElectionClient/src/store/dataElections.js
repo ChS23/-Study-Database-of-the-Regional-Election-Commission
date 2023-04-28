@@ -1,5 +1,5 @@
 import {action, makeObservable, observable, runInAction} from 'mobx'
-import { getElections } from '../helpers/apiElections'
+import { getElections, getCurrentNumber } from '../helpers/apiElections'
 
 
 export class DataElections  {
@@ -23,8 +23,21 @@ export class DataElections  {
             updateAllRecordsCount: action.bound,
             updateSelectedRecordCount: action.bound,
             updatePageList: action.bound,
-            updateCurrentPage: action.bound
+            updateCurrentPage: action.bound,
+            updateCurrentPageByElectionId: action.bound,
         });
+    }
+
+
+    async updateCurrentPageByElectionId(election_id)
+    {
+        const currentPage = Math.ceil(await getCurrentNumber(election_id, this.filterElections) / 10);
+        runInAction(
+            () => {
+                this.currentPage = currentPage;
+                this.updateData();
+            }
+        );
     }
 
 
@@ -49,6 +62,13 @@ export class DataElections  {
     async updateData()
     {
         const data = await getElections(this.currentPage, this.filterElections);
+        if (this.currentPage > Math.ceil(data.counts.filterCount / 10))
+        {
+            this.currentPage = Math.ceil(data.counts.filterCount / 10)
+            console.log("currentPage > data.counts.filterCount")
+            this.updateData()
+            return
+        }
         runInAction(
             () => 
             {
@@ -59,6 +79,7 @@ export class DataElections  {
                 // console.log(data.counts.item2);
             }
         );
+        return
     }
 
     

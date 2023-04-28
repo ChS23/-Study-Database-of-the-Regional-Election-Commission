@@ -126,7 +126,7 @@ namespace ElectionBack.Controllers
         [ProducesResponseType(typeof(ElectionsTable), StatusCodes.Status200OK)]
         public async Task<IActionResult> updateOneElections([BindRequired] int id, [FromBody] ElectionsTable body)
         {
-            if (body.number_of_deputy_mandates < 0) return new BadRequestObjectResult(new { message = "Количество монадтов не сожет быть меньше нуля." });
+            if (body.number_of_deputy_mandates < 0) return new BadRequestObjectResult(new { message = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ." });
             await DB.Connection.OpenAsync();
             var query = new ElectionsTableQuery(DB);
             var result = await query.findOne(id);
@@ -163,6 +163,18 @@ namespace ElectionBack.Controllers
             return new OkObjectResult(new { elections = result, counts = new { allCount = counts.Item1, filterCount = counts.Item2 } });
         }
 
+
+        [HttpGet("/elections/countNumberRow")]
+        public async Task<IActionResult> getNumberRow([BindRequired] int id_elecrtion, bool? upcoming, int? type, string? dateFrom, string? dateTo, string? nameSearch, string? pleSearch)
+        {
+            if (!ElectionsFilter.isValidValueForFilter(ref upcoming, ref type, ref dateFrom, ref dateTo, ref nameSearch, ref pleSearch, out IActionResult errorObject)) return errorObject;
+
+            ElectionsFilter filter = new(upcoming, type, Tuple.Create(dateFrom, dateTo), nameSearch, pleSearch);
+            await DB.Connection.OpenAsync();
+            var query = new ElectionsTableQuery(DB);
+            var result = await query.getNumberRow(id_elecrtion, filter);
+            return new OkObjectResult(result);
+        }
 
         /*[HttpGet("/elections/countRowIsFilterAndAll")]
         public async Task<IActionResult> getCountRowElections(bool? upcoming, int? type, string? dateFrom, string? dateTo, string? nameSearch, string? pleSearch)

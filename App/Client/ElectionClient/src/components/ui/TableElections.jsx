@@ -8,11 +8,11 @@ function TableElections()
 {
     const { dataElections, editElections } = useStore()
 
+
     useEffect(() => {
-            dataElections.updateData();
-            editElections.reset();
-        }, [dataElections.currentPage]
-    )
+        dataElections.updateData();
+    })
+
 
     const handleRowClick = (election_id) => {
         if (election_id==-1)
@@ -23,7 +23,6 @@ function TableElections()
         {
             editElections.updateElection_id(election_id);
             editElections.getRecordFromDB();
-            editElections.updatePleDict();
             console.log(editElections.pleDict);
         }
     }
@@ -38,6 +37,8 @@ function TableElections()
                     const handleClick = () => {
                         if (!isEllipsis) {
                             dataElections.updateCurrentPage(page);
+                            dataElections.updateData();
+                            editElections.reset();
                         }
                     }
                     return (

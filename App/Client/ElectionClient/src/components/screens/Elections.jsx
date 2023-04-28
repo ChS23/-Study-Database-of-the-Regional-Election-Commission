@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { observer } from 'mobx-react'
 import Header from './../ui/Haeder'
 import LeftMenu from './../ui/LeftMenu'
@@ -12,6 +12,10 @@ import { useStore } from '../../hooks/useStore';
 function Elections() {
 
     const { editElections } = useStore();
+
+    useEffect(() => {
+        editElections.updatePleDict();
+    }, [])
 
     return (
         <div className='w-screen h-screen overflow-hidden bg-gray-900'>

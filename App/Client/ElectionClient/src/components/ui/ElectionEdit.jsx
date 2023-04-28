@@ -16,21 +16,21 @@ function ElectionEdit()
         {
             editElections.deleteRecord();
             editElections.reset();
-            console.log(dataElections.data); 
         }
     }
 
 
-    function handleUpdate()
+    async function handleUpdate()
     {
-        editElections.updateRecordInDB();
-        console.log("ok");
+        await editElections.updateRecordInDB();
     }
 
 
     const handleChange = (value) => {
-        editElections.updatePleDict(value);
-        console.log("value:", value);
+        // editElections.updatePleDict();
+        editElections.updatePleId(value.value);
+        editElections.updateNamePLE(value.label);
+        // console.log(value.value);
     };
 
 
@@ -55,10 +55,14 @@ function ElectionEdit()
                         </div>
                         <div className='text-stone-100 flex flex-col items-center justify-between pt-6'>
                             <span className="block w-auto">Название ППО</span>
-                            {/* add select value editElections.pleId */}
-                                {/* Добавь выпадающий список и выбор с запоминанием id */}
-                            {/* <AsyncSelect onChange={handleChange} isSearchable defaultValue={[{label: editElections.namePLE, value: editElections.pleId}]} loadOptions={editElections.getPleDict} cacheOptions key={editElections.pleId} className="block w-56 resize-none scrollbar-thin scrollbar-thumb-stone-100 p-2 px-4 mt-2 text-md bg-inherit text-stone-100 border border-stone-100 rounded-3xl focus:border-green-500"/> */}
-                            <Select onChange={handleChange} isSearchable value={[{label: editElections.namePLE, value: editElections.pleId}]} options={editElections.getPleDict.length ? editElections.pleDict : [{label: editElections.namePLE, value: editElections.pleId}]} key={editElections.pleId} className="block w-56 resize-none scrollbar-thin scrollbar-thumb-stone-100 p-2 px-4 mt-2 text-md bg-inherit text-stone-100 border border-stone-100 rounded-3xl focus:border-green-500"/>
+                            {/* add select from editElections.pleDict */}
+                            <Select
+                                onChange={handleChange}
+                                options={editElections.pleDict}
+                                className="block w-full p-2 px-4 mt-2 text-md bg-inherit text-stone-100 border border-stone-100 rounded-3xl"
+                                value={[{label: editElections.namePLE, value: editElections.pleId}]}
+                                key={editElections.idPLE}
+                            />
                         </div>
                         <div className="relative flex flex-row mt-0">
                             <button onClick={()=>handleUpdate()} className="block w-32 mt-6 mr-2 text-md bg-inherit h-10 text-yellow-200 border border-yellow-200 rounded-3xl">Обновить</button>

@@ -44,6 +44,16 @@ namespace ElectionBack.Models
             }
         }
 
+        public string queryNumberRow
+        {
+            get
+            {
+                string query = "SELECT row_num FROM (SELECT e.election_id, ROW_NUMBER() OVER (ORDER BY e.election_date desc) AS row_num FROM elections e ";
+                query += getWhereQuery + " ) s WHERE election_id = @e_id;";
+                return query;
+            }
+        }
+
 
         public string? getWhereQuery
         {

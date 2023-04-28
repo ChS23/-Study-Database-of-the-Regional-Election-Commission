@@ -65,6 +65,7 @@ namespace ElectionBack.DBModels
             using var cmd = db.Connection.CreateCommand();
             string query = "SELECT c.candidate_id, c.full_name, c.id_party, c.birthday, pp.name_party FROM candidates c join political_party pp on c.id_party = pp.party_id ";
             if (filter.getWhereQuery is not null) query += filter.getWhereQuery;
+            query += $" order by pp.id_party ";
             query += $" limit 10 offset {(page - 1) * 10}";
             cmd.CommandText = query;
             BindParams(cmd, filter);

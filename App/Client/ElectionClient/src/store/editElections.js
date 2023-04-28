@@ -31,8 +31,10 @@ export class EditElections
             reset: action,
             getPleDict: action,
             addRecord: action,
+            updatePleId: action,
         });
     }
+
 
     reset()
     {
@@ -42,6 +44,11 @@ export class EditElections
     updateNameElection(newName)
     {
         this.nameElection = newName;
+    }
+
+    updatePleId(newId)
+    {
+        this.pleId = newId;
     }
 
     updateDateElection(newDate)
@@ -67,7 +74,7 @@ export class EditElections
     async updateRecordInDB()
     {
         await updateElectionRecord(this);
-        await this.dataElections.updateData();
+        await this.dataElections.updateCurrentPageByElectionId(this.election_id);
     }
 
 
@@ -120,7 +127,7 @@ export class EditElections
         this.dateElection = date;
         this.countMandates = mandats;
         this.pleId = idPle;
-        await createElectionRecord(this);
-        await this.dataElections.updateData();
+        let record = await createElectionRecord(this);
+        await this.dataElections.updateCurrentPageByElectionId(record.election_id);
     }
 }

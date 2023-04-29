@@ -25,12 +25,12 @@ Backend реализован на языке программирования [C
 - [x] Компоненты для страницы Elections
   - [x] Сверстать компонент ElectionFilter
   - [x] Сверстать компонент ElectionEdit
-  - [ ] Сверстать модальное окно добавления
-- [ ] Состояния для страницы Elections
+  - [x] ~~Сверстать модальное окно добавления~~ (реализовано с помощью promt)
+- [x] Состояния для страницы Elections
   - [x] Написать store dataElections и связать с компонентом TableElections
-  - [ ] Написать store editElections и связать с компонентом ElectionEdit
+  - [x] Написать store editElections и связать с компонентом ElectionEdit
   - [x] Написать store filterElections и связать с компонентом ElectionFilter
-  - [ ] Написать логику добавления
+  - [x] Написать логику добавления
 <p>Страница Candidates</p>
 
 - [ ] Сверстать страницу Candidates

@@ -28,4 +28,4 @@ function CandidateEdit()
 }
 
 
-export default CandidateEdit
+export default observer(CandidateEdit);

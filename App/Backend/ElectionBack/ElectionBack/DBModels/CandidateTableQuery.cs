@@ -65,7 +65,7 @@ namespace ElectionBack.DBModels
             using var cmd = db.Connection.CreateCommand();
             string query = "SELECT c.candidate_id, c.full_name, c.id_party, c.birthday, pp.name_party FROM candidates c join political_party pp on c.id_party = pp.party_id ";
             if (filter.getWhereQuery is not null) query += filter.getWhereQuery;
-            query += $" order by pp.id_party ";
+            query += $" order by id_party ";
             query += $" limit 10 offset {(page - 1) * 10}";
             cmd.CommandText = query;
             BindParams(cmd, filter);
@@ -84,6 +84,37 @@ namespace ElectionBack.DBModels
             BindParams(cmd, filter);
             int filterCount = Convert.ToInt32(await cmd.ExecuteScalarAsync());
             return Tuple.Create(allCount, filterCount);
+        }
+
+
+        // getCountFilterCandidates
+        public async Task<int> getNumberRowCandidates(int id, CandidateFilter filter)
+        {
+            using var cmd = db.Connection.CreateCommand();
+            string query = "select row_num from (select c.candidate_id, row_number() over (order by c.id_party desc) as row_num from candidates c";
+            if (filter.getWhereQuery is not null) query += filter.getWhereQuery;
+            query += ") as t where candidate_id = @id";
+            cmd.CommandText = query;
+            BindId(cmd, id);
+            return Convert.ToInt32(await cmd.ExecuteScalarAsync());
+        }
+
+
+        // getPartyDict
+        public async Task<Dictionary<string, int>> getPartyDict()
+        {
+            using var cmd = db.Connection.CreateCommand();
+            cmd.CommandText = @"SELECT party_id, name_party FROM political_party";
+            var result = await cmd.ExecuteReaderAsync();
+            var dict = new Dictionary<string, int>();
+            using (result)
+            {
+                while (await result.ReadAsync())
+                {
+                    dict.Add(result.GetString(1), result.GetInt32(0));
+                }
+            }
+            return dict;
         }
 
 
@@ -106,6 +137,17 @@ namespace ElectionBack.DBModels
                 }
             }
             return list;
+        }
+
+
+        private void BindId(MySqlCommand cmd, int id)
+        {
+            cmd.Parameters.Add(new MySqlParameter
+            {
+                ParameterName = "@id",
+                DbType = System.Data.DbType.Int32,
+                Value = id
+            });
         }
 
 

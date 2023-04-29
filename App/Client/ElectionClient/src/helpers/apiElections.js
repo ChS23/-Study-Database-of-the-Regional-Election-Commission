@@ -19,18 +19,6 @@ export async function getElections(page, filter) {
 };
 
 
-// export async function getCountRecord(filter) {
-//     let request = `${baseURL}/countRowIsFilterAndAll?`
-//     if (filter.upcoming) request += `&upcoming=${filter.upcoming}`;
-//     if (filter.type) request += `&type=${filter.type}`;
-//     if (filter.dateFrom) request += `&dateFrom=${filter.dateFrom}`;
-//     if (filter.dateTo) request += `&dateTo=${filter.dateTo}`;
-//     if (filter.nameSearch) request += `&nameSearch=${filter.nameSearch}`;
-//     if (filter.pleSearch) request += `&pleSearch=${filter.pleSearch}`;
-//     return (await axios.get(request)).data.;
-// }
-
-
 export async function updateElectionRecord(record) {
     let request = `${baseURL}?id=${record.election_id}`;
     try {

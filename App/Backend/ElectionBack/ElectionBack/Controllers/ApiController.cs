@@ -84,6 +84,34 @@ namespace ElectionBack.Controllers
         }
 
 
+        [HttpGet("/candidates/countNumberRow")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        public async Task<IActionResult> getCountRowCandidates([BindRequired] int id, string? filterName, string? birthdayFrom, string? birthdayTo, int? id_party)
+        {
+            await DB.Connection.OpenAsync();
+            CandidateFilter filter = new(filterName, birthdayFrom, birthdayTo, id_party);
+            var query = new CandidateTableQuery(DB);
+            var result = query.getNumberRowCandidates(id, filter);
+            return new OkObjectResult(result.Result);
+        }
+
+
+        // party dict methods
+        [HttpGet("/candidates/partyDict")]
+        public async Task<IActionResult> getPartyDict()
+        {
+            await DB.Connection.OpenAsync();
+            var query = new CandidateTableQuery(DB);
+            var result = await query.getPartyDict();
+            var list = new List<Dictionary<string, string>>();
+            foreach (var element in result)
+            {
+                list.Add(new Dictionary<string, string> { { "label", element.Key }, { "value", element.Value.ToString() } });
+            }
+            return new OkObjectResult(list);
+        }
+
+
         /*[HttpGet("/candidates/countRowIsFilterAndAll")]
         [ProducesResponseType(typeof(Tuple<int,int>), StatusCodes.Status200OK)]
         public async Task<IActionResult> getCountRowElections(string? filterName, string? birthdayFrom, string? birthdayTo, int? id_party)

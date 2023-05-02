@@ -21,9 +21,9 @@ from candidates c
 join candidates_to_elections cte ON c.candidate_id = cte.id_candidate
 join elections e ON cte.id_election = e.election_id
 where e.election_date = (
-    select MAX(election_date)
+    select max(election_date)
     from elections
-    where election_date < CURDATE()
+    where election_date < curdate()
 )
 order by votes desc;
 ```

@@ -63,7 +63,7 @@ namespace ElectionBack.DBModels
         public async Task<List<CandidateTable>> filterCandidate(int page, CandidateFilter filter)
         {
             using var cmd = db.Connection.CreateCommand();
-            string query = "SELECT c.candidate_id, c.full_name, c.id_party, c.birthday, pp.name_party FROM candidates c join political_party pp on c.id_party = pp.party_id ";
+            string query = "SELECT c.candidate_id, c.full_name, c.id_party, c.birthday, pp.name_party FROM candidates c left join political_party pp on c.id_party = pp.party_id ";
             if (filter.getWhereQuery is not null) query += filter.getWhereQuery;
             query += $" order by id_party ";
             query += $" limit 10 offset {(page - 1) * 10}";
@@ -131,7 +131,7 @@ namespace ElectionBack.DBModels
                         full_name = reader.GetString(1),
                         id_party = reader[2] is DBNull ? -1 : reader.GetInt32(2),
                         birthday = reader.GetDateTime(3).ToString("yyyy-MM-dd"),
-                        party_name = reader.GetString(4),
+                        party_name = reader[4] is DBNull ? "" : reader.GetString(4),
                     };
                     list.Add(candidate);
                 }

@@ -9,10 +9,10 @@ import { FilterCandidates } from "./filterCandidates";
 export class RootStore {
     constructor() {
         this.filterElections = new FilterElections ();
-        this.dataElections = new DataElections (this);
-        this.editElections = new EditElections(this);
-        this.dataCandidates = new DataCandidates(this);
-        this.editCandidates = new EditCandidates(this);
         this.filterCandidates = new FilterCandidates();
+        this.dataElections = new DataElections (this);
+        this.dataCandidates = new DataCandidates(this);
+        this.editElections = new EditElections(this);
+        this.editCandidates = new EditCandidates(this);
     }
 }

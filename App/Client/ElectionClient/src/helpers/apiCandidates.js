@@ -13,7 +13,7 @@ export async function getCandidates(page, filter) {
         if (filter.id_party) request += `&id_party=${filter.id_party}`;
         return (await axios.get(request)).data;
     } catch (error) {
-        alert(error.response.data.message);
+        // alert(error.response.data.message);
     }
 };
 

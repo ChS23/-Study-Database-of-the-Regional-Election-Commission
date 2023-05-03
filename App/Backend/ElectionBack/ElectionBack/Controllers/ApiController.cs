@@ -253,7 +253,7 @@ namespace ElectionBack.Controllers
         }
 
 
-        [HttpGet("/analitics/getGroupAgeInParty")]
+        [HttpGet("/analytics/getGroupAgeInParty")]
         public async Task<IActionResult> getGroupAgeInParty([BindRequired] int party_id)
         {
             await DB.Connection.OpenAsync();

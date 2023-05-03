@@ -1,3 +1,6 @@
+import { observer } from 'mobx-react'
+
+
 function CandidateEdit()
 {
     return (

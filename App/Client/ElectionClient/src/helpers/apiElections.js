@@ -14,7 +14,7 @@ export async function getElections(page, filter) {
         if (filter.pleSearch) request += `&pleSearch=${filter.pleSearch}`;
         return (await axios.get(request)).data;
     } catch (error) {
-        alert(error.response.data.message);
+        // alert(error.response.data.message);
     }
 };
 

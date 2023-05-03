@@ -96,10 +96,13 @@ export class EditCandidates  {
     }
 
 
-    async createCandidateRecord()
+    async createCandidateRecord(name, id_party, birthday)
     {
-        await createCandidateRecord(this.full_name, this.id_party, this.birthday);
-        this.dataCandidates.updateCurrentPageByCandidateId(this.candidate_id);
+        this.full_name = name;
+        this.id_party = id_party;
+        this.birthday = birthday;
+        let record = await createCandidateRecord(this.full_name, this.id_party, this.birthday);
+        this.dataCandidates.updateCurrentPageByCandidateId(record.candidate_id);
     }
 
 
@@ -122,4 +125,14 @@ export class EditCandidates  {
             }
         );
     }
+
+
+    // async addRecord(name, id_party, birthday)
+    // {
+    //     this.full_name = name;
+    //     this.id_party = id_party;
+    //     this.birthday = birthday;
+    //     let record = await this.createCandidateRecord(this);
+    //     await this.dataCandidates.updateCurrentPageByCandidateId(record.)
+    // }
 }

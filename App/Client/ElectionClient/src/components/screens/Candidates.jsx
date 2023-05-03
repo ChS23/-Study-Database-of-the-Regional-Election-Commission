@@ -5,14 +5,14 @@ import LeftMenu from "./../ui/LeftMenu";
 import MenuHeader from "./../ui/MenuHeader";
 import { useStore } from "../../hooks/useStore";
 import TableCandidates from "../ui/TableCandidates";
-import { CandidateEdit } from "../ui/CandidateEdit";
-import { CandidateFilter } from "../ui/CandidateFilter";
+import CandidateFilter from "../ui/CandidateFilter";
+import CandidateEdit from "../ui/CandidateEdit";
 
 
 
 export default observer(function Candidates()
 {
-    const { EditCandidates } = useStore();
+    const { editCandidates } = useStore();
 
     useEffect(() => {
     }, [])
@@ -24,7 +24,7 @@ export default observer(function Candidates()
                 <LeftMenu />
                 <div className='w-full'>
                     <MenuHeader screenName='Кандидаты'/>
-                    {EditCandidates.candidate_id != -1 ? <CandidateEdit/> : <CandidateFilter/>}
+                    {editCandidates.candidate_id != -1 ? <CandidateEdit/> : <CandidateFilter/>}
                     <div className='h-full rounded-t-3xl mt-6 mr-16 bg-gradient-to-br from-gray-800 to-gray-900'>
                         <TableCandidates/>
                     </div>

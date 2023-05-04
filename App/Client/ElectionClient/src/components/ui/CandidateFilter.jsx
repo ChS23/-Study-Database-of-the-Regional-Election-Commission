@@ -1,11 +1,20 @@
 import { observer } from 'mobx-react'
 import { useStore } from '../../hooks/useStore'
+import { useEffect } from 'react'
+import Select from 'react-select';
 
 
 function CandidateFilter()
 {
     const { filterCandidates, dataCandidates, editCandidates } = useStore()
     const { updateField } = filterCandidates
+
+
+    useEffect(
+        () => {
+            editCandidates.getParyDict();
+        }, []
+    )
 
     function handleClick(field, value)
     {
@@ -59,13 +68,44 @@ function CandidateFilter()
                         <div className="relative">
                             <input type="name" className="block w-full p-2 pl-8 mt-10 text-md bg-inherit text-stone-100 border border-stone-100 rounded-3xl focus:border-green-500" placeholder="Поиск по имени"/>
                         </div>
+                        <div className='flex flex-row items-center p-2'>
+                            <Select className="w-full p-2 px-4 mt-2 text-md bg-inherit text-stone-100"
+                                    onChange={(val) => (handleClick('id_party', val.value), handleClick('party_name', val.label))}
+                                    options={editCandidates.partyDict}
+                                    placeholder="Поиск по партии"
+                                    styles={{
+                                        control: (provided, state) => ({
+                                            ...provided,
+                                            backgroundColor: 'transparent',
+                                            color: 'white',
+                                        }),
+                                        menu: (provided, state) => ({
+                                        ...provided,
+                                        maxHeight: "auto",
+                                        overflowY: "auto",
+                                        color: "black",
+                                        opacity: 1,
+                                        }),
+                                        singleValue: (provided, state) => ({
+                                            ...provided,
+                                            color: 'white',
+                                            border: 'none',
+                                        }),
+                                    }
+                                    }
+                            />
+                            <button className=''>
+                                {/* // reset Select value */}
+                                <svg className="w-6 h-6 text-stone-100" fill="#fff" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 18L18 6M6 6l12 12" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                            </button>
+                        </div>
                         <div className="relative flex flex-row">
                             <input type="date" className="block w-32 p-2 pl-4 mt-6 ml-8 mr-2 text-md bg-inherit text-stone-100 border border-stone-100 rounded-3xl focus:border-green-500" placeholder="Возраст от"/>
                             <input type="date" className="block w-32 p-2 pl-4 mt-6 mr-8 ml-2 text-md bg-inherit text-stone-100 border border-stone-100 rounded-3xl focus:border-green-500" placeholder="и до"/>
                         </div>
-                        <div className="relative">
+                        {/* <div className="relative">
                             <input type="name" className="block w-full p-2 pl-8 mt-6 text-md bg-inherit text-stone-100 border border-stone-100 rounded-3xl focus:border-green-500" placeholder="Поиск по партии"/>
-                        </div>
+                        </div> */}
                         <div className="relative">
                             <button className="block w-32 mt-10 text-md bg-inherit h-10 text-stone-100 border border-stone-100 rounded-3xl focus:border-green-500">Добавить</button>
                         </div>

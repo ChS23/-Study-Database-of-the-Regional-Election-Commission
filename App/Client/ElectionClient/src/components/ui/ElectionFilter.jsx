@@ -14,6 +14,7 @@ function ElectionFilter()
         updateField(field, value);
         dataElections.updateCurrentPage(1);
         dataElections.updateData();
+        console.log(value)
         // dataElections.updatePageList();
     }
 

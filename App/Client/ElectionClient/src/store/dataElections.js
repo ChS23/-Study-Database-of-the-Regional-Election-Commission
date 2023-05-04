@@ -62,6 +62,17 @@ export class DataElections  {
     async updateData()
     {
         const data = await getElections(this.currentPage, this.filterElections);
+        if (data.counts.allCount == 0) {
+            runInAction(
+                () => {
+                    this.data = [];
+                    this.allRecordsCount = 0;
+                    this.selectedRecordCount = 0;
+                    this.updatePageList();
+                }
+            );
+            return
+        }
         if (this.currentPage > Math.ceil(data.counts.filterCount / 10))
         {
             this.currentPage = Math.ceil(data.counts.filterCount / 10)

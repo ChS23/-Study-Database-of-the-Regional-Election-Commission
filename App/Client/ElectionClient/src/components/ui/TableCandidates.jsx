@@ -12,7 +12,6 @@ export default observer(function TableCandidates()
 
     useEffect(() => {
         dataCandidates.updateData();
-        console.log(dataCandidates.data);
     }, [])
 
     const handleRowClick = (candidate_id) => {
@@ -23,8 +22,7 @@ export default observer(function TableCandidates()
         else
         {
             editCandidates.updateCandidate_id(candidate_id);
-            editCandidates.getRecordFromDB();
-            console.log(editCandidates.pleDict);
+            editCandidates.getCandidateRecord();
         }
     }
 
@@ -63,7 +61,7 @@ export default observer(function TableCandidates()
                                 <td className='px-2 p-2'><button onClick={() => editCandidates.candidate_id == row.candidate_id ? handleRowClick(-1) : handleRowClick(row.candidate_id)}><svg width="14" height="14" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="1" width="16" height="16" rx="3" stroke={editCandidates.candidate_id === row.candidate_id ? "#42B261" : "#C6C6C6"} stroke-width={editCandidates.candidate_id === row.candidate_id ? "4" : "2"}/></svg></button></td>
                                 <td className='px-2 p-2 mx-4 select-all'>{row.full_name}</td>
                                 <td className='px-2 p-2 mx-4'>{moment(row.birthday).format('DD.MM.YYYY')}</td>
-                                <td className='px-2 p-2 mx-4'>{row.name_party == null ? 'Самовыдвиженец' : row.name_party }</td>
+                                <td className='px-2 p-2 mx-4'>{row.party_name == "" ? 'Самовыдвиженец' : row.party_name }</td>
                             </tr>
                         )
                 }) }

@@ -27,7 +27,7 @@ namespace ElectionBack.DBModels
         public async Task<CandidateTable?> findOne(int id)
         {
             using var cmd = db.Connection.CreateCommand();
-            cmd.CommandText = @"SELECT c.candidate_id, c.full_name, c.id_party, c.birthday, pp.name_party FROM candidates c join political_party pp on c.id_party = pp.party_id WHERE candidate_id = @id";
+            cmd.CommandText = @"SELECT c.candidate_id, c.full_name, c.id_party, c.birthday, pp.name_party FROM candidates c left join political_party pp on c.id_party = pp.party_id WHERE candidate_id = @id";
             cmd.Parameters.Add(new MySqlParameter
             {
                 ParameterName = "@id",

@@ -7,7 +7,7 @@ import {observer} from "mobx-react";
 
 function ElectionEdit()
 {
-    const { editElections, dataElections } = useStore();
+    const { editElections } = useStore();
 
 
     function handleDelede()

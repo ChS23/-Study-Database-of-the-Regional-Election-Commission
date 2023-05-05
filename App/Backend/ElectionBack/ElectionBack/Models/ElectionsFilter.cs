@@ -179,7 +179,7 @@ namespace ElectionBack.Models
             {
                 if (pleSearch is not null)
                 {
-                    return $"title like '@pleSearch%'";
+                    return $"title like concat(@pleSearch%, '%')";
                 }
                 else
                 {

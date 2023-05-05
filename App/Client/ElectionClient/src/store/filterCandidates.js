@@ -34,4 +34,20 @@ export class FilterCandidates  {
         this.id_party = null;
     }
 
+
+    setFilterName(filterName) {
+        this.filterName = filterName;
+    }
+
+    setBirthdayFrom(birthdayFrom) {
+        this.birthdayFrom = birthdayFrom;
+    }
+
+    setBirthdayTo(birthdayTo) {
+        this.birthdayTo = birthdayTo;
+    }
+
+    setIdParty(id_party) {
+        this.id_party = id_party;
+    }
 }

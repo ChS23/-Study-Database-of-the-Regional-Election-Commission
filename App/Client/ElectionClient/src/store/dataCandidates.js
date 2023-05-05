@@ -34,7 +34,7 @@ export class DataCandidates  {
         const currentPage = Math.ceil(await getCurrentNumberOfCandidates(candidate_id, this.filterCandidates) / 10);
         runInAction(
             () => {
-                this.currentPage = currentPage;
+                this.updateCurrentPage(currentPage);
                 this.updateData();
             }
         );
@@ -62,6 +62,17 @@ export class DataCandidates  {
     async updateData()
     {
         const data = await getCandidates(this.currentPage, this.filterCandidates);
+        if (data.counts.filterCount == 0) {
+            runInAction(
+                () => {
+                    this.data = [];
+                    this.allRecordsCount = 0;
+                    this.selectedRecordCount = 0;
+                    this.updatePageList();
+                }
+            );
+            return
+        }
         if (this.currentPage > Math.ceil(data.counts.filterCount / 10))
         {
             this.currentPage = Math.ceil(data.counts.filterCount / 10);

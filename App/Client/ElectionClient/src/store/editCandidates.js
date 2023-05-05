@@ -1,6 +1,7 @@
 import {action, makeObservable, observable, runInAction} from 'mobx'
 import { updateCandidateRecord, getCandidateRecord, deleteCandidateRecord, updatePartyDict, createCandidateRecord } from '../helpers/apiCandidates'
 
+const samDict = [{label: 'Самовыдвиженец', value: -1}]
 
 export class EditCandidates  {
     candidate_id = -1
@@ -8,7 +9,7 @@ export class EditCandidates  {
     id_party = null
     birthday = null
     party_name = ""
-    partyDict = [{}]
+    partyDict = []
 
 
     constructor(rootStore) {
@@ -53,7 +54,7 @@ export class EditCandidates  {
         const partyDict = await updatePartyDict();
         runInAction(
             () => {
-                this.partyDict = partyDict;
+                this.partyDict = samDict.concat(partyDict);
             }
         );
     }
@@ -91,7 +92,7 @@ export class EditCandidates  {
 
     async updateCandidateRecord()
     {
-        await updateCandidateRecord(this.candidate_id, this.full_name, this.id_party, this.birthday);
+        await updateCandidateRecord(this);
         this.dataCandidates.updateCurrentPageByCandidateId(this.candidate_id);
     }
 
@@ -101,8 +102,8 @@ export class EditCandidates  {
         this.full_name = name;
         this.id_party = id_party;
         this.birthday = birthday;
-        let record = await createCandidateRecord(this.full_name, this.id_party, this.birthday);
-        this.dataCandidates.updateCurrentPageByCandidateId(record.candidate_id);
+        let record = await createCandidateRecord(this);
+        await this.dataCandidates.updateCurrentPageByCandidateId(record.candidate_id);
     }
 
 
@@ -116,6 +117,7 @@ export class EditCandidates  {
     async getCandidateRecord()
     {
         const candidateRecord = await getCandidateRecord(this.candidate_id);
+        console.log(candidateRecord)
         runInAction(
             () => {
                 this.full_name = candidateRecord.full_name;

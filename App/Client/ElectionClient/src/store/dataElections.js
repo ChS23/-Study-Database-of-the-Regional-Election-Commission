@@ -62,7 +62,8 @@ export class DataElections  {
     async updateData()
     {
         const data = await getElections(this.currentPage, this.filterElections);
-        if (data.counts.allCount == 0) {
+        console.log(data);
+        if (data.counts.filterCount == 0) {
             runInAction(
                 () => {
                     this.data = [];

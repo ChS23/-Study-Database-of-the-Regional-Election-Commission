@@ -10,7 +10,7 @@ export async function getCountCandidatsPartyFromElections(idElection)
     try {
         return (await axios.get(request)).data;
     } catch (error) {   
-        alert(error.response.data.message);
+        // alert(error.response.data.message);
     }
 }
 

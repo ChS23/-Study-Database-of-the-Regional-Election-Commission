@@ -65,7 +65,7 @@ namespace ElectionBack.DBModels
             using var cmd = db.Connection.CreateCommand();
             string query = "SELECT c.candidate_id, c.full_name, c.id_party, c.birthday, pp.name_party FROM candidates c left join political_party pp on c.id_party = pp.party_id ";
             if (filter.getWhereQuery is not null) query += filter.getWhereQuery;
-            query += $" order by id_party ";
+            query += $" order by id_party asc ";
             query += $" limit 10 offset {(page - 1) * 10}";
             cmd.CommandText = query;
             BindParams(cmd, filter);
@@ -91,7 +91,7 @@ namespace ElectionBack.DBModels
         public async Task<int> getNumberRowCandidates(int id, CandidateFilter filter)
         {
             using var cmd = db.Connection.CreateCommand();
-            string query = "select row_num from (select c.candidate_id, row_number() over (order by c.id_party desc) as row_num from candidates c";
+            string query = "select row_num from (select c.candidate_id, row_number() over (order by c.id_party asc) as row_num from candidates c";
             if (filter.getWhereQuery is not null) query += filter.getWhereQuery;
             query += ") as t where candidate_id = @id";
             cmd.CommandText = query;
@@ -159,7 +159,7 @@ namespace ElectionBack.DBModels
                 {
                     ParameterName = "@filterName",
                     DbType = System.Data.DbType.String,
-                    Value = filter.getFilterNameSQL
+                    Value = filter.filterName
                 });
             }
         }

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useStore } from '../../hooks/useStore'
 import { observer } from 'mobx-react'
 
@@ -7,6 +7,8 @@ function ElectionFilter()
 {
     const { filterElections, dataElections, editElections } = useStore()
     const { updateField } = filterElections
+
+    
 
 
     function handleClick(field, value)

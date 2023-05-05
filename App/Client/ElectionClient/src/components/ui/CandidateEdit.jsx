@@ -1,17 +1,24 @@
 import { observer } from 'mobx-react'
 import {useStore} from "../../hooks/useStore.js";
 import Select from 'react-select';
+import { useEffect } from 'react';
 
 
 function CandidateEdit()
 {
     const { editCandidates } = useStore();
 
+    useEffect(
+        () => {
+            console.log(editCandidates);
+        }, []
+    )
+
     function handleDelete()
     {
         if (confirm("Вы точно хотите удалить?"))
         {
-            editCandidates.deleteRecord();
+            editCandidates.deleteCandidateRecord();
             editCandidates.reset();
         }
     }
@@ -19,8 +26,15 @@ function CandidateEdit()
 
     async function handleUpdate()
     {
-        await editCandidates.updateRecordInDB();
+        await editCandidates.updateCandidateRecord();
     }
+
+
+    const handleChange = (value) => {
+        editCandidates.updateId_party(value.value);
+        editCandidates.updateParty_name(value.label);
+        console.log(value.value);
+    };
 
 
     return (
@@ -38,15 +52,41 @@ function CandidateEdit()
                         </div>
                         <div className='text-stone-100 flex flex-col items-center justify-between pt-6'>
                             <span className="block w-auto">Дата рождения</span>
-                            <input type="name" className="block w-full p-2 px-4 mt-4 text-md bg-inherit text-stone-100 border border-stone-100 rounded-3xl focus:border-green-500" placeholder="17.04.2023"/>
+                            <input onChange={val => editCandidates.updateBirthday(val.target.value)} value={editCandidates.birthday}
+                            type="date" className="block w-full p-2 px-4 mt-4 text-md bg-inherit text-stone-100 border border-stone-100 rounded-3xl focus:border-green-500" placeholder="2022-01-01"/>
                         </div>
                         <div className='text-stone-100 flex flex-col items-center justify-between pt-6'>
                             <span className="block w-auto">Партия</span>
-                            <input type="name" className="block w-full p-2 px-4 mt-4 text-md bg-inherit text-stone-100 border border-stone-100 rounded-3xl focus:border-green-500" placeholder="Название партии"/>
+                            {/* <input type="name" className="block w-full p-2 px-4 mt-4 text-md bg-inherit text-stone-100 border border-stone-100 rounded-3xl focus:border-green-500" placeholder="Название партии"/> */}
+                            <Select className="w-full p-2 px-4 mt-2 text-md bg-inherit text-stone-100"
+                                    onChange={handleChange}
+                                    options={editCandidates.partyDict}
+                                    value={[editCandidates.partyDict.find(el => el.value == editCandidates.id_party)]}
+                                    styles={{
+                                        control: (provided, state) => ({
+                                            ...provided,
+                                            backgroundColor: 'transparent',
+                                            color: 'white',
+                                        }),
+                                        menu: (provided, state) => ({
+                                        ...provided,
+                                        maxHeight: "auto",
+                                        overflowY: "auto",
+                                        color: "black",
+                                        opacity: 1,
+                                        }),
+                                        singleValue: (provided, state) => ({
+                                            ...provided,
+                                            color: 'white',
+                                            border: 'none',
+                                        }),
+                                    }
+                                    }
+                            />
                         </div>
                         <div className="relative flex flex-row mt-10">
-                            <button className="block w-32 mt-6 mr-2 text-md bg-inherit h-10 text-yellow-200 border border-yellow-200 rounded-3xl focus:border-green-500">Обновить</button>
-                            <button className="block w-32 mt-6 ml-2 text-md bg-inherit h-10 text-rose-500 border border-rose-500 rounded-3xl focus:border-green-500">Удалить</button>
+                            <button onClick={handleUpdate} className="block w-32 mt-6 mr-2 text-md bg-inherit h-10 text-yellow-200 border border-yellow-200 rounded-3xl focus:border-green-500">Обновить</button>
+                            <button onClick={handleDelete} className="block w-32 mt-6 ml-2 text-md bg-inherit h-10 text-rose-500 border border-rose-500 rounded-3xl focus:border-green-500">Удалить</button>
                         </div>
                     </div>
                 </div>

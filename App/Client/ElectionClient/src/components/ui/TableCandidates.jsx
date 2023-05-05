@@ -21,6 +21,7 @@ export default observer(function TableCandidates()
         }
         else
         {
+            console.log('ok' + candidate_id);
             editCandidates.updateCandidate_id(candidate_id);
             editCandidates.getCandidateRecord();
         }
@@ -65,8 +66,8 @@ export default observer(function TableCandidates()
                             </tr>
                         )
                 }) }
-                </tbody>
+               </tbody>
             </table>
         </div>
     )
-});
+}); 

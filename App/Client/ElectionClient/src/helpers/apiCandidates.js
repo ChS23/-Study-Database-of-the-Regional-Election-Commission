@@ -20,6 +20,7 @@ export async function getCandidates(page, filter) {
 
 
 export async function updateCandidateRecord(record) {
+    console.log(`ID = ${record}`);
     let request = `${baseURL}?id=${record.candidate_id}`;
     try {
         console.log(record);

@@ -60,7 +60,7 @@
                 }
                 else
                 {
-                    return $"full_name LIKE '@filterName%'";
+                    return $"full_name LIKE concat(@filterName, '%')";
                 }
             }
         }

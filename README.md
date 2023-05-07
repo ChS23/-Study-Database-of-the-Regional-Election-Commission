@@ -33,20 +33,16 @@ Backend реализован на языке программирования [C
   - [x] Написать логику добавления
 <p>Страница Candidates</p>
 
-- [ ] Сверстать страницу Candidates
-- [ ] Компоненты для страницы Candidates
-  - [ ] Сверстать компонент CandidatesFilter
-  - [ ] Сверстать компонент CandidatesEdit
-  - [ ] Сверстать модальное окно добавления Candidate
-- [ ] Состояния для страницы Candidates
-  - [ ] Написать store dataCandidates и связать с компонентом TableCandidates
-  - [ ] Написать store editCandidates и связать с компонентом CandidatesEdit
-  - [ ] Написать store filterCandidates и связать с компонентом CandidatesFilter
-  - [ ] Написать логику добавления
-<p>Deploy</p>
-
-- [ ] Deploy
-
+- [x] Сверстать страницу Candidates
+- [x] Компоненты для страницы Candidates
+  - [x] Сверстать компонент CandidatesFilter
+  - [x] Сверстать компонент CandidatesEdit
+  - [x] Сверстать модальное окно добавления Candidate
+- [x] Состояния для страницы Candidates
+  - [x] Написать store dataCandidates и связать с компонентом TableCandidates
+  - [x] Написать store editCandidates и связать с компонентом CandidatesEdit
+  - [x] Написать store filterCandidates и связать с компонентом CandidatesFilter
+  - [x] Написать логику добавления
 
 ## Приложение
 ER-диаграмма               | Реляционная схема
